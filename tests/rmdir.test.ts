@@ -1,3 +1,4 @@
+import { jokerFixture } from '.';
 const fs = require('fs');
 const join = require('path').join;
 

@@ -1,20 +1,20 @@
-const joker = require('..');
+import { Joker } from '.';
 const should = require('chai').should();
 
 describe('joker.register', () => {
   it('can register a single function', () => {
     const fn = function() {};
-    joker.register('foo', fn);
-    joker.should.respondTo('foo');
+    new Joker().register('foo', fn);
+    new Joker().should.respondTo('foo');
   });
 
   it('can register multiple functions at once', () => {
     const fn = function() {};
     const fn1 = function() {};
 
-    joker.register({ baz: fn, bar: fn1 });
+    new Joker().register({ baz: fn, bar: fn1 });
 
-    joker.should.respondTo('baz');
-    joker.should.respondTo('bar');
+    new Joker().should.respondTo('baz');
+    new Joker().should.respondTo('bar');
   });
 });

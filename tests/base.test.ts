@@ -1,4 +1,4 @@
-const { jokerFixture } = require('.');
+import { jokerFixture } from '.';
 
 describe('joker#base', () => {
   it('sets a base command', done => {

@@ -16,7 +16,7 @@ import * as respond from './respond';
  * Options:
  *
  *  - colors: default - true,       Strip colors from stdout and stderr when `false`
- *  - newlines: default - true,     Strip new lines from stdout and stderr when `false`
+ *  - newLines: default - true,     Strip new lines from stdout and stderr when `false`
  *
  * Examples:
  *
@@ -27,7 +27,7 @@ import * as respond from './respond';
  *
  *  Simple stdout assertion:
  *
- *    joker({ colors: false, newlines: false })
+ *    joker({ colors: false, newLines: false })
  *    .exec('todo clear')
  *    .exec('todo Buy milk')
  *    .run('todo ls')
@@ -36,7 +36,7 @@ import * as respond from './respond';
  *
  *  Stdout assertion:
  *
- *    joker({ colors: false, newlines: false })
+ *    joker({ colors: false, newLines: false })
  *    .exec('todo clear')
  *    .run('todo')
  *    .stderr('Please enter a todo')
@@ -58,7 +58,7 @@ import * as respond from './respond';
  * @constructor
  */
 
-class Runner {
+export default class Runner {
   batch: Batch;
 
   options: Options;
@@ -184,7 +184,6 @@ class Runner {
 
   run(cmd: string, fn: expect.AssertionFn): Runner {
     this.batch.main(this.execFn(this.baseCmd + cmd));
-    console.log('who');
     if (fn) this.end(fn);
     return this;
   }
@@ -463,10 +462,4 @@ class Runner {
     };
   }
 }
-
-/**
- * Primary export.
- */
-
-export default Runner;
 

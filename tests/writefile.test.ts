@@ -2,6 +2,7 @@ const fs = require('fs');
 const join = require('path').join;
 
 const file = join(__dirname, 'tmp', 'writefile-test');
+import { jokerFixture } from '.';
 
 describe('joker#writeFile', () => {
   it('creates a new file', done => {

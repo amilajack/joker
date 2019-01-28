@@ -1,4 +1,4 @@
-const { jokerFixture } = require('.');
+import { jokerFixture } from '.';
 
 describe('joker#env', () => {
   it('sets environemt variables', done => {

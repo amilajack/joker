@@ -1,9 +1,9 @@
-const joker = require('..');
+import {Joker} from '.';
 const join = require('path').join;
 
 describe('joker', () => {
   it('can strip \\n from stdout and stderr', done => {
-    joker({ newlines: false })
+    new Joker({ newLines: false })
       .cwd(join(__dirname, 'fixtures'))
       .run('node newlines.js')
       .stdout('Hello from newlines.js')
@@ -12,7 +12,7 @@ describe('joker', () => {
   });
 
   it('can leave \\n in stdout and stderr', done => {
-    joker({ newlines: true })
+    new Joker({ newLines: true })
       .cwd(join(__dirname, 'fixtures'))
       .run('node newlines.js')
       .stdout('Hello \nfrom \nnewlines.js')
@@ -21,7 +21,7 @@ describe('joker', () => {
   });
 
   it('can strip \\r\\n from stdout and stderr', done => {
-    joker({ newlines: false })
+    new Joker({ newLines: false })
       .cwd(join(__dirname, 'fixtures'))
       .run('node newlines-crlf.js')
       .stdout('Hello from newlines-crlf.js')
@@ -30,7 +30,7 @@ describe('joker', () => {
   });
 
   it('can leave \\r\\n in stdout and stderr', done => {
-    joker({ newlines: true })
+    new Joker({ newLines: true })
       .cwd(join(__dirname, 'fixtures'))
       .run('node newlines-crlf.js')
       .stdout('Hello \r\nfrom \r\nnewlines-crlf.js')

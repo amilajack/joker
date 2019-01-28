@@ -1,3 +1,5 @@
+import { jokerFixture } from '.';
+
 describe('joker#stdin', () => {
   it('no effect if stdin is not used', done => {
     jokerFixture()

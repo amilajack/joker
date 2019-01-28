@@ -1,7 +1,10 @@
-const path = require('path');
-const joker = require('../src');
+import path from 'path';
+// import Joker from '../src';
 
-function jokerFixture() {
-  return joker().cwd(path.join(__dirname, 'test', 'fixtures'));
+import { default as Joker} from '../src';
+export { default as Joker } from '../src';
+
+export function jokerFixture() {
+  return new Joker().cwd(path.join(__dirname, 'test', 'fixtures'));
 }
-module.exports = { jokerFixture };
+

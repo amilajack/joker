@@ -1,3 +1,5 @@
+import { jokerFixture } from '.';
+
 describe('joker#timeout', () => {
   it('force quits comamnds that take longer than specified', done => {
     jokerFixture()

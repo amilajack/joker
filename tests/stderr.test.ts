@@ -1,3 +1,5 @@
+import { jokerFixture } from '.';
+
 describe('joker#stderr', () => {
   it('can assert with strings', done => {
     jokerFixture()

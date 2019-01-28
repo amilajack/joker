@@ -1,3 +1,4 @@
+import {jokerFixture} from '.';
 const join = require('path').join;
 
 const file = join(__dirname, 'tmp', 'writefile-test');

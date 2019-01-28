@@ -1,4 +1,4 @@
-const { jokerFixture } = require('.');
+import { jokerFixture } from '.';
 
 describe('joker#code', () => {
   it('can verify the exit code of a program', done => {

@@ -139,8 +139,6 @@ export default class Batch {
     const main = this.fn;
     let batch = this.before.slice(0).concat(this.afterBefore);
 
-    console.log('batch');
-
     batch.push(next => {
       main(e => {
         err = e;

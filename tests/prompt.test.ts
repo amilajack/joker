@@ -1,3 +1,5 @@
+import { jokerFixture } from '.';
+
 describe('joker', () => {
   it('can respond to prompts ending in a literal string', done => {
     jokerFixture()

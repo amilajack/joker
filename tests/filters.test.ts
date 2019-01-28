@@ -1,4 +1,5 @@
 const fs = require('fs');
+import { jokerFixture } from '.';
 const join = require('path').join;
 
 const file1 = join(__dirname, 'tmp', 'file-1');

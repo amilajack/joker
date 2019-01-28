@@ -1,5 +1,6 @@
 const fs = require('fs');
 const join = require('path').join;
+import { jokerFixture } from '.';
 
 const file = join(__dirname, 'tmp', 'writefile-test');
 

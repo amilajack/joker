@@ -10,7 +10,7 @@
     "command-line apps",
     "command-line applications"
   ],
-  "main": "./src/index.js",
+  "main": "./src",
   "homepage": "https://github.com/amilajack/joker",
   "directories": {
     "test": "test"
@@ -27,6 +27,11 @@
   "author": "Amila Welihinda <amilajack@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/plugin-proposal-class-properties": "^7.3.0",
+    "@babel/preset-env": "^7.3.1",
+    "@babel/preset-typescript": "^7.1.0",
     "@types/assertion-error": "^1.1.0",
     "@types/clone": "^0.1.30",
     "@types/node": "^10.12.18",
@@ -45,5 +50,8 @@
   },
   "eslintConfig": {
     "extends": "bliss"
+  },
+  "test": {
+    "testEnvironment": "node"
   }
 }
