@@ -1,24 +1,22 @@
 /**
  * Simple object that contains the result
  * of command executions.
- *
- * @constructor
  */
 
-type Options = {
+export type Options = {
   newLines: boolean,
   colors: boolean
 };
 
 type Error = {
-  code: string,
+  code: number,
   killed: boolean
 };
 
 export default class Result {
   cmd: string;
 
-  code: string;
+  code: number;
 
   options: Options;
 
@@ -30,7 +28,7 @@ export default class Result {
 
   err: Error;
 
-  constructor(cmd: string, code: string, options: Options = { colors: true, newLines: true }) {
+  constructor(cmd: string, code: number, options: Options = { colors: true, newLines: true }) {
     this.options = options;
     this.code = code;
     this.cmd = cmd;

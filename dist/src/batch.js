@@ -6,6 +6,10 @@ class Batch {
         this.afterBefore = [];
         this.after = [];
         this.beforeAfter = [];
+        this.before = [];
+        this.afterBefore = [];
+        this.after = [];
+        this.beforeAfter = [];
         this.fn = null;
     }
     addBefore(fn) {

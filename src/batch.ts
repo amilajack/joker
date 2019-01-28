@@ -46,15 +46,18 @@
  *
  * @constructor
  */
-
-type BatchFn = (error: Error) => void;
+import { AssertionFn } from './expectations';
 
 export default class Batch {
-  before: Array<BatchFn> = [];
-  afterBefore: Array<BatchFn> = [];
-  after: Array<BatchFn> = [];
-  beforeAfter: Array<BatchFn> = [];
-  fn: BatchFn | null;
+  before: Array<AssertionFn> = [];
+
+  afterBefore: Array<AssertionFn> = [];
+
+  after: Array<AssertionFn> = [];
+
+  beforeAfter: Array<AssertionFn> = [];
+
+  fn: AssertionFn | null;
 
   constructor() {
     this.before = [];
@@ -71,7 +74,7 @@ export default class Batch {
    * @api public
    */
 
-  addBefore(fn: BatchFn) {
+  addBefore(fn: AssertionFn) {
     this.before.push(fn);
   }
 
@@ -82,7 +85,7 @@ export default class Batch {
    * @api public
    */
 
-  addAfter(fn: BatchFn) {
+  addAfter(fn: AssertionFn) {
     this.after.push(fn);
   }
 
@@ -97,7 +100,7 @@ export default class Batch {
    * @api public
    */
 
-  add(fn: BatchFn) {
+  add(fn: AssertionFn) {
     (this.hasMain() ? this.beforeAfter : this.afterBefore).push(fn);
   }
 
@@ -108,7 +111,7 @@ export default class Batch {
    * @api public
    */
 
-  main(fn: BatchFn) {
+  main(fn: AssertionFn) {
     this.fn = fn;
   }
 
@@ -131,7 +134,7 @@ export default class Batch {
    * @api public
    */
 
-  run(fn: BatchFn) {
+  run(fn: AssertionFn) {
     let err = null;
     const main = this.fn;
     let batch = this.before.slice(0).concat(this.afterBefore);

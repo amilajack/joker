@@ -12,7 +12,7 @@
  * @api public
  */
 
-export function run(readable, writable, expects, responses) {
+export function run(readable: Stream, writable: Stream, expects: Array<RegExp | string>, responses: Array<string>) {
   let needNew = true;
   let buffer = '';
   let match = false;

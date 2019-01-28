@@ -1,7 +1,3 @@
-/**
- * Internal dependencies.
- */
-
 import Runner from './runner';
 
 /**
@@ -42,7 +38,7 @@ import Runner from './runner';
  * @api public
  */
 
-export default (name: string, fn) => {
+export default (name: string, fn: () => void) => {
   let reg = null;
 
   if (Object(name) !== name) {

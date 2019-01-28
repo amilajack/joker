@@ -1,10 +1,16 @@
-declare class Batch {
+declare type BatchFn = (error: Error) => void;
+export default class Batch {
+    before: Array<BatchFn>;
+    afterBefore: Array<BatchFn>;
+    after: Array<BatchFn>;
+    beforeAfter: Array<BatchFn>;
+    fn: BatchFn | null;
     constructor();
-    addBefore(fn: any): void;
-    addAfter(fn: any): void;
-    add(fn: any): void;
-    main(fn: any): void;
+    addBefore(fn: BatchFn): void;
+    addAfter(fn: BatchFn): void;
+    add(fn: BatchFn): void;
+    main(fn: BatchFn): void;
     hasMain(): boolean;
-    run(fn: any): void;
+    run(fn: BatchFn): void;
 }
-export default Batch;
+export {};

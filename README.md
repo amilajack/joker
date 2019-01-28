@@ -1,7 +1,6 @@
-[![NPM version](https://badge.fury.io/js/joker.svg)](http://badge.fury.io/js/joker)
-[![Build Status](https://secure.travis-ci.org/amilajack/joker.svg)](http://travis-ci.org/amilajack/joker)
+[![Build Status](https://travis-ci.com/amilajack/joker.svg)](http://travis-ci.com/amilajack/joker)
 
-![joker](http://i.imgur.com/aBudpSE.jpg)
+⚠️ WORK IN PROGRESS. DO NOT USE ⚠️
 
 ## Synopsis
 

@@ -2,6 +2,8 @@ import fs from 'fs';
 import AssertionError from 'assertion-error';
 import Result from './result';
 
+export type AssertionFn = (res: Result) => AssertionError | undefined;
+
 /**
  * Return an exit code expectation.
  *
@@ -10,7 +12,7 @@ import Result from './result';
  * @api public
  */
 
-export function code(code: string) {
+export function code(code: number): AssertionFn {
   return (result: Result) => {
     if (code !== result.code) {
       const message = `Expected exit code: "${code}", actual: "${result.code}"`;
@@ -27,7 +29,7 @@ export function code(code: string) {
  * @api public
  */
 
-export function time() {
+export function time(): AssertionFn {
   return (result: Result) => {
     if (result.killed) {
       return error(result, 'Command execution terminated (timeout)');
@@ -43,7 +45,7 @@ export function time() {
  * @api public
  */
 
-export function stderr(expected: String | RegExp) {
+export function stderr(expected: String | RegExp): AssertionFn {
   return (result: Result) => assertOut('stderr', expected, result);
 }
 
@@ -55,7 +57,7 @@ export function stderr(expected: String | RegExp) {
  * @api public
  */
 
-export function stdout(expected: String | RegExp) {
+export function stdout(expected: String | RegExp): AssertionFn {
   return (result: Result) => assertOut('stdout', expected, result);
 }
 
@@ -67,7 +69,7 @@ export function stdout(expected: String | RegExp) {
  * @api public
  */
 
-export function exists(path: string) {
+export function exists(path: string): AssertionFn {
   return (result: Result) => {
     if (fs.existsSync(path) !== true) {
       return error(result, `Expected "${path}" to exist.`);
@@ -84,7 +86,7 @@ export function exists(path: string) {
  * @api public
  */
 
-export function match(path: string, data: String | RegExp) {
+export function match(path: string, data: String | RegExp): AssertionFn {
   return (result: Result) => {
     const contents = fs.readFileSync(path, { encoding: 'utf8' });
     const statement =
@@ -107,7 +109,7 @@ export function match(path: string, data: String | RegExp) {
  * @api private
  */
 
-function assertOut(key: string, expected: any, result: Result) {
+function assertOut(key: string, expected: any, result: Result): AssertionFn {
   const actual = result[key];
   const statement =
     expected instanceof RegExp ? expected.test(actual) : expected === actual;
@@ -135,7 +137,7 @@ function assertOut(key: string, expected: any, result: Result) {
  * @api private
  */
 
-function error(result: Result, message: string, expected, actual) {
+function error(result: Result, message: string, expected?: string | number, actual?: string | number): AssertionError {
   const err = new AssertionError(`\`${result.cmd}\`: ${message}`);
   err.result = result;
   if (expected) err.expected = expected;

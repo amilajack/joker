@@ -1,10 +1,7 @@
-/**
- * Core dependencies.
- */
-
 import childProcess from 'child_process';
-
 import fs from 'fs';
+import { AssertionError } from 'assert';
+import World from './world';
 
 /**
  * Asynchronous mkdir(2).
@@ -14,9 +11,10 @@ import fs from 'fs';
  * @see fs#mkdir
  * @api public
  */
+type Fn = () => void;
 
 export function mkdir(path: string) {
-  return next => {
+  return (next: Fn) => {
     fs.mkdir(path, done(next));
   };
 }
@@ -33,7 +31,7 @@ export function mkdir(path: string) {
  */
 
 export function writeFile(path: string, data: string) {
-  return next => {
+  return (next: Fn) => {
     fs.writeFile(path, data, done(next));
   };
 }
@@ -47,8 +45,8 @@ export function writeFile(path: string, data: string) {
  * @api public
  */
 
-export function rmdir(path) {
-  return next => {
+export function rmdir(path: string) {
+  return (next: Fn) => {
     fs.rmdir(path, done(next));
   };
 }
@@ -63,7 +61,7 @@ export function rmdir(path) {
  */
 
 export function unlink(path: string) {
-  return next => {
+  return (next: Fn) => {
     fs.unlink(path, done(next));
   };
 }
@@ -78,8 +76,8 @@ export function unlink(path: string) {
  * @api public
  */
 
-export function exec(cmd: string, world) {
-  return next => {
+export function exec(cmd: string, world: World) {
+  return (next: Fn) => {
     childProcess.exec(cmd, world, next);
   };
 }
@@ -92,8 +90,8 @@ export function exec(cmd: string, world) {
  * @api public
  */
 
-function done(next) {
-  return err => {
+function done(next: Fn) {
+  return (err: AssertionError) => {
     if (err) throw err;
     next();
   };

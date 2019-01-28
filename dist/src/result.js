@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class Result {
-    constructor(cmd, code, options = { colors: true, newlines: true }) {
+    constructor(cmd, code, options = { colors: true, newLines: true }) {
         this.options = options;
         this.code = code;
         this.cmd = cmd;
@@ -16,7 +16,7 @@ class Result {
     }
     strip(str) {
         str = str.replace(/\r?\n$/, '');
-        if (this.options.newlines === false) {
+        if (this.options.newLines === false) {
             str = str.replace(/\r?\n/g, '');
         }
         if (this.options.colors === false) {

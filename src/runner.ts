@@ -4,7 +4,7 @@ import Batch from './batch';
 import World from './world';
 import * as expect from './expectations';
 import * as middlewares from './middlewares';
-import Result from './result';
+import Result, { Options } from './result';
 import * as respond from './respond';
 
 /**
@@ -61,7 +61,7 @@ import * as respond from './respond';
 class Runner {
   batch: Batch;
 
-  options: Object;
+  options: Options;
 
   world: World;
 
@@ -75,7 +75,7 @@ class Runner {
 
   standardInput: null | string;
 
-  constructor(options: Object) {
+  constructor(options: Options) {
     if (!(this instanceof Runner)) return new Runner(options);
     options = options || {};
     this.options = options;
@@ -97,7 +97,7 @@ class Runner {
    * @api public
    */
 
-  before(fn: () => void): Runner {
+  before(fn: expect.AssertionFn): Runner {
     this.batch.addBefore(fn);
     return this;
   }
@@ -111,7 +111,7 @@ class Runner {
    * @api public
    */
 
-  after(fn: () => void): Runner {
+  after(fn: expect.AssertionFn): Runner {
     this.batch.addAfter(fn);
     return this;
   }
@@ -182,7 +182,7 @@ class Runner {
    * @api public
    */
 
-  run(cmd: string, fn: () => void): Runner {
+  run(cmd: string, fn: expect.AssertionFn): Runner {
     this.batch.main(this.execFn(this.baseCmd + cmd));
     console.log('who');
     if (fn) this.end(fn);
@@ -370,7 +370,7 @@ class Runner {
    * @api public
    */
 
-  end(fn: () => void): Runner {
+  end(fn: expect.AssertionFn) {
     if (!this.batch.hasMain()) {
       throw new Error('Please provide a command to run. Hint: `joker#run`');
     }
@@ -395,7 +395,7 @@ class Runner {
    * @api public
    */
 
-  expect(fn: () => void): Runner {
+  expect(fn: expect.AssertionFn): Runner {
     this.expectations.push(fn);
     return this;
   }
@@ -409,44 +409,43 @@ class Runner {
    */
 
   execFn(cmd: string): Function {
-    const self = this;
     const args = require('shell-quote').parse(cmd);
     const bin = args.shift(0);
 
-    return fn => {
+    return (fn: (arg: any) => void) => {
       // Allow .run('') without attempting
       if (cmd === '') {
         fn(undefined);
         return;
       }
 
-      const child = spawn(bin, args, self.world);
+      const child = spawn(bin, args, this.world);
       let stdout = '';
       let stderr = '';
       let err;
 
-      if (self.standardInput != null) {
-        child.stdin.end(self.standardInput);
+      if (this.standardInput != null) {
+        child.stdin.end(this.standardInput);
       }
 
-      if (self.world.timeout) {
+      if (this.world.timeout) {
         setTimeout(() => {
           child.kill();
           err = { killed: true };
-        }, self.world.timeout);
+        }, this.world.timeout);
       }
 
-      respond.run(child.stdout, child.stdin, self.prompts, self.responses);
+      respond.run(child.stdout, child.stdin, this.prompts, this.responses);
 
-      child.stdout.on('data', data => {
+      child.stdout.on('data', (data: string) => {
         stdout += data;
       });
-      child.stderr.on('data', data => {
+      child.stderr.on('data', (data: string) => {
         stderr += data;
       });
 
-      child.on('close', (code: string) => {
-        const result = new Result(cmd, code, self.options).parse(
+      child.on('close', (code: number) => {
+        const result = new Result(cmd, code, this.options).parse(
           stdout,
           stderr,
           err
@@ -454,8 +453,8 @@ class Runner {
 
         let error = null;
 
-        for (let i = 0, len = self.expectations.length; i < len; i++) {
-          error = self.expectations[i](result);
+        for (let i = 0, len = this.expectations.length; i < len; i++) {
+          error = this.expectations[i](result);
           if (error) break;
         }
 
