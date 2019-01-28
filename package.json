@@ -3,12 +3,11 @@
   "version": "0.0.0",
   "description": "Simple and powerful testing for command-line apps",
   "keywords": [
-    "testing",
-    "test",
     "cli",
-    "command-line",
-    "command-line apps",
-    "command-line applications"
+    "command line",
+    "e2e",
+    "end to end",
+    "test"
   ],
   "main": "./dist",
   "homepage": "https://github.com/amilajack/joker",
