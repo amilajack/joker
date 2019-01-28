@@ -16,9 +16,9 @@ something that lives in every command-line app that you are going to build.
 ### How it looks
 
 ```js
-import joker from 'joker';
+import Joker from 'joker';
 
-joker()
+new Joker()
   .exec('touch /tmp/test')
   .run('ls /tmp/')
   .stdout(/test/)
@@ -36,7 +36,7 @@ const options = {
   newlines: false,
 };
 
-joker(options).stdout...
+Joker(options).stdout...
 ```
 
 ### Custom expectations
@@ -44,7 +44,7 @@ joker(options).stdout...
 While joker comes with built-in expectations, you can use your own too.
 
 ```js
-joker()
+new Joker()
   .expect(function(result) {
     if (result.stdout !== 'unicorns') {
       return new Error('NO!');
@@ -59,7 +59,7 @@ joker()
 You can register as many before and after middlewares as you wish.
 
 ```js
-joker()
+new Joker()
   .before(setupDatabase)
   .before(runMigrations)
   .run(cmd)
@@ -75,7 +75,7 @@ before everything else, "after" middlewares always run after everything else.
 The other middlewares will match the order that you have specified.
 
 ```js
-joker()
+new Joker()
   .before(before1)
   .before(before2)
   .after(after1)
@@ -94,7 +94,7 @@ especially when testing something that requires extensive setup and cleanup. You
 can accomplish this by cloning a joker instance.
 
 ```js
-const base = joker()
+const base = new Joker()
   .before(setupDatabase)
   .after(removeDatabase);
 
@@ -110,7 +110,7 @@ any middleware by calling `joker.register`.
 
 ```js
 const fn = function() {};
-joker.register('foo', fn);
+new Joker().register('foo', fn);
 ```
 
 Or you may want to register many functions at once.
@@ -129,7 +129,7 @@ you could use it with Mocha.
 ```js
 describe('todo add', function() {
   it('adds a new todo item', function(done) {
-    joker()
+    new Joker()
       .run('todo add')
       .stdout('A new todo has been added')
       .end(done);
@@ -149,11 +149,11 @@ function refute(err) {
   assert(!err);
 }
 
-joker()
+new Joker()
   .run(cmd)
   .end(refute);
 
-joker()
+new Joker()
   .run(anotherCmd)
   .end(refute);
 ```
@@ -164,7 +164,7 @@ joker can respond to apps that run interactively using the `on()` and
 `respond()` functions.
 
 ```js
-joker()
+new Joker()
   .run(cmd)
   .on('Your name: ')
   .respond('Joe User\n')
@@ -180,7 +180,7 @@ See `test/prompt.test.js` for more examples.
 Register a "before" middleware.
 
 ```js
-joker()
+new Joker()
   .before(fn)
   .before(fn2)
   .run(cmd)
@@ -192,7 +192,7 @@ joker()
 Register an "after" middleware.
 
 ```js
-joker()
+new Joker()
   .run(cmd)
   .after(fn)
   .after(fn2)
@@ -205,7 +205,7 @@ Change the current working directory of the main command (specified with `run`).
 Please note that this won't affect any other commands like `unlink` etc.
 
 ```js
-joker()
+new Joker()
   .cwd(__dirname)
   .run('pwd')
   .stdout(/test$/)
@@ -217,7 +217,7 @@ joker()
 Set a base command. Useful for templates.
 
 ```js
-joker()
+new Joker()
   .base('node ')
   .run('--version')
   .stdout('0.10.16')
@@ -229,7 +229,7 @@ joker()
 Set a primary command to execute:
 
 ```js
-joker()
+new Joker()
   .run('node --version')
   .stdout('0.10.16')
   .end(fn);
@@ -238,7 +238,7 @@ joker()
 You could also run the test right after specifying the command to run:
 
 ```js
-joker()
+new Joker()
   .stdout('0.10.16')
   .run('node --version', fn);
 ```
@@ -248,7 +248,7 @@ joker()
 Set the contents of stdin.
 
 ```js
-joker()
+new Joker()
   .stdin('foobar')
   .run('rev')
   .stdout('raboof')
@@ -260,7 +260,7 @@ joker()
 Set environment variables.
 
 ```js
-joker()
+new Joker()
   .env('foo', 'bar')
   .env('baz', 'boo')
   .run('node --version')
@@ -273,7 +273,7 @@ joker()
 Set a timeout for the main command that you are about to test.
 
 ```js
-joker()
+new Joker()
   .timeout(1) // ms
   .run('cat /dev/null')
   .end(fn);
@@ -284,7 +284,7 @@ joker()
 Set expectations on stdout.
 
 ```js
-joker()
+new Joker()
   .stdout('LICENSE Makefile')
   .run('ls')
   .end(fn);
@@ -293,7 +293,7 @@ joker()
 Works with regular expressions too.
 
 ```js
-joker()
+new Joker()
   .stdout(/system/)
   .run('time')
   .end(fn);
@@ -304,7 +304,7 @@ joker()
 Same as `stdout` but well.. surprise works with stderr.
 
 ```js
-joker()
+new Joker()
   .run('todo add')
   .stderr('Please speicfy a todo')
   .end(fn);
@@ -315,7 +315,7 @@ joker()
 Expect a given exit code.
 
 ```js
-joker()
+new Joker()
   .run('todo add')
   .code(1)
   .end(fn);
@@ -326,7 +326,7 @@ joker()
 Check if a given path exists (works with both files and directories).
 
 ```js
-joker()
+new Joker()
   .run('mkdir /tmp/test')
   .exist('/tmp/test')
   .end(fn);
@@ -337,7 +337,7 @@ joker()
 Check the contents of a file.
 
 ```js
-joker()
+new Joker()
   .writeFile(file, 'Hello')
   .run('node void.js')
   .match(file, 'Hello')
@@ -346,7 +346,7 @@ joker()
 ```
 
 ```js
-joker()
+new Joker()
   .writeFile(file, 'Hello')
   .run('node void.js')
   .match(file, /ello/)
@@ -359,7 +359,7 @@ joker()
 Create a new directory.
 
 ```js
-joker()
+new Joker()
   .mkdir('xml-database')
   .run('this does stuff with the xml-database directory')
   .end(fn);
@@ -370,7 +370,7 @@ joker()
 Execute a given command.
 
 ```js
-joker()
+new Joker()
   .writeFile('LICENSE', 'MIT License')
   .exec('git add -a')
   .exec('git commit -m "Add LICENSE"')
@@ -384,7 +384,7 @@ includes environment variables, cwd, timeout. However, you can override this by
 supplying a different "world":
 
 ```js
-joker()
+new Joker()
   .exec('git add LICENSE', { timeout: 4, cwd: '/tmp' })
   .run('git log')
   .stdout(/LICENSE/)
@@ -398,7 +398,7 @@ Create a file with or without given contents.
 Without:
 
 ```js
-joker()
+new Joker()
   .writeFile(pathToFile)
   .end();
 ```
@@ -406,7 +406,7 @@ joker()
 With:
 
 ```js
-joker()
+new Joker()
   .writeFile(pathToFile, data)
   .end();
 ```
@@ -416,7 +416,7 @@ joker()
 Remove a directory.
 
 ```js
-joker()
+new Joker()
   .mkdir('xml-database')
   .run('this does stuff with the xml-database directory')
   .rmdir('xml-database')
@@ -428,7 +428,7 @@ joker()
 Unlink a file.
 
 ```js
-joker()
+new Joker()
   .writeFile('my-file', data)
   .run('this does stuff with my file')
   .unlink('my-file')
@@ -441,7 +441,7 @@ Detect a prompt for user input. Accepts a String or RegExp that appears in
 the the stdout stream. Must be paired with #respond.
 
 ```js
-joker()
+new Joker()
   .run(cmd)
   .on('Your name: ')
   .respond('Joe User\n')
@@ -459,7 +459,7 @@ See #on
 Run the given test.
 
 ```js
-joker()
+new Joker()
   .run('ls')
   .stdout('this-is-not-porn-i-promise')
   .end(function(err) {});
@@ -468,7 +468,7 @@ joker()
 The same might be accomplished with supplying a function to `run`:
 
 ```js
-joker()
+new Joker()
   .stdout('this-is-not-porn-i-promise')
   .run('ls', function(err) {});
 ```
@@ -478,7 +478,7 @@ joker()
 Deep clone a joker instance.
 
 ```js
-const clone = joker()
+const clone = new Joker()
   .before(fn)
   .after(fn)
   .run('my awesome command')
@@ -491,7 +491,7 @@ const clone = joker()
 Register a custom expectation.
 
 ```js
-joker()
+new Joker()
   .expect(function(result) {
     if (result.stdout !== 'Unicorns') {
       return new Error('OMG');
