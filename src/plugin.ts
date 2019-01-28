@@ -2,7 +2,7 @@
  * Internal dependencies.
  */
 
-const Runner = require('./runner');
+import Runner from './runner';
 
 /**
  * Primitive plugin support.
@@ -42,7 +42,7 @@ const Runner = require('./runner');
  * @api public
  */
 
-module.exports = function(name, fn) {
+export default (name: string, fn) => {
   let reg = null;
 
   if (Object(name) !== name) {
@@ -56,3 +56,4 @@ module.exports = function(name, fn) {
     Runner.prototype[key] = reg[key];
   });
 };
+

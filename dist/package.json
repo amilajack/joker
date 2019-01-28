@@ -1,0 +1,49 @@
+{
+    "name": "joker",
+    "version": "0.0.0",
+    "description": "Simple and powerful testing for command-line apps",
+    "keywords": [
+        "testing",
+        "test",
+        "cli",
+        "command-line",
+        "command-line apps",
+        "command-line applications"
+    ],
+    "main": "./src/index.js",
+    "homepage": "https://github.com/amilajack/joker",
+    "directories": {
+        "test": "test"
+    },
+    "scripts": {
+        "lint": "eslint .",
+        "test": " jest",
+        "ts": "tsc"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/amilajack/joker.git"
+    },
+    "author": "Amila Welihinda <amilajack@gmail.com>",
+    "license": "MIT",
+    "devDependencies": {
+        "@types/assertion-error": "^1.1.0",
+        "@types/clone": "^0.1.30",
+        "@types/node": "^10.12.18",
+        "chai": "^4.2.0",
+        "eslint": "^5.12.1",
+        "eslint-config-bliss": "^3.2.0",
+        "flow": "^0.2.3",
+        "jest": "^24.0.0",
+        "prompt": "^1.0.0",
+        "typescript": "^3.2.4"
+    },
+    "dependencies": {
+        "assertion-error": "~1.1.0",
+        "clone": "^2.1.2",
+        "shell-quote": "^1.6.1"
+    },
+    "eslintConfig": {
+        "extends": "bliss"
+    }
+}

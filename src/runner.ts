@@ -1,20 +1,11 @@
-/**
- * External dependencies.
- */
-
-const clone = require('clone');
-const { spawn } = require('child_process');
-
-/**
- * Internal dependencies.
- */
-
-const Batch = require('./batch');
-const World = require('./world');
-const expect = require('./expectations');
-const middlewares = require('./middlewares');
-const Result = require('./result');
-const respond = require('./respond');
+import clone from 'clone';
+import { spawn } from 'child_process';
+import Batch from './batch';
+import World from './world';
+import * as expect from './expectations';
+import * as middlewares from './middlewares';
+import Result from './result';
+import * as respond from './respond';
 
 /**
  * The primary entry point for every joker test.
@@ -67,396 +58,416 @@ const respond = require('./respond');
  * @constructor
  */
 
-function Runner(options) {
-  if (!(this instanceof Runner)) return new Runner(options);
-  options = options || {};
-  this.options = options;
-  this.batch = new Batch();
-  this.world = new World();
-  this.expectations = [];
-  this.prompts = [];
-  this.responses = [];
-  this.baseCmd = '';
-  this.standardInput = null;
-}
+class Runner {
+  batch: Batch;
 
-/**
- * Register a before filter.
- *
- * @param {Function} fn
- * @returns {Runner} for chaining
- * @see Batch#addBefore
- * @api public
- */
+  options: Object;
 
-Runner.prototype.before = function(fn) {
-  this.batch.addBefore(fn);
-  return this;
-};
+  world: World;
 
-/**
- * Register an after filter.
- *
- * @param {Function} fn
- * @returns {Runner} for chaining
- * @see Batch#addAfter
- * @api public
- */
+  expectations: Array<(res: Result) => void>;
 
-Runner.prototype.after = function(fn) {
-  this.batch.addAfter(fn);
-  return this;
-};
+  prompts: Array<RegExp | string>;
 
-/**
- * Set the current working directory for
- * the command that will be executed.
- *
- * @param {String} path
- * @returns {Runner} for chaining
- * @api public
- */
+  responses: Array<string>;
 
-Runner.prototype.cwd = function(path) {
-  this.world.cwd = path;
-  return this;
-};
+  baseCmd: string;
 
-/**
- * Specify a base command.
- *
- * Very convenient when testing the same executable
- * again and again.
- *
- * @param {String} command
- * @returns {Runner} for chaining
- * @api public
- */
+  standardInput: null | string;
 
-Runner.prototype.base = function(cmd) {
-  this.baseCmd = cmd;
-  return this;
-};
-
-/**
- * Set data to pass to stdin.
- *
- * @param {String} data
- * @returns {Runner} for chaining
- * @api public
- */
-
-Runner.prototype.stdin = function(data) {
-  this.standardInput = data || '';
-  return this;
-};
-
-/**
- * Set environment variable.
- *
- * @param {String} key
- * @param {String} value
- * @returns {Runner} for chaining
- * @api public
- */
-
-Runner.prototype.env = function(key, val) {
-  this.world.env[key] = val;
-  return this;
-};
-
-/**
- * Specify a command to run.
- *
- * @param {String} command
- * @returns {Runner} for chaining
- * @see Batch#main
- * @api public
- */
-
-Runner.prototype.run = function(cmd, fn) {
-  this.batch.main(this.execFn(this.baseCmd + cmd));
-  console.log('who');
-  if (fn) this.end(fn);
-  return this;
-};
-
-/**
- * Force an execution timeout.
- *
- * @param {Number} ms
- * @returns {Runner} for chaining
- * @api public
- */
-
-Runner.prototype.timeout = function(ms) {
-  this.world.timeout = ms;
-  this.expect(expect.time(ms));
-  return this;
-};
-
-/**
- * Register a "stdout" expectation.
- *
- * @param {Regex|String} pattern
- * @returns {Runner} for chaining
- * @api public
- */
-
-Runner.prototype.stdout = function(pattern) {
-  this.expect(expect.stdout(pattern));
-  return this;
-};
-
-/**
- * Register a "stderr" expectation.
- *
- * @param {Regex|String} pattern
- * @returns {Runner} for chaining
- * @api public
- */
-
-Runner.prototype.stderr = function(pattern) {
-  this.expect(expect.stderr(pattern));
-  return this;
-};
-
-/**
- * Register an exit code expectation.
- *
- * @param {Number} code
- * @returns {Runner} for chaining
- * @api public
- */
-
-Runner.prototype.code = function(code) {
-  this.expect(expect.code(code));
-  return this;
-};
-
-/**
- * Check if a file or a directory exists.
- *
- * @param {String} path
- * @returns {Runner} for chaining
- * @api public
- */
-
-Runner.prototype.exist = function(path) {
-  this.expect(expect.exists(path));
-  return this;
-};
-
-/**
- * Match the content of a file.
- *
- * @param {Regex|String} pattern
- * @returns {Runner} for chaining
- * @api public
- */
-
-Runner.prototype.match = function(file, pattern) {
-  this.expect(expect.match(file, pattern));
-  return this;
-};
-
-/**
- * Create a new directory.
- *
- * @param {String} path
- * @returns {Runner} for chaining
- * @api public
- */
-
-Runner.prototype.mkdir = function(path) {
-  this.batch.add(middlewares.mkdir(path));
-  return this;
-};
-
-/**
- * Execute a command.
- *
- * @param {String} command
- * @param {World} world - env vars, cwd
- * @returns {Runner} for chaining
- * @api public
- */
-
-Runner.prototype.exec = function(cmd, world) {
-  world = world || this.world;
-  this.batch.add(middlewares.exec(cmd, world));
-  return this;
-};
-
-/**
- * Create a new file with the given `content`.
- *
- * @param {String} path
- * @param {String} data [optional]
- * @returns {Runner} for chaining
- * @api public
- */
-
-Runner.prototype.writeFile = function(path, data) {
-  this.batch.add(middlewares.writeFile(path, data));
-  return this;
-};
-
-/**
- * Remove a directory.
- *
- * @param {String} path
- * @returns {Runner} for chaining
- * @api public
- */
-
-Runner.prototype.rmdir = function(path) {
-  this.batch.add(middlewares.rmdir(path));
-  return this;
-};
-
-/**
- * Remove a file.
- *
- * @param {String} path
- * @returns {Runner} for chaining
- * @api public
- */
-
-Runner.prototype.unlink = function(path) {
-  this.batch.add(middlewares.unlink(path));
-  return this;
-};
-
-/**
- * Register an interactive prompt
- *
- * @param {Regex|String} pattern
- * @returns {Runner} for chaining
- * @api public
- */
-
-Runner.prototype.on = function(pattern) {
-  this.prompts.push(pattern);
-  return this;
-};
-
-/**
- * Register an interactive prompt response
- *
- * @param {String} response
- * @returns {Runner} for chaining
- * @api public
- */
-
-Runner.prototype.respond = function(response) {
-  this.responses.push(response);
-  return this;
-};
-
-/**
- * Run the test.
- *
- * @param {Function} fn
- * @returns {Runner} for chaining
- * @api public
- */
-
-Runner.prototype.end = function(fn) {
-  if (!this.batch.hasMain()) {
-    throw new Error('Please provide a command to run. Hint: `joker#run`');
+  constructor(options: Object) {
+    if (!(this instanceof Runner)) return new Runner(options);
+    options = options || {};
+    this.options = options;
+    this.batch = new Batch();
+    this.world = new World(process.env, process.cwd());
+    this.expectations = [];
+    this.prompts = [];
+    this.responses = [];
+    this.baseCmd = '';
+    this.standardInput = null;
   }
-  this.batch.run(fn);
-};
 
-/**
- * Clone the runner. Give basic support for templates.
- *
- * @returns {Runner} clone of the current instance
- * @api public
- */
+  /**
+   * Register a before filter.
+   *
+   * @param {Function} fn
+   * @returns {Runner} for chaining
+   * @see Batch#addBefore
+   * @api public
+   */
 
-Runner.prototype.clone = function() {
-  return clone(this, false);
-};
+  before(fn: () => void): Runner {
+    this.batch.addBefore(fn);
+    return this;
+  }
 
-/**
- * Register an expectation.
- *
- * @param {Function} fn
- * @api public
- */
+  /**
+   * Register an after filter.
+   *
+   * @param {Function} fn
+   * @returns {Runner} for chaining
+   * @see Batch#addAfter
+   * @api public
+   */
 
-Runner.prototype.expect = function(fn) {
-  this.expectations.push(fn);
-  return this;
-};
+  after(fn: () => void): Runner {
+    this.batch.addAfter(fn);
+    return this;
+  }
 
-/**
- * Return a function that will execute
- * the command.
- *
- * @returns {Function}
- * @api private
- */
+  /**
+   * Set the current working directory for
+   * the command that will be executed.
+   *
+   * @param {String} path
+   * @returns {Runner} for chaining
+   * @api public
+   */
 
-Runner.prototype.execFn = function(cmd) {
-  const self = this;
-  const args = require('shell-quote').parse(cmd);
-  const bin = args.shift(0);
+  cwd(path: string): Runner {
+    this.world.cwd = path;
+    return this;
+  }
 
-  return function(fn) {
-    // Allow .run('') without attempting
-    if (cmd === '') {
-      fn(undefined);
-      return;
+  /**
+   * Specify a base command.
+   *
+   * Very convenient when testing the same executable
+   * again and again.
+   *
+   * @param {String} command
+   * @returns {Runner} for chaining
+   * @api public
+   */
+
+  base(cmd: string): Runner {
+    this.baseCmd = cmd;
+    return this;
+  }
+
+  /**
+   * Set data to pass to stdin.
+   *
+   * @param {String} data
+   * @returns {Runner} for chaining
+   * @api public
+   */
+
+  stdin(data: string): Runner {
+    this.standardInput = data || '';
+    return this;
+  }
+
+  /**
+   * Set environment variable.
+   *
+   * @param {String} key
+   * @param {String} value
+   * @returns {Runner} for chaining
+   * @api public
+   */
+
+  env(key: string, val: any): Runner {
+    this.world.env[key] = val;
+    return this;
+  }
+
+  /**
+   * Specify a command to run.
+   *
+   * @param {String} command
+   * @returns {Runner} for chaining
+   * @see Batch#main
+   * @api public
+   */
+
+  run(cmd: string, fn: () => void): Runner {
+    this.batch.main(this.execFn(this.baseCmd + cmd));
+    console.log('who');
+    if (fn) this.end(fn);
+    return this;
+  }
+
+  /**
+   * Force an execution timeout.
+   *
+   * @param {Number} ms
+   * @returns {Runner} for chaining
+   * @api public
+   */
+
+  timeout(ms: number): Runner {
+    this.world.timeout = ms;
+    this.expect(expect.time(ms));
+    return this;
+  }
+
+  /**
+   * Register a "stdout" expectation.
+   *
+   * @param {Regex|String} pattern
+   * @returns {Runner} for chaining
+   * @api public
+   */
+
+  stdout(pattern: RegExp | string): Runner {
+    this.expect(expect.stdout(pattern));
+    return this;
+  }
+
+  /**
+   * Register a "stderr" expectation.
+   *
+   * @param {Regex|String} pattern
+   * @returns {Runner} for chaining
+   * @api public
+   */
+
+  stderr(pattern: RegExp | string): Runner {
+    this.expect(expect.stderr(pattern));
+    return this;
+  }
+
+  /**
+   * Register an exit code expectation.
+   *
+   * @param {Number} code
+   * @returns {Runner} for chaining
+   * @api public
+   */
+
+  code(code: number): Runner {
+    this.expect(expect.code(code));
+    return this;
+  }
+
+  /**
+   * Check if a file or a directory exists.
+   *
+   * @param {String} path
+   * @returns {Runner} for chaining
+   * @api public
+   */
+
+  exist(path: string): Runner {
+    this.expect(expect.exists(path));
+    return this;
+  }
+
+  /**
+   * Match the content of a file.
+   *
+   * @param {Regex|String} pattern
+   * @returns {Runner} for chaining
+   * @api public
+   */
+
+  match(file: string, pattern: RegExp | string): Runner {
+    this.expect(expect.match(file, pattern));
+    return this;
+  }
+
+  /**
+   * Create a new directory.
+   *
+   * @param {String} path
+   * @returns {Runner} for chaining
+   * @api public
+   */
+
+  mkdir(path: string): Runner {
+    this.batch.add(middlewares.mkdir(path));
+    return this;
+  }
+
+  /**
+   * Execute a command.
+   *
+   * @param {String} command
+   * @param {World} world - env vars, cwd
+   * @returns {Runner} for chaining
+   * @api public
+   */
+
+  exec(cmd: string, world: World): Runner {
+    world = world || this.world;
+    this.batch.add(middlewares.exec(cmd, world));
+    return this;
+  }
+
+  /**
+   * Create a new file with the given `content`.
+   *
+   * @param {String} path
+   * @param {String} data [optional]
+   * @returns {Runner} for chaining
+   * @api public
+   */
+
+  writeFile(path: string, data: string): Runner {
+    this.batch.add(middlewares.writeFile(path, data));
+    return this;
+  }
+
+  /**
+   * Remove a directory.
+   *
+   * @param {String} path
+   * @returns {Runner} for chaining
+   * @api public
+   */
+
+  rmdir(path: string): Runner {
+    this.batch.add(middlewares.rmdir(path));
+    return this;
+  }
+
+  /**
+   * Remove a file.
+   *
+   * @param {String} path
+   * @returns {Runner} for chaining
+   * @api public
+   */
+
+  unlink(path: string): Runner {
+    this.batch.add(middlewares.unlink(path));
+    return this;
+  }
+
+  /**
+   * Register an interactive prompt
+   *
+   * @param {Regex|String} pattern
+   * @returns {Runner} for chaining
+   * @api public
+   */
+
+  on(pattern: RegExp | string): Runner {
+    this.prompts.push(pattern);
+    return this;
+  }
+
+  /**
+   * Register an interactive prompt response
+   *
+   * @param {String} response
+   * @returns {Runner} for chaining
+   * @api public
+   */
+
+  respond(response: string): Runner {
+    this.responses.push(response);
+    return this;
+  }
+
+  /**
+   * Run the test.
+   *
+   * @param {Function} fn
+   * @returns {Runner} for chaining
+   * @api public
+   */
+
+  end(fn: () => void): Runner {
+    if (!this.batch.hasMain()) {
+      throw new Error('Please provide a command to run. Hint: `joker#run`');
     }
+    this.batch.run(fn);
+  }
 
-    const child = spawn(bin, args, self.world);
-    let stdout = '';
-    let stderr = '';
-    let err;
+  /**
+   * Clone the runner. Give basic support for templates.
+   *
+   * @returns {Runner} clone of the current instance
+   * @api public
+   */
 
-    if (self.standardInput != null) {
-      child.stdin.end(self.standardInput);
-    }
+  clone(): Runner {
+    return clone(this, false);
+  }
 
-    if (self.world.timeout) {
-      setTimeout(() => {
-        child.kill();
-        err = { killed: true };
-      }, self.world.timeout);
-    }
+  /**
+   * Register an expectation.
+   *
+   * @param {Function} fn
+   * @api public
+   */
 
-    respond.run(child.stdout, child.stdin, self.prompts, self.responses);
+  expect(fn: () => void): Runner {
+    this.expectations.push(fn);
+    return this;
+  }
 
-    child.stdout.on('data', data => {
-      stdout += data;
-    });
-    child.stderr.on('data', data => {
-      stderr += data;
-    });
+  /**
+   * Return a function that will execute
+   * the command.
+   *
+   * @returns {Function}
+   * @api private
+   */
 
-    child.on('close', code => {
-      let error = null;
-      const result = new Result(cmd, code, self.options).parse(
-        stdout,
-        stderr,
-        err
-      );
+  execFn(cmd: string): Function {
+    const self = this;
+    const args = require('shell-quote').parse(cmd);
+    const bin = args.shift(0);
 
-      for (let i = 0, len = self.expectations.length; i < len; i++) {
-        error = self.expectations[i](result);
-        if (error) break;
+    return fn => {
+      // Allow .run('') without attempting
+      if (cmd === '') {
+        fn(undefined);
+        return;
       }
 
-      fn(error);
-    });
-  };
-};
+      const child = spawn(bin, args, self.world);
+      let stdout = '';
+      let stderr = '';
+      let err;
+
+      if (self.standardInput != null) {
+        child.stdin.end(self.standardInput);
+      }
+
+      if (self.world.timeout) {
+        setTimeout(() => {
+          child.kill();
+          err = { killed: true };
+        }, self.world.timeout);
+      }
+
+      respond.run(child.stdout, child.stdin, self.prompts, self.responses);
+
+      child.stdout.on('data', data => {
+        stdout += data;
+      });
+      child.stderr.on('data', data => {
+        stderr += data;
+      });
+
+      child.on('close', (code: string) => {
+        const result = new Result(cmd, code, self.options).parse(
+          stdout,
+          stderr,
+          err
+        );
+
+        let error = null;
+
+        for (let i = 0, len = self.expectations.length; i < len; i++) {
+          error = self.expectations[i](result);
+          if (error) break;
+        }
+
+        fn(error);
+      });
+    };
+  }
+}
 
 /**
  * Primary export.
  */
 
-module.exports = Runner;
+export default Runner;
+

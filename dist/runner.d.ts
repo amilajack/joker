@@ -1,0 +1,30 @@
+import Batch from './batch';
+declare class Runner {
+    batch: Batch;
+    constructor(options: any);
+    before(fn: any): this;
+    after(fn: any): this;
+    cwd(path: string): this;
+    base(cmd: any): this;
+    stdin(data: any): this;
+    env(key: any, val: any): this;
+    run(cmd: any, fn: any): this;
+    timeout(ms: any): this;
+    stdout(pattern: any): this;
+    stderr(pattern: any): this;
+    code(code: any): this;
+    exist(path: string): this;
+    match(file: any, pattern: any): this;
+    mkdir(path: string): this;
+    exec(cmd: string, world: any): this;
+    writeFile(path: string, data: string): this;
+    rmdir(path: string): this;
+    unlink(path: string): this;
+    on(pattern: any): this;
+    respond(response: any): this;
+    end(fn: any): void;
+    clone(): this;
+    expect(fn: any): this;
+    execFn(cmd: string): (fn: any) => void;
+}
+export default Runner;

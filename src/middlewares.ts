@@ -2,8 +2,9 @@
  * Core dependencies.
  */
 
-const { exec } = require('child_process');
-const fs = require('fs');
+import childProcess from 'child_process';
+
+import fs from 'fs';
 
 /**
  * Asynchronous mkdir(2).
@@ -14,11 +15,11 @@ const fs = require('fs');
  * @api public
  */
 
-exports.mkdir = function(path) {
-  return function(next) {
+export function mkdir(path: string) {
+  return next => {
     fs.mkdir(path, done(next));
   };
-};
+}
 
 /**
  * Asynchronously writes data to a file, replacing the file if it already exists.
@@ -31,11 +32,11 @@ exports.mkdir = function(path) {
  * @api public
  */
 
-exports.writeFile = function(path, data) {
-  return function(next) {
+export function writeFile(path: string, data: string) {
+  return next => {
     fs.writeFile(path, data, done(next));
   };
-};
+}
 
 /**
  * Asynchronous rmdir(2).
@@ -46,11 +47,11 @@ exports.writeFile = function(path, data) {
  * @api public
  */
 
-exports.rmdir = function(path) {
-  return function(next) {
+export function rmdir(path) {
+  return next => {
     fs.rmdir(path, done(next));
   };
-};
+}
 
 /**
  * Asynchronous unlink(2).
@@ -61,11 +62,11 @@ exports.rmdir = function(path) {
  * @api public
  */
 
-exports.unlink = function(path) {
-  return function(next) {
+export function unlink(path: string) {
+  return next => {
     fs.unlink(path, done(next));
   };
-};
+}
 
 /**
  * Run a command in a shell.
@@ -77,11 +78,11 @@ exports.unlink = function(path) {
  * @api public
  */
 
-exports.exec = function(cmd, world) {
-  return function(next) {
-    exec(cmd, world, next);
+export function exec(cmd: string, world) {
+  return next => {
+    childProcess.exec(cmd, world, next);
   };
-};
+}
 
 /**
  * Callback generator for middlewares. Throw errors if any.
@@ -92,8 +93,9 @@ exports.exec = function(cmd, world) {
  */
 
 function done(next) {
-  return function(err) {
+  return err => {
     if (err) throw err;
     next();
   };
 }
+

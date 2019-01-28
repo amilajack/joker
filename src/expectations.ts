@@ -1,14 +1,6 @@
-/**
- * Core dependencies.
- */
-
-const fs = require('fs');
-
-/**
- * External dependencies.
- */
-
-const AssertionError = require('assertion-error');
+import fs from 'fs';
+import AssertionError from 'assertion-error';
+import Result from './result';
 
 /**
  * Return an exit code expectation.
@@ -18,14 +10,15 @@ const AssertionError = require('assertion-error');
  * @api public
  */
 
-exports.code = function(code) {
-  return function(result) {
+export function code(code: string) {
+  return (result: Result) => {
     if (code !== result.code) {
       const message = `Expected exit code: "${code}", actual: "${result.code}"`;
       return error(result, message, code, result.code);
     }
+    return;
   };
-};
+}
 
 /**
  * Return no timeout expectation.
@@ -34,13 +27,13 @@ exports.code = function(code) {
  * @api public
  */
 
-exports.time = function() {
-  return function(result) {
+export function time() {
+  return (result: Result) => {
     if (result.killed) {
       return error(result, 'Command execution terminated (timeout)');
     }
   };
-};
+}
 
 /**
  * Return a stderr expectation.
@@ -50,11 +43,9 @@ exports.time = function() {
  * @api public
  */
 
-exports.stderr = function(expected) {
-  return function(result) {
-    return assertOut('stderr', expected, result);
-  };
-};
+export function stderr(expected: String | RegExp) {
+  return (result: Result) => assertOut('stderr', expected, result);
+}
 
 /**
  * Return a stdout expectation.
@@ -64,11 +55,9 @@ exports.stderr = function(expected) {
  * @api public
  */
 
-exports.stdout = function(expected) {
-  return function(result) {
-    return assertOut('stdout', expected, result);
-  };
-};
+export function stdout(expected: String | RegExp) {
+  return (result: Result) => assertOut('stdout', expected, result);
+}
 
 /**
  * Verify that a `path` exists.
@@ -78,13 +67,13 @@ exports.stdout = function(expected) {
  * @api public
  */
 
-exports.exists = function(path) {
-  return function(result) {
+export function exists(path: string) {
+  return (result: Result) => {
     if (fs.existsSync(path) !== true) {
       return error(result, `Expected "${path}" to exist.`);
     }
   };
-};
+}
 
 /**
  * Verify that `path`'s data matches `data`.
@@ -95,8 +84,8 @@ exports.exists = function(path) {
  * @api public
  */
 
-exports.match = function(path, data) {
-  return function(result) {
+export function match(path: string, data: String | RegExp) {
+  return (result: Result) => {
     const contents = fs.readFileSync(path, { encoding: 'utf8' });
     const statement =
       data instanceof RegExp ? data.test(contents) : data === contents;
@@ -106,7 +95,7 @@ exports.match = function(path, data) {
       return error(result, message, data, contents);
     }
   };
-};
+}
 
 /**
  * Assert stdout or stderr.
@@ -118,7 +107,7 @@ exports.match = function(path, data) {
  * @api private
  */
 
-function assertOut(key, expected, result) {
+function assertOut(key: string, expected: any, result: Result) {
   const actual = result[key];
   const statement =
     expected instanceof RegExp ? expected.test(actual) : expected === actual;
@@ -127,6 +116,7 @@ function assertOut(key, expected, result) {
     const message = `Expected ${key} to match "${expected}". Actual: "${actual}"`;
     return error(result, message, expected, actual);
   }
+  return;
 }
 
 /**
@@ -145,7 +135,7 @@ function assertOut(key, expected, result) {
  * @api private
  */
 
-function error(result, message, expected, actual) {
+function error(result: Result, message: string, expected, actual) {
   const err = new AssertionError(`\`${result.cmd}\`: ${message}`);
   err.result = result;
   if (expected) err.expected = expected;

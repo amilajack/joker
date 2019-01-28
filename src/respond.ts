@@ -12,7 +12,7 @@
  * @api public
  */
 
-exports.run = function(readable, writable, expects, responses) {
+export function run(readable, writable, expects, responses) {
   let needNew = true;
   let buffer = '';
   let match = false;
@@ -43,4 +43,5 @@ exports.run = function(readable, writable, expects, responses) {
       }
     }
   });
-};
+}
+

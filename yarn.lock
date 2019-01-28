@@ -138,6 +138,23 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
+"@types/assertion-error@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@types/assertion-error/-/assertion-error-1.1.0.tgz#67db8735928bca111fbd61f1711ed225f4f5f986"
+  integrity sha512-32f/Uonzj4fU2WPRo3Jd8x7vilyZvjdUV6YZwMW2QNkTc/mRs0BLWIqUAjzwnYDnkMFREIwqsd1Qcl5cjE6A8A==
+  dependencies:
+    assertion-error "*"
+
+"@types/clone@^0.1.30":
+  version "0.1.30"
+  resolved "https://registry.yarnpkg.com/@types/clone/-/clone-0.1.30.tgz#e7365648c1b42136a59c7d5040637b3b5c83b614"
+  integrity sha1-5zZWSMG0ITalnH1QQGN7O1yDthQ=
+
+"@types/node@^10.12.18":
+  version "10.12.18"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.18.tgz#1d3ca764718915584fcd9f6344621b7672665c67"
+  integrity sha512-fh+pAqt4xRzPfqA6eh3Z2y6fyZavRIumvjhaCL753+TVkGKGhpPeyrJG2JftD0T9q4GF00KjefsQ+PQNDdWQaQ==
+
 abab@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/abab/-/abab-2.0.0.tgz#aba0ab4c5eee2d4c79d3487d85450fb2376ebb0f"
@@ -305,7 +322,7 @@ assert-plus@1.0.0, assert-plus@^1.0.0:
   resolved "https://registry.npmjs.org/assert-plus/-/assert-plus-1.0.0.tgz#f12e0f3c5d77b0b1cdd9146942e4e96c1e4dd525"
   integrity sha1-8S4PPF13sLHN2RRpQuTpbB5N1SU=
 
-assertion-error@^1.1.0, assertion-error@~1.1.0:
+assertion-error@*, assertion-error@^1.1.0, assertion-error@~1.1.0:
   version "1.1.0"
   resolved "https://registry.npmjs.org/assertion-error/-/assertion-error-1.1.0.tgz#e60b6b0e8f301bd97e5375215bda406c85118c0b"
   integrity sha512-jgsaNduz+ndvGyFt3uSuWqvy4lCnIJiovtouQN5JZHOKCS2QuhEdbcQHFhVksz2N2U9hXJo8odG7ETyWlEeuDw==

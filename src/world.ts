@@ -1,10 +1,4 @@
 /**
- * External dependencies.
- */
-
-const clone = require('clone');
-
-/**
  * Contain the environment variables and the
  * current working directory for commands.
  *
@@ -13,14 +7,16 @@ const clone = require('clone');
  * @constructor
  */
 
-function World(env, cwd) {
-  this.env = env || clone(process.env);
-  this.cwd = cwd;
-  this.timeout = null;
+export default class  World {
+  env: Object;
+
+  cwd: string;
+
+  timeout: null | number;
+
+  constructor(env: Object = process.env, cwd: string = process.cwd()) {
+    this.env = env || Object.assign({}, process.env);
+    this.cwd = cwd;
+    this.timeout = null;
+  }
 }
-
-/**
- * Primary export.
- */
-
-module.exports = World;

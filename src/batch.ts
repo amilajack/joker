@@ -47,114 +47,118 @@
  * @constructor
  */
 
-function Batch() {
-  this.before = [];
-  this.afterBefore = [];
-  this.after = [];
-  this.beforeAfter = [];
-  this.fn = null;
-}
+type BatchFn = (error: Error) => void;
 
-/**
- * Push `fn` into the before list.
- *
- * @param {Function} fn
- * @api public
- */
+export default class Batch {
+  before: Array<BatchFn> = [];
+  afterBefore: Array<BatchFn> = [];
+  after: Array<BatchFn> = [];
+  beforeAfter: Array<BatchFn> = [];
+  fn: BatchFn | null;
 
-Batch.prototype.addBefore = function(fn) {
-  this.before.push(fn);
-};
-
-/**
- * Push `fn` into the after list.
- *
- * @param {Function} fn
- * @api public
- */
-
-Batch.prototype.addAfter = function(fn) {
-  this.after.push(fn);
-};
-
-/**
- * Register a function in either the "after before" list
- * or in the "before after" list, depending if a "main"
- * function exists.
- *
- * @see Batch#hasMain
- * @see Batch#main
- * @param {Function} fn
- * @api public
- */
-
-Batch.prototype.add = function(fn) {
-  (this.hasMain() ? this.beforeAfter : this.afterBefore).push(fn);
-};
-
-/**
- * Register a "main" function.
- *
- * @param {Function} fn
- * @api public
- */
-
-Batch.prototype.main = function(fn) {
-  this.fn = fn;
-};
-
-/**
- * Return if there is a main function or not.
- *
- * @returns {Boolean}
- * @api public
- */
-
-Batch.prototype.hasMain = function() {
-  return !!this.fn;
-};
-
-/**
- * Execute all registered functions. Keep in mind that the result of
- * the "main" function will be supplied to the last callback.
- *
- * @param {Function} last fn to execute
- * @api public
- */
-
-Batch.prototype.run = function(fn) {
-  let err = null;
-  const main = this.fn;
-  let batch = this.before.slice(0).concat(this.afterBefore);
-
-  console.log('batch');
-
-  batch.push(next => {
-    main(e => {
-      err = e;
-      next();
-    });
-  });
-
-  batch = batch.concat(this.beforeAfter).concat(this.after);
-
-  batch.push(() => {
-    fn(err);
-  });
-
-  function next() {
-    const fn = batch.shift();
-    if (!fn) return;
-    if (fn.length) return fn(next);
-    fn();
-    next();
+  constructor() {
+    this.before = [];
+    this.afterBefore = [];
+    this.after = [];
+    this.beforeAfter = [];
+    this.fn = null;
   }
 
-  next();
-};
+  /**
+   * Push `fn` into the before list.
+   *
+   * @param {Function} fn
+   * @api public
+   */
 
-/**
- * Primary exports.
- */
+  addBefore(fn: BatchFn) {
+    this.before.push(fn);
+  }
 
-module.exports = Batch;
+  /**
+   * Push `fn` into the after list.
+   *
+   * @param {Function} fn
+   * @api public
+   */
+
+  addAfter(fn: BatchFn) {
+    this.after.push(fn);
+  }
+
+  /**
+   * Register a function in either the "after before" list
+   * or in the "before after" list, depending if a "main"
+   * function exists.
+   *
+   * @see Batch#hasMain
+   * @see Batch#main
+   * @param {Function} fn
+   * @api public
+   */
+
+  add(fn: BatchFn) {
+    (this.hasMain() ? this.beforeAfter : this.afterBefore).push(fn);
+  }
+
+  /**
+   * Register a "main" function.
+   *
+   * @param {Function} fn
+   * @api public
+   */
+
+  main(fn: BatchFn) {
+    this.fn = fn;
+  }
+
+  /**
+   * Return if there is a main function or not.
+   *
+   * @returns {Boolean}
+   * @api public
+   */
+
+  hasMain(): boolean {
+    return !!this.fn;
+  }
+
+  /**
+   * Execute all registered functions. Keep in mind that the result of
+   * the "main" function will be supplied to the last callback.
+   *
+   * @param {Function} last fn to execute
+   * @api public
+   */
+
+  run(fn: BatchFn) {
+    let err = null;
+    const main = this.fn;
+    let batch = this.before.slice(0).concat(this.afterBefore);
+
+    console.log('batch');
+
+    batch.push(next => {
+      main(e => {
+        err = e;
+        next();
+      });
+    });
+
+    batch = batch.concat(this.beforeAfter).concat(this.after);
+
+    batch.push(() => {
+      fn(err);
+    });
+
+    function next() {
+      const fn = batch.shift();
+      if (!fn) return;
+      if (fn.length) return fn(next);
+      fn();
+      next();
+    }
+
+    next();
+  }
+}
