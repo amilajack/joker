@@ -1,13 +1,14 @@
-const fs = require('fs');
-const { join } = require('path');
+import fs from 'fs';
+import path from 'path';
 import { jokerFixture } from '.';
 
-const file = join(__dirname, 'tmp', 'writefile-test');
+const root = path.join(__dirname, 'tmp');
 
 describe('joker#exec', () => {
   it('runs the supplied command', done => {
+    const file = path.join(root, 'writefile-test');
     jokerFixture()
-      .exec(`node ${join(__dirname, 'fixtures', 'create-file.js')}`)
+      .exec(`node ${path.join(__dirname, 'fixtures', 'create-file.js')}`)
       .run('node writefile.js')
       .stdout('File exists')
       .unlink(file)
@@ -15,9 +16,7 @@ describe('joker#exec', () => {
   });
 
   it('respects the current working directory', done => {
-    const root = join(__dirname, 'tmp');
-    const fixture = join(root, 'foo.tmp.js');
-
+    const fixture = path.join(root, 'foo.tmp.js');
     jokerFixture()
       .cwd(root)
       .exec('touch foo.tmp.js')

@@ -1,7 +1,7 @@
 const fs = require('fs');
-const join = require('path').join;
+const path = require('path');
 
-const file = join(__dirname, '..', 'tmp', 'writefile-test');
+const file = path.join(__dirname, '..', 'tmp', 'writefile-test');
 
 if (fs.existsSync(file)) {
   console.log('File exists');

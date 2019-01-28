@@ -1,7 +1,7 @@
-import {jokerFixture} from '.';
-const join = require('path').join;
+import path from 'path';
+import { jokerFixture } from '.';
 
-const file = join(__dirname, 'tmp', 'writefile-test');
+const file = path.join(__dirname, 'tmp', 'writefile-test');
 
 describe('joker#match', () => {
   it('can assert with strings', done => {

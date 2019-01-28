@@ -1,9 +1,9 @@
-const fs = require('fs');
+import fs from 'fs';
+import path from 'path';
 import { jokerFixture } from '.';
-const join = require('path').join;
 
-const file1 = join(__dirname, 'tmp', 'file-1');
-const file2 = join(__dirname, 'tmp', 'file-2');
+const file1 = path.join(__dirname, 'tmp', 'file-1');
+const file2 = path.join(__dirname, 'tmp', 'file-2');
 
 describe('joker filters', () => {
   it('runs the filters in the expected order', done => {

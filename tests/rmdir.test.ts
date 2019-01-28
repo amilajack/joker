@@ -1,12 +1,11 @@
+import fs from 'fs';
+import path from 'path';
 import { jokerFixture } from '.';
-const fs = require('fs');
-const join = require('path').join;
-var rimraf = require("rimraf");
+import rimraf from 'rimraf';
 
-const dir = join(__dirname, 'tmp', 'mkdir-test');
+const dir = path.join(__dirname, 'tmp', 'mkdir-test');
 
-
-describe.only('joker#rmdir', () => {
+describe('joker#rmdir', () => {
   beforeAll(() => {
     rimraf.sync(dir);
   });
@@ -15,7 +14,7 @@ describe.only('joker#rmdir', () => {
     jokerFixture()
       .mkdir(dir)
       .run('node mkdir.js')
-      // .stdout('Directory exists')
+      .stdout('Directory exists')
       .rmdir(dir)
       .after(() => {
         expect(fs.existsSync(dir)).toEqual(false);

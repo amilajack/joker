@@ -1,8 +1,8 @@
-const fs = require('fs');
-const join = require('path').join;
-
-const file = join(__dirname, 'tmp', 'writefile-test');
+import fs from 'fs';
+import path from 'path';
 import { jokerFixture } from '.';
+
+const file = path.join(__dirname, 'tmp', 'writefile-test');
 
 describe('joker#writeFile', () => {
   it('creates a new file', done => {

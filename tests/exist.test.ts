@@ -1,10 +1,8 @@
+import path from 'path';
 import { jokerFixture } from '.';
-const fs = require('fs');
-const { join } = require('path');
-import rimraf from 'rimraf';
 
-const file = join(__dirname, 'tmp', 'exists-file-test');
-const dir = join(__dirname, 'tmp', 'exists-dir-test');
+const file = path.join(__dirname, 'tmp', 'exists-file-test');
+const dir = path.join(__dirname, 'tmp', 'exists-dir-test');
 
 describe('joker#exist', () => {
   it('can verify that a file exists', done => {

@@ -1,6 +1,6 @@
 const fs = require('fs');
-const join = require('path').join;
+const path = require('path');
 
-const file = join(__dirname, '..', 'tmp', 'writefile-test');
+const file = path.join(__dirname, '..', 'tmp', 'writefile-test');
 
 fs.writeFileSync(file, '');
