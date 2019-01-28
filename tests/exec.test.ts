@@ -23,8 +23,7 @@ describe('joker#exec', () => {
       .exec('touch foo.tmp.js')
       .run('')
       .end(err => {
-        // should.not.exist(err);
-        fs.existsSync(fixture).should.be.true;
+        expect(fs.existsSync(fixture)).toBe(true);
         fs.unlinkSync(fixture);
         done();
       });

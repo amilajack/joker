@@ -13,7 +13,7 @@ describe('joker#stderr', () => {
       .run('node hello-err.js')
       .stderr('Fail')
       .end(err => {
-        err.message.should.eq(
+        expect(err.message).toEqual(
           '`node hello-err.js`: Expected stderr to match "Fail". Actual: "Hello"'
         );
         done();
@@ -32,7 +32,7 @@ describe('joker#stderr', () => {
       .run('node hello-err.js')
       .stderr(/Fail/)
       .end(err => {
-        err.message.should.eq(
+        expect(err.message).toEqual(
           '`node hello-err.js`: Expected stderr to match "/Fail/". Actual: "Hello"'
         );
         done();

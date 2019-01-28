@@ -13,7 +13,7 @@ describe('joker#stdout', () => {
       .run('node hello.js')
       .stdout('Fail')
       .end(err => {
-        err.message.should.eq(
+        expect(err.message).toEqual(
           '`node hello.js`: Expected stdout to match "Fail". Actual: "Hello"'
         );
         done();
@@ -32,7 +32,7 @@ describe('joker#stdout', () => {
       .run('node hello.js')
       .stdout(/Fail/)
       .end(err => {
-        err.message.should.eq(
+        expect(err.message).toEqual(
           '`node hello.js`: Expected stdout to match "/Fail/". Actual: "Hello"'
         );
         done();

@@ -5,6 +5,6 @@ import { default as Joker} from '../src';
 export { default as Joker } from '../src';
 
 export function jokerFixture() {
-  return new Joker().cwd(path.join(__dirname, 'test', 'fixtures'));
+  return new Joker().cwd(path.join(__dirname, 'fixtures'));
 }
 

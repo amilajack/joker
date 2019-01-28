@@ -17,7 +17,7 @@ describe('joker filters', () => {
       })
       .before(next => {
         before++;
-        fs.existsSync(file1).should.eq(true);
+        expect(fs.existsSync(file1)).toEqual(true);
         fs.writeFile(file2, '', next);
       })
       .after(() => {
@@ -28,11 +28,11 @@ describe('joker filters', () => {
       .run('node filters.js')
       .stdout('Files exist')
       .end(() => {
-        before.should.eq(2);
-        after.should.eq(1);
+        expect(before).toEqual(2);
+        expect(after).toEqual(1);
 
-        fs.existsSync(file1).should.eq(false);
-        fs.existsSync(file2).should.eq(false);
+        expect(fs.existsSync(file1)).toEqual(false);
+        expect(fs.existsSync(file2)).toEqual(false);
 
         done();
       });

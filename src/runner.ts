@@ -6,6 +6,7 @@ import * as expect from './expectations';
 import * as middlewares from './middlewares';
 import Result, { Options } from './result';
 import * as respond from './respond';
+import { default as register } from './plugin';
 
 /**
  * The primary entry point for every joker test.
@@ -115,6 +116,7 @@ export default class Runner {
     this.batch.addAfter(fn);
     return this;
   }
+  register = register;
 
   /**
    * Set the current working directory for

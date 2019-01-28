@@ -29,7 +29,7 @@ describe('joker#match', () => {
       .match(file, 'Bye')
       .unlink(file)
       .end(err => {
-        (err !== true).should.eq(true);
+        expect(err !== true).toEqual(true);
         done();
       });
   });

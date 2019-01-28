@@ -6,7 +6,7 @@ describe('joker#timeout', () => {
       .run('node timeout.js')
       .timeout(100)
       .end(err => {
-        err.message.should.eq(
+        expect(err.message).toEqual(
           '`node timeout.js`: Command execution terminated (timeout)'
         );
         done();

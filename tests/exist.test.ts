@@ -1,6 +1,7 @@
 import { jokerFixture } from '.';
 const fs = require('fs');
 const { join } = require('path');
+import rimraf from 'rimraf';
 
 const file = join(__dirname, 'tmp', 'exists-file-test');
 const dir = join(__dirname, 'tmp', 'exists-dir-test');
@@ -20,7 +21,7 @@ describe('joker#exist', () => {
       .run('node void.js')
       .exist(file)
       .end(err => {
-        (err !== null).should.eq(true);
+        expect(err !== null).toEqual(true);
         done();
       });
   });
@@ -39,7 +40,7 @@ describe('joker#exist', () => {
       .run('node void.js')
       .exist(dir)
       .end(err => {
-        (err !== null).should.eq(true);
+        expect(err !== null).toEqual(true);
         done();
       });
   });

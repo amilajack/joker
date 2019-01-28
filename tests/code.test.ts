@@ -13,9 +13,7 @@ describe('joker#code', () => {
       .run('node code-0.js')
       .code(1)
       .end(err => {
-        err.message.should.eq(
-          '`node code-0.js`: Expected exit code: "1", actual: "0"'
-        );
+        expect(err.message).toEqual('`node code-0.js`: Expected exit code: "1", actual: "0"');
         done();
       });
   });
@@ -25,7 +23,7 @@ describe('joker#code', () => {
       .run('node code-1.js')
       .code(0)
       .end(err => {
-        err.message.should.eq(
+        expect(err.message).toEqual(
           '`node code-1.js`: Expected exit code: "0", actual: "1"'
         );
         done();
