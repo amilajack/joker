@@ -17,7 +17,8 @@
   },
   "scripts": {
     "lint": "eslint .",
-    "test": " jest"
+    "test": " jest",
+    "ts": "tsc"
   },
   "repository": {
     "type": "git",
@@ -29,8 +30,10 @@
     "chai": "^4.2.0",
     "eslint": "^5.12.1",
     "eslint-config-bliss": "^3.2.0",
+    "flow": "^0.2.3",
     "jest": "^24.0.0",
-    "prompt": "^1.0.0"
+    "prompt": "^1.0.0",
+    "typescript": "^3.2.4"
   },
   "dependencies": {
     "assertion-error": "~1.1.0",
