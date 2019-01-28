@@ -10,12 +10,12 @@
     "command-line apps",
     "command-line applications"
   ],
-  "main": "./src",
+  "main": "./dist",
   "homepage": "https://github.com/amilajack/joker",
   "scripts": {
     "build": "cross-env NODE_ENV=production babel src --out-dir dist --extensions \".ts\" --source-maps inline",
     "lint": "eslint .",
-    "test": " jest --runInBand",
+    "test": " yarn build && jest --runInBand",
     "ts": "tsc"
   },
   "repository": {
