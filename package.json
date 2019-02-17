@@ -1,5 +1,5 @@
 {
-  "name": "joker",
+  "name": "@amilajack/joker",
   "version": "0.0.0",
   "description": "Simple and powerful testing for command-line apps",
   "keywords": [
@@ -13,8 +13,9 @@
   "homepage": "https://github.com/amilajack/joker",
   "scripts": {
     "build": "cross-env NODE_ENV=production babel src --out-dir dist --extensions \".ts\" --source-maps inline",
+    "docs": "typedoc --out docs src",
     "lint": "eslint .",
-    "test": " yarn build && jest --runInBand",
+    "test": " yarn build && jest --runInBand && yarn docs",
     "ts": "tsc"
   },
   "repository": {
@@ -42,6 +43,7 @@
     "jest": "^24.0.0",
     "prompt": "^1.0.0",
     "rimraf": "^2.6.3",
+    "typedoc": "^0.14.2",
     "typescript": "^3.2.4"
   },
   "dependencies": {

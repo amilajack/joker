@@ -1,6 +1,7 @@
-[![Build Status](https://travis-ci.com/amilajack/joker.svg)](http://travis-ci.com/amilajack/joker)
+> ## 🛠 Status: In Development
+> Joker is currently in development. It's on the fast track to a 1.0 release, so we encourage you to use it and give us your feedback, but there are things that haven't been finalized yet and you can expect some changes.
 
-⚠️ WORK IN PROGRESS. DO NOT USE ⚠️
+[![Build Status](https://travis-ci.com/amilajack/joker.svg)](http://travis-ci.com/amilajack/joker)
 
 ## Synopsis
 
@@ -16,7 +17,7 @@ something that lives in every command-line app that you are going to build.
 ### How it looks
 
 ```js
-import Joker from 'joker';
+import Joker from '@amilajack/joker';
 
 new Joker()
   .exec('touch /tmp/test')
@@ -504,7 +505,7 @@ new Joker()
 ## Installation
 
 ```bash
-$ npm install joker
+$ npm install @amilajack/joker
 ```
 
 ## Credits
