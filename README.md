@@ -3,16 +3,13 @@
 
 [![Build Status](https://travis-ci.com/amilajack/joker.svg)](http://travis-ci.com/amilajack/joker)
 
-## Synopsis
+An modern and intuitive testing for command-line apps.
 
-Simple and powerful end-to-end testing for command-line apps.
+## Installation
 
-## Description
-
-joker is aiming to make testing of command-line apps as simple as possible. It
-plays nice with the testing tools that you are already using and in case you are
-one of those devs who practice outside-in BDD, it has the potential to become
-something that lives in every command-line app that you are going to build.
+```bash
+$ npm install @amilajack/joker
+```
 
 ### How it looks
 
@@ -46,7 +43,7 @@ While joker comes with built-in expectations, you can use your own too.
 
 ```js
 new Joker()
-  .expect(function(result) {
+  .expect((result) => {
     if (result.stdout !== 'unicorns') {
       return new Error('NO!');
     }
@@ -110,15 +107,15 @@ joker has primitive support for plugins. You can register any expectation or/and
 any middleware by calling `joker.register`.
 
 ```js
-const fn = function() {};
+const fn = () => {};
 new Joker().register('foo', fn);
 ```
 
 Or you may want to register many functions at once.
 
 ```js
-const fn = function() {};
-const fn1 = function() {};
+const fn = () => {};
+const fn1 = () => {};
 joker.register({ baz: fn, bar: fn1 });
 ```
 
@@ -128,8 +125,8 @@ joker plays nice with any test runner out there. Here is a minimal example how
 you could use it with Mocha.
 
 ```js
-describe('todo add', function() {
-  it('adds a new todo item', function(done) {
+describe('todo add', () => {
+  it('adds a new todo item', (done) => {
     new Joker()
       .run('todo add')
       .stdout('A new todo has been added')
@@ -463,7 +460,7 @@ Run the given test.
 new Joker()
   .run('ls')
   .stdout('this-is-not-porn-i-promise')
-  .end(function(err) {});
+  .end((err) => {});
 ```
 
 The same might be accomplished with supplying a function to `run`:
@@ -471,7 +468,7 @@ The same might be accomplished with supplying a function to `run`:
 ```js
 new Joker()
   .stdout('this-is-not-porn-i-promise')
-  .run('ls', function(err) {});
+  .run('ls', (err) => {});
 ```
 
 ### #clone
@@ -493,19 +490,13 @@ Register a custom expectation.
 
 ```js
 new Joker()
-  .expect(function(result) {
+  .expect((result) => {
     if (result.stdout !== 'Unicorns') {
       return new Error('OMG');
     }
   })
   .run('ls')
   .end(fn);
-```
-
-## Installation
-
-```bash
-$ npm install @amilajack/joker
 ```
 
 ## Credits
