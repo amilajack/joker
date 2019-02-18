@@ -14,7 +14,7 @@
  *
  * The following example will (hopefully) illustrate how this class works:
  *
- *    var batch = new Batch;
+ *    const batch = new Batch;
  *    batch.addBefore(before1) --> execution order [before1]
  *    batch.addBefore(before2) --> execution order [before1, before2]
  *    batch.addAfter(after1)   --> execution order [before1, before2, after1]
@@ -30,7 +30,7 @@
  * json file which happens to be its database. So if you were testing it you would want to start
  * with a clean state each and every time. Here is how you could accomplish that:
  *
- *    var todo = joker()
+ *    const todo = joker()
  *      .before(createBlankDatabase);
  *      .after(removeTheDatabase);
  *
@@ -47,25 +47,21 @@
  * @constructor
  */
 import { AssertionFn } from './expectations';
+import { ReturnFn, NextFn } from './middlewares';
+import Result from './result'
+
+type AcceptedFns = AssertionFn | ReturnFn;
 
 export default class Batch {
-  before: Array<AssertionFn> = [];
+  before: Array<AcceptedFns> = [];
 
-  afterBefore: Array<AssertionFn> = [];
+  beforeAfter: Array<AcceptedFns> = [];
 
-  after: Array<AssertionFn> = [];
+  after: Array<AcceptedFns> = [];
 
-  beforeAfter: Array<AssertionFn> = [];
+  afterBefore: Array<AcceptedFns> = [];
 
-  fn: AssertionFn | null;
-
-  constructor() {
-    this.before = [];
-    this.afterBefore = [];
-    this.after = [];
-    this.beforeAfter = [];
-    this.fn = null;
-  }
+  fn: Function;
 
   /**
    * Push `fn` into the before list.
@@ -100,7 +96,7 @@ export default class Batch {
    * @api public
    */
 
-  add(fn: AssertionFn) {
+  add(fn: AcceptedFns) {
     (this.hasMain() ? this.beforeAfter : this.afterBefore).push(fn);
   }
 
@@ -134,13 +130,13 @@ export default class Batch {
    * @api public
    */
 
-  run(fn: AssertionFn) {
-    let err = null;
+  run(fn: (a?: NextFn | Result) => void) {
+    let err: undefined | Result;
     const main = this.fn;
     let batch = this.before.slice(0).concat(this.afterBefore);
 
-    batch.push(next => {
-      main(e => {
+    batch.push((next: NextFn) => {
+      main((e: Result) => {
         err = e;
         next();
       });
@@ -153,10 +149,13 @@ export default class Batch {
     });
 
     function next() {
-      const fn = batch.shift();
-      if (!fn) return;
-      if (fn.length) return fn(next);
-      fn();
+      const latestFn = batch.shift();
+      if (!latestFn) return;
+      if (latestFn.length) {
+        latestFn(next);
+        return;
+      }
+      latestFn();
       next();
     }
 

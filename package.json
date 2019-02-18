@@ -13,7 +13,7 @@
   "homepage": "https://github.com/amilajack/joker",
   "scripts": {
     "build": "cross-env NODE_ENV=production babel src --out-dir dist --extensions \".ts\" --source-maps inline",
-    "docs": "typedoc --out docs src",
+    "docs": "typedoc --out docs src --ignoreCompilerErrors",
     "lint": "eslint .",
     "test": " yarn build && jest --runInBand && yarn docs",
     "ts": "tsc"

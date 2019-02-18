@@ -1,5 +1,5 @@
 import clone from 'clone';
-import { spawn } from 'child_process';
+import { spawn, SpawnOptions } from 'child_process';
 import Batch from './batch';
 import World from './world';
 import * as expect from './expectations';
@@ -8,11 +8,15 @@ import Result, { Options } from './result';
 import * as respond from './respond';
 import { default as register } from './plugin';
 
+export type OptionalArgs = {
+  newLines?: boolean,
+  colors?: boolean
+};
+
 /**
- * The primary entry point for every joker test.
- * It provides public interface that the users will interact with.
- * Every `Runner` instance can be cloned and this way one can build
- * the so called "templates".
+ * The primary entry point for every joker test. It provides public
+ * interface that the users will interact with. Every `Runner` instance can
+ * be cloned and this way one can build the so called "templates".
  *
  * Options:
  *
@@ -22,41 +26,41 @@ import { default as register } from './plugin';
  * Examples:
  *
  *  Instantiating the class:
- *
- *    joker() // -> Runner
- *    new joker // -> Runner
+ *  ```ts
+ *  new Joker() // -> Runner
+ *  ```
  *
  *  Simple stdout assertion:
- *
- *    joker({ colors: false, newLines: false })
+ *  ```ts
+ *  new Joker({ colors: false, newLines: false })
  *    .exec('todo clear')
  *    .exec('todo Buy milk')
  *    .run('todo ls')
  *    .stdout('Buy milk')
  *    .end(fn);
+ *  ```
  *
  *  Stdout assertion:
- *
- *    joker({ colors: false, newLines: false })
+ *  ```ts
+ *  new Joker({ colors: false, newLines: false })
  *    .exec('todo clear')
  *    .run('todo')
  *    .stderr('Please enter a todo')
  *    .end(fn);
+ *  ```
  *
  *  So repeating "todo clear" is simply ugly. You can avoid this by
  *  creating a "template".
- *
- *    var todo = joker().before(clearTodos);
+ *  ```ts
+ *  const todo = joker().before(clearTodos);
+ *  ```
  *
  *  Later on:
- *
- *    todo.clone().exec...
+ *  ```ts
+ *  todo.clone().exec...
+ *  ```
  *
  * For more examples check the "README" file.
- *
- * @see Batch
- * @param {Object} options
- * @constructor
  */
 
 export default class Runner {
@@ -66,27 +70,29 @@ export default class Runner {
 
   world: World;
 
-  expectations: Array<(res: Result) => void>;
+  expectations: Array<(res: Result) => void> = [];
 
-  prompts: Array<RegExp | string>;
+  prompts: Array<RegExp | string> = [];
 
-  responses: Array<string>;
+  responses: Array<string> = [];
 
-  baseCmd: string;
+  baseCmd: string = '';
 
-  standardInput: null | string;
+  standardInput: null | string = null;
 
-  constructor(options: Options) {
+  register = register;
+
+  constructor(rawOptions: OptionalArgs = {}) {
+    const options: Options = Object.assign(
+      {},
+      {
+        newLines: true,
+        colors: true
+      },
+      rawOptions
+    );
     if (!(this instanceof Runner)) return new Runner(options);
-    options = options || {};
     this.options = options;
-    this.batch = new Batch();
-    this.world = new World(process.env, process.cwd());
-    this.expectations = [];
-    this.prompts = [];
-    this.responses = [];
-    this.baseCmd = '';
-    this.standardInput = null;
   }
 
   /**
@@ -98,7 +104,7 @@ export default class Runner {
    * @api public
    */
 
-  before(fn: expect.AssertionFn): Runner {
+  public before(fn: expect.AssertionFn): Runner {
     this.batch.addBefore(fn);
     return this;
   }
@@ -112,11 +118,10 @@ export default class Runner {
    * @api public
    */
 
-  after(fn: expect.AssertionFn): Runner {
+  public after(fn: expect.AssertionFn): Runner {
     this.batch.addAfter(fn);
     return this;
   }
-  register = register;
 
   /**
    * Set the current working directory for
@@ -127,7 +132,7 @@ export default class Runner {
    * @api public
    */
 
-  cwd(path: string): Runner {
+  public cwd(path: string): Runner {
     this.world.cwd = path;
     return this;
   }
@@ -143,7 +148,7 @@ export default class Runner {
    * @api public
    */
 
-  base(cmd: string): Runner {
+  public base(cmd: string): Runner {
     this.baseCmd = cmd;
     return this;
   }
@@ -156,7 +161,7 @@ export default class Runner {
    * @api public
    */
 
-  stdin(data: string): Runner {
+  public stdin(data: string): Runner {
     this.standardInput = data || '';
     return this;
   }
@@ -170,7 +175,7 @@ export default class Runner {
    * @api public
    */
 
-  env(key: string, val: any): Runner {
+  public env(key: string, val: any): Runner {
     this.world.env[key] = val;
     return this;
   }
@@ -184,7 +189,7 @@ export default class Runner {
    * @api public
    */
 
-  run(cmd: string, fn: expect.AssertionFn): Runner {
+  public run(cmd: string, fn?: expect.AssertionFn): Runner {
     this.batch.main(this.execFn(this.baseCmd + cmd));
     if (fn) this.end(fn);
     return this;
@@ -198,7 +203,7 @@ export default class Runner {
    * @api public
    */
 
-  timeout(ms: number): Runner {
+  public timeout(ms: number): Runner {
     this.world.timeout = ms;
     this.expect(expect.time(ms));
     return this;
@@ -212,7 +217,7 @@ export default class Runner {
    * @api public
    */
 
-  stdout(pattern: RegExp | string): Runner {
+  public stdout(pattern: RegExp | string): Runner {
     this.expect(expect.stdout(pattern));
     return this;
   }
@@ -225,7 +230,7 @@ export default class Runner {
    * @api public
    */
 
-  stderr(pattern: RegExp | string): Runner {
+  public stderr(pattern: RegExp | string): Runner {
     this.expect(expect.stderr(pattern));
     return this;
   }
@@ -238,7 +243,7 @@ export default class Runner {
    * @api public
    */
 
-  code(code: number): Runner {
+  public code(code: number): Runner {
     this.expect(expect.code(code));
     return this;
   }
@@ -251,7 +256,7 @@ export default class Runner {
    * @api public
    */
 
-  exist(path: string): Runner {
+  public exist(path: string): Runner {
     this.expect(expect.exists(path));
     return this;
   }
@@ -264,7 +269,7 @@ export default class Runner {
    * @api public
    */
 
-  match(file: string, pattern: RegExp | string): Runner {
+  public match(file: string, pattern: RegExp | string): Runner {
     this.expect(expect.match(file, pattern));
     return this;
   }
@@ -277,7 +282,7 @@ export default class Runner {
    * @api public
    */
 
-  mkdir(path: string): Runner {
+  public mkdir(path: string): Runner {
     this.batch.add(middlewares.mkdir(path));
     return this;
   }
@@ -291,7 +296,7 @@ export default class Runner {
    * @api public
    */
 
-  exec(cmd: string, world: World): Runner {
+  public exec(cmd: string, world: World): Runner {
     world = world || this.world;
     this.batch.add(middlewares.exec(cmd, world));
     return this;
@@ -306,7 +311,7 @@ export default class Runner {
    * @api public
    */
 
-  writeFile(path: string, data: string): Runner {
+  public writeFile(path: string, data: string): Runner {
     this.batch.add(middlewares.writeFile(path, data));
     return this;
   }
@@ -319,7 +324,7 @@ export default class Runner {
    * @api public
    */
 
-  rmdir(path: string): Runner {
+  public rmdir(path: string): Runner {
     this.batch.add(middlewares.rmdir(path));
     return this;
   }
@@ -332,7 +337,7 @@ export default class Runner {
    * @api public
    */
 
-  unlink(path: string): Runner {
+  public unlink(path: string): Runner {
     this.batch.add(middlewares.unlink(path));
     return this;
   }
@@ -345,7 +350,7 @@ export default class Runner {
    * @api public
    */
 
-  on(pattern: RegExp | string): Runner {
+  public on(pattern: RegExp | string): Runner {
     this.prompts.push(pattern);
     return this;
   }
@@ -358,7 +363,7 @@ export default class Runner {
    * @api public
    */
 
-  respond(response: string): Runner {
+  public respond(response: string): Runner {
     this.responses.push(response);
     return this;
   }
@@ -371,7 +376,7 @@ export default class Runner {
    * @api public
    */
 
-  end(fn: expect.AssertionFn) {
+  public end(fn: expect.AssertionFn) {
     if (!this.batch.hasMain()) {
       throw new Error('Please provide a command to run. Hint: `joker#run`');
     }
@@ -385,7 +390,7 @@ export default class Runner {
    * @api public
    */
 
-  clone(): Runner {
+  public clone(): Runner {
     return clone(this, false);
   }
 
@@ -396,7 +401,7 @@ export default class Runner {
    * @api public
    */
 
-  expect(fn: expect.AssertionFn): Runner {
+  public expect(fn: expect.AssertionFn): Runner {
     this.expectations.push(fn);
     return this;
   }
@@ -409,7 +414,7 @@ export default class Runner {
    * @api private
    */
 
-  execFn(cmd: string): Function {
+  private execFn(cmd: string): expect.AssertionFn {
     const args = require('shell-quote').parse(cmd);
     const bin = args.shift(0);
 
@@ -420,7 +425,7 @@ export default class Runner {
         return;
       }
 
-      const child = spawn(bin, args, this.world);
+      const child = spawn(bin, args, this.world as SpawnOptions);
       let stdout = '';
       let stderr = '';
       let err;
@@ -464,4 +469,3 @@ export default class Runner {
     };
   }
 }
-

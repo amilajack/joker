@@ -31,7 +31,7 @@ object that looks like this:
 ```js
 const options = {
   colors: false,
-  newlines: false,
+  newLines: false,
 };
 
 Joker(options).stdout...
