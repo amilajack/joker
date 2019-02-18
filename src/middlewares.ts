@@ -1,7 +1,26 @@
-import childProcess from 'child_process';
+import childProcess, { SpawnOptions } from 'child_process';
 import fs from 'fs';
 import { AssertionError } from 'assert';
 import World from './world';
+
+export type NextFn = () => void;
+
+export type ReturnFn = (next: NextFn) => void;
+
+/**
+ * Callback generator for middlewares. Throw errors if any.
+ *
+ * @param {Function} next
+ * @returns {Function}
+ * @api public
+ */
+
+function done(next: NextFn): (err: AssertionError) => void {
+  return (err) => {
+    if (err) throw err;
+    next();
+  };
+}
 
 /**
  * Asynchronous mkdir(2).
@@ -11,10 +30,8 @@ import World from './world';
  * @see fs#mkdir
  * @api public
  */
-type Fn = () => void;
-
-export function mkdir(path: string) {
-  return (next: Fn) => {
+export function mkdir(path: string): ReturnFn {
+  return (next: NextFn) => {
     fs.mkdir(path, done(next));
   };
 }
@@ -30,8 +47,8 @@ export function mkdir(path: string) {
  * @api public
  */
 
-export function writeFile(path: string, data: string) {
-  return (next: Fn) => {
+export function writeFile(path: string, data: string): ReturnFn {
+  return (next: NextFn) => {
     fs.writeFile(path, data, done(next));
   };
 }
@@ -45,8 +62,8 @@ export function writeFile(path: string, data: string) {
  * @api public
  */
 
-export function rmdir(path: string) {
-  return (next: Fn) => {
+export function rmdir(path: string): ReturnFn {
+  return (next: NextFn) => {
     fs.rmdir(path, done(next));
   };
 }
@@ -60,8 +77,8 @@ export function rmdir(path: string) {
  * @api public
  */
 
-export function unlink(path: string) {
-  return (next: Fn) => {
+export function unlink(path: string): ReturnFn {
+  return (next: NextFn) => {
     fs.unlink(path, done(next));
   };
 }
@@ -76,24 +93,8 @@ export function unlink(path: string) {
  * @api public
  */
 
-export function exec(cmd: string, world: World) {
-  return (next: Fn) => {
-    childProcess.exec(cmd, world, next);
+export function exec(cmd: string, world: World): ReturnFn {
+  return (next: NextFn) => {
+    childProcess.exec(cmd, world as SpawnOptions, next);
   };
 }
-
-/**
- * Callback generator for middlewares. Throw errors if any.
- *
- * @param {Function} next
- * @returns {Function}
- * @api public
- */
-
-function done(next: Fn) {
-  return (err: AssertionError) => {
-    if (err) throw err;
-    next();
-  };
-}
-

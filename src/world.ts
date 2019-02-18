@@ -7,16 +7,15 @@
  * @constructor
  */
 
-export default class  World {
+export default class World {
   env: Object;
 
   cwd: string;
 
-  timeout: null | number;
+  timeout: null | number = null;
 
   constructor(env: Object = process.env, cwd: string = process.cwd()) {
     this.env = env || Object.assign({}, process.env);
     this.cwd = cwd;
-    this.timeout = null;
   }
 }
