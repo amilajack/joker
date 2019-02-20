@@ -8,24 +8,27 @@ import Runner from './runner';
  * Examples:
  *
  * Register a single function, could be both middleware or expectation:
- *
- *    joker.register('stdoutNotEqual', fn);
+ * ```ts
+ * joker.register('stdoutNotEqual', fn);
+ * ```
  *
  * Later on this can be used as you would expect:
- *
- *    joker()
+ * ```ts
+ *  joker()
  *    .run('ls /tmp')
  *    .stdoutNotEqual('xxx')
  *    .end()
+ * ```
  *
  * In case you want to register more than one function at once you may want to pass
  * an object:
- *
- *    joker.register({
- *      name: fn,
- *      otherName: fn2,
- *      etc: etc,
- *    });
+ * ```ts
+ *  joker.register({
+ *    name: fn,
+ *    otherName: fn2,
+ *    etc: etc,
+ *  });
+ * ```
  *
  * The second example might come handy when developing plugins. Keep in mind that
  * the plugin system will most certainly change in future version (prior hitting 1.0.0).
@@ -38,7 +41,7 @@ import Runner from './runner';
  * @api public
  */
 
-export default (name: string, fn: () => void) => {
+export default function Plugin(name: string | Object, fn?: Function) {
   let reg = null;
 
   if (Object(name) !== name) {

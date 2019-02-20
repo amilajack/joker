@@ -7,14 +7,18 @@
  * @constructor
  */
 
+export interface ProcessEnv {
+  [key: string]: string | undefined;
+}
+
 export default class World {
-  env: Object;
+  env: ProcessEnv;
 
   cwd: string;
 
   timeout: null | number = null;
 
-  constructor(env: Object = process.env, cwd: string = process.cwd()) {
+  constructor(env: ProcessEnv = process.env, cwd: string = process.cwd()) {
     this.env = env || Object.assign({}, process.env);
     this.cwd = cwd;
   }

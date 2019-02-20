@@ -7,7 +7,7 @@ const file = path.join(__dirname, 'tmp', 'writefile-test');
 describe('joker#unlink', () => {
   it('removes a file', done => {
     jokerFixture()
-      .writeFile(file)
+      .writeFile(file, '')
       .run('node writefile.js')
       .stdout('File exists')
       .unlink(file)

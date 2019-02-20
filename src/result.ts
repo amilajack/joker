@@ -8,7 +8,7 @@ export type Options = {
   colors: boolean;
 };
 
-type Error = {
+export type JokerError = {
   code: number;
   killed: boolean;
 };
@@ -26,7 +26,7 @@ export default class Result {
 
   killed: boolean;
 
-  err: Error;
+  err: JokerError;
 
   constructor(
     cmd: string,
@@ -47,10 +47,12 @@ export default class Result {
    * @api public
    */
 
-  parse(stdout: string, stderr: string, err: Error): Result {
-    this.err = err;
+  parse(stdout: string, stderr: string, err: JokerError | undefined): Result {
+    if (err) {
+      this.err = err;
+      this.killed = err && err.killed;
+    }
     this.code = err ? err.code : this.code;
-    this.killed = err && err.killed;
     this.stdout = this.strip(stdout);
     this.stderr = this.strip(stderr);
     return this;

@@ -1,12 +1,14 @@
 import clone from 'clone';
-import { spawn, SpawnOptions } from 'child_process';
+import { spawn } from 'child_process';
 import Batch from './batch';
 import World from './world';
 import * as expect from './expectations';
 import * as middlewares from './middlewares';
-import Result, { Options } from './result';
+import Result, { Options, JokerError } from './result';
 import * as respond from './respond';
 import { default as register } from './plugin';
+
+type Fn = (a: Result | undefined | null | void) => void;
 
 export type OptionalArgs = {
   newLines?: boolean;
@@ -64,13 +66,16 @@ export type OptionalArgs = {
  */
 
 export default class Runner {
-  batch: Batch;
+  batch: Batch = new Batch();
 
-  options: Options;
+  options: Options = {
+    newLines: true,
+    colors: true
+  };
 
-  world: World;
+  world: World = new World(process.env, process.cwd());
 
-  expectations: Array<(res: Result) => void> = [];
+  expectations: Array<(res: Result) => undefined> = [];
 
   prompts: Array<RegExp | string> = [];
 
@@ -85,10 +90,7 @@ export default class Runner {
   constructor(rawOptions: OptionalArgs = {}) {
     const options: Options = Object.assign(
       {},
-      {
-        newLines: true,
-        colors: true
-      },
+      this.options,
       rawOptions
     );
     if (!(this instanceof Runner)) return new Runner(options);
@@ -296,7 +298,7 @@ export default class Runner {
    * @api public
    */
 
-  public exec(cmd: string, world: World): Runner {
+  public exec(cmd: string, world?: World): Runner {
     world = world || this.world;
     this.batch.add(middlewares.exec(cmd, world));
     return this;
@@ -376,7 +378,7 @@ export default class Runner {
    * @api public
    */
 
-  public end(fn: expect.AssertionFn) {
+  public end(fn: (err?: Error) => void) {
     if (!this.batch.hasMain()) {
       throw new Error('Please provide a command to run. Hint: `joker#run`');
     }
@@ -414,21 +416,24 @@ export default class Runner {
    * @api private
    */
 
-  private execFn(cmd: string): expect.AssertionFn {
+  private execFn(cmd: string): (fn: Fn) => void {
     const args = require('shell-quote').parse(cmd);
     const bin = args.shift(0);
 
-    return (fn: (arg: any) => void) => {
+    return ((fn: Fn) => {
       // Allow .run('') without attempting
       if (cmd === '') {
         fn(undefined);
         return;
       }
 
-      const child = spawn(bin, args, this.world as SpawnOptions);
+      const child = spawn(bin, args, {
+        env: this.world.env,
+        cwd: this.world.cwd
+      });
       let stdout = '';
       let stderr = '';
-      let err;
+      let timeoutError: JokerError | undefined;
 
       if (this.standardInput != null) {
         child.stdin.end(this.standardInput);
@@ -437,7 +442,7 @@ export default class Runner {
       if (this.world.timeout) {
         setTimeout(() => {
           child.kill();
-          err = { killed: true };
+          timeoutError = { killed: true, code: 1 };
         }, this.world.timeout);
       }
 
@@ -454,7 +459,7 @@ export default class Runner {
         const result = new Result(cmd, code, this.options).parse(
           stdout,
           stderr,
-          err
+          timeoutError
         );
 
         let error = null;
@@ -466,6 +471,6 @@ export default class Runner {
 
         fn(error);
       });
-    };
+    });
   }
 }

@@ -7,7 +7,7 @@ const dir = path.join(__dirname, 'tmp', 'exists-dir-test');
 describe('joker#exist', () => {
   it('can verify that a file exists', done => {
     jokerFixture()
-      .writeFile(file)
+      .writeFile(file, 'hello')
       .run('node void.js')
       .exist(file)
       .unlink(file)
