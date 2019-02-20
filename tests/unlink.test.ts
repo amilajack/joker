@@ -12,7 +12,7 @@ describe('joker#unlink', () => {
       .stdout('File exists')
       .unlink(file)
       .after(() => {
-        expect(fs.existsSync(file)).toEqual(false)
+        expect(fs.existsSync(file)).toEqual(false);
       })
       .end(done);
   });

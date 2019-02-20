@@ -2,7 +2,7 @@ import fs from 'fs';
 import AssertionError from 'assertion-error';
 import Result from './result';
 
-export type AssertionFn = (res: Result) => (AssertionError | void);
+export type AssertionFn = (res: Result) => AssertionError | void;
 
 /**
  * Return an exit code expectation.
@@ -109,7 +109,11 @@ export function match(path: string, data: string | RegExp): AssertionFn {
  * @api private
  */
 
-function assertOut(key: string, expected: any, result: Result): AssertionErrorAdditions | void {
+function assertOut(
+  key: string,
+  expected: any,
+  result: Result
+): AssertionErrorAdditions | void {
   const actual = result[key];
   const statement =
     expected instanceof RegExp ? expected.test(actual) : expected === actual;
@@ -121,9 +125,9 @@ function assertOut(key: string, expected: any, result: Result): AssertionErrorAd
 }
 
 export type AssertionErrorAdditions = AssertionError & {
-  expected?: string | number | RegExp,
-  actual?: string | number,
-  result: Result,
+  expected?: string | number | RegExp;
+  actual?: string | number;
+  result: Result;
 };
 
 /**
@@ -142,8 +146,15 @@ export type AssertionErrorAdditions = AssertionError & {
  * @api private
  */
 
-function error(result: Result, message: string, expected?: string | number | RegExp, actual?: string | number): AssertionErrorAdditions {
-  const err: AssertionErrorAdditions = new AssertionError(`\`${result.cmd}\`: ${message}`);
+function error(
+  result: Result,
+  message: string,
+  expected?: string | number | RegExp,
+  actual?: string | number
+): AssertionErrorAdditions {
+  const err: AssertionErrorAdditions = new AssertionError(
+    `\`${result.cmd}\`: ${message}`
+  );
   err.result = result;
   if (expected) err.expected = expected;
   if (actual) err.actual = actual;

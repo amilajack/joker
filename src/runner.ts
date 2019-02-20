@@ -9,8 +9,8 @@ import * as respond from './respond';
 import { default as register } from './plugin';
 
 export type OptionalArgs = {
-  newLines?: boolean,
-  colors?: boolean
+  newLines?: boolean;
+  colors?: boolean;
 };
 
 /**

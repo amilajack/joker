@@ -16,7 +16,7 @@ export type ReturnFn = (next: NextFn) => void;
  */
 
 function done(next: NextFn): (err: AssertionError) => void {
-  return (err) => {
+  return err => {
     if (err) throw err;
     next();
   };

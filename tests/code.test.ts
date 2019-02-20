@@ -13,7 +13,9 @@ describe('joker#code', () => {
       .run('node code-0.js')
       .code(1)
       .end(err => {
-        expect(err.message).toEqual('`node code-0.js`: Expected exit code: "1", actual: "0"');
+        expect(err.message).toEqual(
+          '`node code-0.js`: Expected exit code: "1", actual: "0"'
+        );
         done();
       });
   });

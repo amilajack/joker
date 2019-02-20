@@ -48,7 +48,7 @@
  */
 import { AssertionFn } from './expectations';
 import { ReturnFn, NextFn } from './middlewares';
-import Result from './result'
+import Result from './result';
 
 type AcceptedFns = AssertionFn | ReturnFn;
 

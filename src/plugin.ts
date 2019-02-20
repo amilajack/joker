@@ -52,4 +52,3 @@ export default (name: string, fn: () => void) => {
     Runner.prototype[key] = reg[key];
   });
 };
-

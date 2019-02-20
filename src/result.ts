@@ -4,13 +4,13 @@
  */
 
 export type Options = {
-  newLines: boolean,
-  colors: boolean
+  newLines: boolean;
+  colors: boolean;
 };
 
 type Error = {
-  code: number,
-  killed: boolean
+  code: number;
+  killed: boolean;
 };
 
 export default class Result {
@@ -28,7 +28,11 @@ export default class Result {
 
   err: Error;
 
-  constructor(cmd: string, code: number, options: Options = { colors: true, newLines: true }) {
+  constructor(
+    cmd: string,
+    code: number,
+    options: Options = { colors: true, newLines: true }
+  ) {
     this.options = options;
     this.code = code;
     this.cmd = cmd;

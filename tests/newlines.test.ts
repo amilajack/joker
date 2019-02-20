@@ -1,4 +1,4 @@
-import {Joker} from '.';
+import { Joker } from '.';
 const join = require('path').join;
 
 describe('joker', () => {
