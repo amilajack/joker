@@ -1,11 +1,10 @@
 import { Joker } from '.';
-const should = require('chai').should();
 
 describe('joker.register', () => {
   it('can register a single function', () => {
     const fn = function() {};
     new Joker().register('foo', fn);
-    new Joker().should.respondTo('foo');
+    expect(new Joker()).toHaveProperty('foo');
   });
 
   it('can register multiple functions at once', () => {
@@ -14,7 +13,7 @@ describe('joker.register', () => {
 
     new Joker().register({ baz: fn, bar: fn1 });
 
-    new Joker().should.respondTo('baz');
-    new Joker().should.respondTo('bar');
+    expect(new Joker()).toHaveProperty('baz');
+    expect(new Joker()).toHaveProperty('bar');
   });
 });

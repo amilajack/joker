@@ -22,4 +22,14 @@ export default class World {
     this.env = env || Object.assign({}, process.env);
     this.cwd = cwd;
   }
+
+  /**
+   * Get the properties of the `World` class
+   */
+  public getOptions() {
+    return {
+      env: this.env,
+      cwd: this.cwd
+    }
+  }
 }

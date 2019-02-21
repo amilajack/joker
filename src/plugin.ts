@@ -41,17 +41,24 @@ import Runner from './runner';
  * @api public
  */
 
-export default function Plugin(name: string | Object, fn?: Function) {
-  let reg = null;
+interface Register {
+  [x: string]: Function
+}
 
-  if (Object(name) !== name) {
-    reg = Object.create(null);
-    reg[name] = fn;
+export default function Plugin(name: string | Register, fn?: Function) {
+  let register: Register = {};
+
+  if (typeof name === 'object' && !(name instanceof String)) {
+    register = name
   } else {
-    reg = name;
+    if (typeof name === 'string') {
+      register = {
+        [name]: fn || (() => {})
+      }
+    }
   }
 
-  Object.keys(reg).forEach(key => {
-    Runner.prototype[key] = reg[key];
+  Object.keys(register).forEach(key => {
+    Runner.prototype[key] = register[key];
   });
 };

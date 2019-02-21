@@ -47,19 +47,26 @@
  * @constructor
  */
 import { AssertionFn } from './expectations';
-import { ReturnFn, NextFn } from './middlewares';
+import { NextFn } from './middlewares';
 import Result from './result';
 
-type AcceptedFns = AssertionFn | ReturnFn;
+type MainFn = ((a: Result) => void) | ((fn: Function) => void);
+
+type NodeError = (err: NodeJS.ErrnoException) => void;
+
+/**
+ * The type of a function that runs in `Batch`
+ */
+export type BatchFunction = (a?: NextFn | Result | Error | NodeError) => void;
 
 export default class Batch {
-  before: Array<AcceptedFns> = [];
+  before: Array<BatchFunction> = [];
 
-  beforeAfter: Array<AcceptedFns> = [];
+  beforeAfter: Array<BatchFunction> = [];
 
-  after: Array<AcceptedFns> = [];
+  after: Array<BatchFunction> = [];
 
-  afterBefore: Array<AcceptedFns> = [];
+  afterBefore: Array<BatchFunction> = [];
 
   fn: Function;
 
@@ -67,10 +74,9 @@ export default class Batch {
    * Push `fn` into the before list.
    *
    * @param {Function} fn
-   * @api public
    */
 
-  addBefore(fn: AssertionFn) {
+  public addBefore(fn: AssertionFn) {
     this.before.push(fn);
   }
 
@@ -78,10 +84,9 @@ export default class Batch {
    * Push `fn` into the after list.
    *
    * @param {Function} fn
-   * @api public
    */
 
-  addAfter(fn: AssertionFn) {
+  public addAfter(fn: AssertionFn) {
     this.after.push(fn);
   }
 
@@ -93,10 +98,9 @@ export default class Batch {
    * @see Batch#hasMain
    * @see Batch#main
    * @param {Function} fn
-   * @api public
    */
 
-  add(fn: AcceptedFns) {
+  public add(fn: BatchFunction) {
     (this.hasMain() ? this.beforeAfter : this.afterBefore).push(fn);
   }
 
@@ -104,10 +108,9 @@ export default class Batch {
    * Register a "main" function.
    *
    * @param {Function} fn
-   * @api public
    */
 
-  main(fn: AssertionFn) {
+  public main(fn: MainFn) {
     this.fn = fn;
   }
 
@@ -115,10 +118,9 @@ export default class Batch {
    * Return if there is a main function or not.
    *
    * @returns {Boolean}
-   * @api public
    */
 
-  hasMain(): boolean {
+  public hasMain(): boolean {
     return !!this.fn;
   }
 
@@ -127,10 +129,9 @@ export default class Batch {
    * the "main" function will be supplied to the last callback.
    *
    * @param {Function} last fn to execute
-   * @api public
    */
 
-  run(fn: (a?: NextFn | Result) => void) {
+  public run(fn: BatchFunction) {
     let err: undefined | Result;
     const main = this.fn;
     let batch = this.before.slice(0).concat(this.afterBefore);

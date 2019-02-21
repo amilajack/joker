@@ -1,3 +1,5 @@
+import * as stream from 'stream';
+
 /**
  * Read interactive prompts on a stream and
  * write the associated response to another
@@ -13,16 +15,16 @@
  */
 
 export function run(
-  readable: Stream,
-  writable: Stream,
+  readable: stream.Readable,
+  writable: stream.Writable,
   expects: Array<RegExp | string>,
   responses: Array<string>
 ) {
   let needNew = true;
   let buffer = '';
   let match = false;
-  let expect = '';
-  let response = '';
+  let expect: RegExp | string | undefined = '';
+  let response: RegExp | string | undefined = '';
 
   readable.on('data', data => {
     buffer += data.toString();

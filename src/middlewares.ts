@@ -1,4 +1,4 @@
-import childProcess, { SpawnOptions } from 'child_process';
+import childProcess from 'child_process';
 import fs from 'fs';
 import { AssertionError } from 'assert';
 import World from './world';
@@ -12,7 +12,7 @@ export type ReturnFn = (next: NextFn) => void;
  *
  * @param {Function} next
  * @returns {Function}
- * @api public
+ * @api private
  */
 
 function done(next: NextFn): (err: AssertionError) => void {
@@ -95,6 +95,6 @@ export function unlink(path: string): ReturnFn {
 
 export function exec(cmd: string, world: World): ReturnFn {
   return (next: NextFn) => {
-    childProcess.exec(cmd, world as SpawnOptions, next);
+    childProcess.exec(cmd, world.getOptions(), next);
   };
 }

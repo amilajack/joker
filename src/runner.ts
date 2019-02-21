@@ -1,14 +1,12 @@
 import clone from 'clone';
 import { spawn } from 'child_process';
-import Batch from './batch';
+import Batch, { BatchFunction } from './batch';
 import World from './world';
 import * as expect from './expectations';
 import * as middlewares from './middlewares';
 import Result, { Options, JokerError } from './result';
 import * as respond from './respond';
 import { default as register } from './plugin';
-
-type Fn = (a: Result | undefined | null | void) => void;
 
 export type OptionalArgs = {
   newLines?: boolean;
@@ -75,7 +73,7 @@ export default class Runner {
 
   world: World = new World(process.env, process.cwd());
 
-  expectations: Array<(res: Result) => undefined> = [];
+  expectations: Array<(expect.AssertionFn)> = [];
 
   prompts: Array<RegExp | string> = [];
 
@@ -103,10 +101,9 @@ export default class Runner {
    * @param {Function} fn
    * @returns {Runner} for chaining
    * @see Batch#addBefore
-   * @api public
    */
 
-  public before(fn: expect.AssertionFn): Runner {
+  public before(fn: BatchFunction): Runner {
     this.batch.addBefore(fn);
     return this;
   }
@@ -117,10 +114,9 @@ export default class Runner {
    * @param {Function} fn
    * @returns {Runner} for chaining
    * @see Batch#addAfter
-   * @api public
    */
 
-  public after(fn: expect.AssertionFn): Runner {
+  public after(fn: BatchFunction): Runner {
     this.batch.addAfter(fn);
     return this;
   }
@@ -131,7 +127,6 @@ export default class Runner {
    *
    * @param {String} path
    * @returns {Runner} for chaining
-   * @api public
    */
 
   public cwd(path: string): Runner {
@@ -147,7 +142,6 @@ export default class Runner {
    *
    * @param {String} command
    * @returns {Runner} for chaining
-   * @api public
    */
 
   public base(cmd: string): Runner {
@@ -160,7 +154,6 @@ export default class Runner {
    *
    * @param {String} data
    * @returns {Runner} for chaining
-   * @api public
    */
 
   public stdin(data: string): Runner {
@@ -174,7 +167,6 @@ export default class Runner {
    * @param {String} key
    * @param {String} value
    * @returns {Runner} for chaining
-   * @api public
    */
 
   public env(key: string, val: any): Runner {
@@ -188,10 +180,9 @@ export default class Runner {
    * @param {String} command
    * @returns {Runner} for chaining
    * @see Batch#main
-   * @api public
    */
 
-  public run(cmd: string, fn?: expect.AssertionFn): Runner {
+  public run(cmd: string, fn?: BatchFunction): Runner {
     this.batch.main(this.execFn(this.baseCmd + cmd));
     if (fn) this.end(fn);
     return this;
@@ -202,12 +193,11 @@ export default class Runner {
    *
    * @param {Number} ms
    * @returns {Runner} for chaining
-   * @api public
    */
 
   public timeout(ms: number): Runner {
     this.world.timeout = ms;
-    this.expect(expect.time(ms));
+    this.expect(expect.time());
     return this;
   }
 
@@ -216,7 +206,6 @@ export default class Runner {
    *
    * @param {Regex|String} pattern
    * @returns {Runner} for chaining
-   * @api public
    */
 
   public stdout(pattern: RegExp | string): Runner {
@@ -229,7 +218,6 @@ export default class Runner {
    *
    * @param {Regex|String} pattern
    * @returns {Runner} for chaining
-   * @api public
    */
 
   public stderr(pattern: RegExp | string): Runner {
@@ -242,7 +230,6 @@ export default class Runner {
    *
    * @param {Number} code
    * @returns {Runner} for chaining
-   * @api public
    */
 
   public code(code: number): Runner {
@@ -255,7 +242,6 @@ export default class Runner {
    *
    * @param {String} path
    * @returns {Runner} for chaining
-   * @api public
    */
 
   public exist(path: string): Runner {
@@ -268,7 +254,6 @@ export default class Runner {
    *
    * @param {Regex|String} pattern
    * @returns {Runner} for chaining
-   * @api public
    */
 
   public match(file: string, pattern: RegExp | string): Runner {
@@ -281,7 +266,6 @@ export default class Runner {
    *
    * @param {String} path
    * @returns {Runner} for chaining
-   * @api public
    */
 
   public mkdir(path: string): Runner {
@@ -295,7 +279,6 @@ export default class Runner {
    * @param {String} command
    * @param {World} world - env vars, cwd
    * @returns {Runner} for chaining
-   * @api public
    */
 
   public exec(cmd: string, world?: World): Runner {
@@ -310,7 +293,6 @@ export default class Runner {
    * @param {String} path
    * @param {String} data [optional]
    * @returns {Runner} for chaining
-   * @api public
    */
 
   public writeFile(path: string, data: string): Runner {
@@ -323,7 +305,6 @@ export default class Runner {
    *
    * @param {String} path
    * @returns {Runner} for chaining
-   * @api public
    */
 
   public rmdir(path: string): Runner {
@@ -336,7 +317,6 @@ export default class Runner {
    *
    * @param {String} path
    * @returns {Runner} for chaining
-   * @api public
    */
 
   public unlink(path: string): Runner {
@@ -349,7 +329,6 @@ export default class Runner {
    *
    * @param {Regex|String} pattern
    * @returns {Runner} for chaining
-   * @api public
    */
 
   public on(pattern: RegExp | string): Runner {
@@ -362,7 +341,6 @@ export default class Runner {
    *
    * @param {String} response
    * @returns {Runner} for chaining
-   * @api public
    */
 
   public respond(response: string): Runner {
@@ -375,7 +353,6 @@ export default class Runner {
    *
    * @param {Function} fn
    * @returns {Runner} for chaining
-   * @api public
    */
 
   public end(fn: (err?: Error) => void) {
@@ -389,7 +366,6 @@ export default class Runner {
    * Clone the runner. Give basic support for templates.
    *
    * @returns {Runner} clone of the current instance
-   * @api public
    */
 
   public clone(): Runner {
@@ -400,7 +376,6 @@ export default class Runner {
    * Register an expectation.
    *
    * @param {Function} fn
-   * @api public
    */
 
   public expect(fn: expect.AssertionFn): Runner {
@@ -413,24 +388,20 @@ export default class Runner {
    * the command.
    *
    * @returns {Function}
-   * @api private
    */
 
-  private execFn(cmd: string): (fn: Fn) => void {
+  private execFn(cmd: string): (fn: Function) => void {
     const args = require('shell-quote').parse(cmd);
     const bin = args.shift(0);
 
-    return ((fn: Fn) => {
+    return ((fn: Function) => {
       // Allow .run('') without attempting
       if (cmd === '') {
         fn(undefined);
         return;
       }
 
-      const child = spawn(bin, args, {
-        env: this.world.env,
-        cwd: this.world.cwd
-      });
+      const child = spawn(bin, args, this.world.getOptions());
       let stdout = '';
       let stderr = '';
       let timeoutError: JokerError | undefined;

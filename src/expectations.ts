@@ -9,7 +9,6 @@ export type AssertionFn = (res: Result) => AssertionError | void;
  *
  * @param {Number} expected exit code.
  * @returns {Function}
- * @api public
  */
 
 export function code(code: number): AssertionFn {
@@ -26,7 +25,6 @@ export function code(code: number): AssertionFn {
  * Return no timeout expectation.
  *
  * @returns {Function}
- * @api public
  */
 
 export function time(): AssertionFn {
@@ -42,7 +40,6 @@ export function time(): AssertionFn {
  *
  * @param {String|RegExp} expected string or regular express to match
  * @returns {Function}
- * @api public
  */
 
 export function stderr(expected: String | RegExp): AssertionFn {
@@ -54,7 +51,6 @@ export function stderr(expected: String | RegExp): AssertionFn {
  *
  * @param {String|RegExp} expected string or regular express to match
  * @returns {Function}
- * @api public
  */
 
 export function stdout(expected: String | RegExp): AssertionFn {
@@ -66,7 +62,6 @@ export function stdout(expected: String | RegExp): AssertionFn {
  *
  * @param {String} path
  * @returns {Function}
- * @api public
  */
 
 export function exists(path: string): AssertionFn {
@@ -83,11 +78,10 @@ export function exists(path: string): AssertionFn {
  * @param {String} path
  * @param {String|RegExp} data
  * @returns {Function}
- * @api public
  */
 
 export function match(path: string, data: string | RegExp): AssertionFn {
-  return (result: Result) => {
+  return (result: Result): AssertionErrorAdditions | undefined => {
     const contents = fs.readFileSync(path, { encoding: 'utf8' });
     const statement =
       data instanceof RegExp ? data.test(contents) : data === contents;
