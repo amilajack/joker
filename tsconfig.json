@@ -1,12 +1,13 @@
 {
   "compilerOptions": {
-    "noEmit": true,
+    "emitDeclarationOnly": true,
     "moduleResolution": "node",
     "module": "commonjs",
     "esModuleInterop": true,
     "target": "esnext",
     "allowJs": false,
     "outDir": "dist",
+    "outFile": "dist/index.d.ts",
     "declaration": true,
     "suppressImplicitAnyIndexErrors": true,
     "allowSyntheticDefaultImports": true,

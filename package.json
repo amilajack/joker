@@ -15,8 +15,10 @@
     "build": "cross-env NODE_ENV=production babel src --out-dir dist --extensions \".ts\" --source-maps inline",
     "docs": "rm -rf docs && typedoc ./src --out docs",
     "lint": "eslint .",
-    "test": " yarn build && jest --runInBand && yarn docs",
-    "ts": "tsc"
+    "test": "yarn build && jest --runInBand && yarn docs",
+    "ts": "tsc",
+    "prepublish": "yarn test && yarn ts:dec",
+    "ts:dec": "yarn ts --declaration"
   },
   "repository": {
     "type": "git",
@@ -50,6 +52,7 @@
     "clone": "^2.1.2",
     "shell-quote": "^1.6.1"
   },
+  "types": "./dist/index.d.ts",
   "eslintConfig": {
     "extends": "bliss"
   },

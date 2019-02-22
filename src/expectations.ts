@@ -28,10 +28,10 @@ export function code(code: number): AssertionFn {
  */
 
 export function time(): AssertionFn {
-  return (result: Result) => {
-    if (result.killed) {
-      return error(result, 'Command execution terminated (timeout)');
-    }
+  return (result: Result): (AssertionErrorAdditions | undefined) => {
+      return result.killed
+        ? error(result, 'Command execution terminated (timeout)')
+        : undefined
   };
 }
 
@@ -65,10 +65,11 @@ export function stdout(expected: String | RegExp): AssertionFn {
  */
 
 export function exists(path: string): AssertionFn {
-  return (result: Result) => {
+  return (result: Result):  AssertionErrorAdditions | undefined => {
     if (fs.existsSync(path) !== true) {
       return error(result, `Expected "${path}" to exist.`);
     }
+    return undefined;
   };
 }
 
@@ -90,6 +91,8 @@ export function match(path: string, data: string | RegExp): AssertionFn {
       const message = `Expected "${path}" to match "${data}", but it was: "${contents}"`;
       return error(result, message, data, contents);
     }
+
+    return undefined;
   };
 }
 
