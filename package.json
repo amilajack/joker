@@ -9,6 +9,9 @@
     "end to end",
     "test"
   ],
+  "files": [
+    "dist"
+  ],
   "main": "./dist",
   "homepage": "https://github.com/amilajack/joker",
   "scripts": {
