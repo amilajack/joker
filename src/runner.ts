@@ -1,10 +1,10 @@
 import clone from 'clone';
 import { spawn } from 'child_process';
-import Batch, { BatchFunction, BatchFunctionArg } from './batch';
-import World from './world';
+import Batch, { BatchFunction, JokerError } from './batch';
+import Environment from './environment';
 import * as expect from './expectations';
 import * as middlewares from './middlewares';
-import Result, { Options, JokerError } from './result';
+import Result, { Options, ResultError } from './result';
 import * as respond from './respond';
 import { default as register } from './plugin';
 
@@ -68,7 +68,10 @@ export default class Runner {
 
   private options: Options = DEFAULT_OPTIONS;
 
-  private world: World = new World(process.env, process.cwd());
+  private environment: Environment = new Environment(
+    process.env,
+    process.cwd()
+  );
 
   private expectations: (expect.AssertionFn)[] = [];
 
@@ -167,7 +170,7 @@ export default class Runner {
    */
 
   public cwd(path: string): Runner {
-    this.world.cwd = path;
+    this.environment.cwd = path;
     return this;
   }
 
@@ -232,7 +235,7 @@ export default class Runner {
    */
 
   public env(key: string, val: string | undefined): Runner {
-    this.world.env[key] = val;
+    this.environment.env[key] = val;
     return this;
   }
 
@@ -281,7 +284,7 @@ export default class Runner {
    */
 
   public timeout(ms: number): Runner {
-    this.world.timeout = ms;
+    this.environment.timeout = ms;
     this.expect(expect.time());
     return this;
   }
@@ -449,9 +452,9 @@ export default class Runner {
    *   .end();
    * ```
    *
-   * By default the commands will inherit the "world" for the main command which
+   * By default the commands will inherit the "environment" for the main command which
    * includes environment variables, cwd, timeout. However, you can override this by
-   * supplying a different "world":
+   * supplying a different "environment":
    *
    * ```js
    * new Joker()
@@ -462,13 +465,13 @@ export default class Runner {
    * ```
    *
    * @param {String} command
-   * @param {World} world - env vars, cwd
+   * @param {Environment} env - env vars, cwd
    * @returns for chaining
    */
 
-  public exec(cmd: string, world?: World): Runner {
-    world = world || this.world;
-    this.batch.add(middlewares.exec(cmd, world));
+  public exec(cmd: string, env?: Environment): Runner {
+    env = env || this.environment;
+    this.batch.add(middlewares.exec(cmd, env));
     return this;
   }
 
@@ -589,6 +592,21 @@ export default class Runner {
   /**
    * Run the given test
    *
+   * If no argument is passed, a Promise is returned
+   *
+   * ```js
+   * const result = await new Joker()
+   *   .stdout('a b c')
+   *   .run('echo a b c', (err) => {})
+   *   .end();
+   *
+   * expect(result.message).toEqual(
+   *   'this err message is only shown after Joker is finished running'
+   * );
+   * ```
+   *
+   * You can also pass callback functions if you would like. This will not return a Promise.
+   *
    * ```js
    * new Joker()
    *   .run('echo a b c')
@@ -605,24 +623,13 @@ export default class Runner {
    *   .end((err) => {});
    * ```
    *
-   * ```js
-   * const err = await new Joker()
-   *   .stdout('a b c')
-   *   .run('echo a b c', (err) => {})
-   *   .end();
-   *
-   * expect(err.message).toEqual(
-   *   'this err message is only shown after Joker is finished running'
-   * );
-   * ```
-   *
    * @param {Function} fn
    * @returns for chaining
    */
 
   public end(
-    fn?: (err?: Error) => void
-  ): void | Promise<BatchFunctionArg | undefined> {
+    fn?: (err?: JokerError) => void
+  ): void | Promise<JokerError | void> {
     if (!this.batch.hasMain()) {
       throw new Error(
         'Please provide a command to run. Hint: You may have forgotten to call `joker.run(myFunction)`'
@@ -634,7 +641,7 @@ export default class Runner {
     }
     return new Promise(resolve => {
       this.batch.run(err => {
-        resolve(err);
+        resolve(err as JokerError);
       });
     });
   }
@@ -698,20 +705,20 @@ export default class Runner {
         return;
       }
 
-      const child = spawn(bin, args, this.world.getOptions());
+      const child = spawn(bin, args, this.environment.getOptions());
       let stdout = '';
       let stderr = '';
-      let timeoutError: JokerError | undefined;
+      let timeoutError: ResultError | undefined;
 
       if (this.standardInput !== null) {
         child.stdin.end(this.standardInput);
       }
 
-      if (this.world.timeout) {
+      if (this.environment.timeout) {
         setTimeout(() => {
           child.kill();
           timeoutError = { killed: true, code: 1 };
-        }, this.world.timeout);
+        }, this.environment.timeout);
       }
 
       respond.run(child.stdout, child.stdin, this.prompts, this.responses);

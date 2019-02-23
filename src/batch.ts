@@ -58,7 +58,13 @@ type MainFn = ((a: Result) => void) | ((fn: Function) => void);
 
 export type NodeError = (err: NodeJS.ErrnoException) => void;
 
-export type BatchFunctionArg = NextFn | Result | Error | NodeError;
+export interface JokerError {
+  message: string;
+  showDiff: boolean;
+  result: Result;
+}
+
+export type BatchFunctionArg = NextFn | Result | Error | NodeError | JokerError;
 
 /**
  * The type of a function that runs in `Batch`

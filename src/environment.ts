@@ -11,7 +11,7 @@ export interface ProcessEnv {
   [key: string]: string | undefined;
 }
 
-export default class World {
+export default class Environment {
   public env: ProcessEnv;
 
   public cwd: string;
@@ -27,7 +27,7 @@ export default class World {
   }
 
   /**
-   * Get the properties of the `World` class
+   * Get the properties of the `Environment` class
    */
   public getOptions(): { env: ProcessEnv; cwd: string } {
     return {

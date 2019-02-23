@@ -1,7 +1,7 @@
 import childProcess from 'child_process';
 import fs from 'fs';
 import { AssertionError } from 'assert';
-import World from './world';
+import Environment from './environment';
 
 export type NextFn = () => void;
 
@@ -92,8 +92,8 @@ export function unlink(path: string): ReturnFn {
  * @private
  */
 
-export function exec(cmd: string, world: World): ReturnFn {
+export function exec(cmd: string, env: Environment): ReturnFn {
   return (next: NextFn) => {
-    childProcess.exec(cmd, world.getOptions(), next);
+    childProcess.exec(cmd, env.getOptions(), next);
   };
 }

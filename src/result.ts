@@ -15,7 +15,7 @@ export interface Options {
   colors: boolean;
 }
 
-export interface JokerError {
+export interface ResultError {
   code: number;
   killed: boolean;
 }
@@ -33,7 +33,7 @@ export default class Result {
 
   public killed: boolean;
 
-  public err: JokerError;
+  public err: ResultError;
 
   public constructor(
     cmd: string,
@@ -55,7 +55,7 @@ export default class Result {
   public parse(
     stdout: string,
     stderr: string,
-    err: JokerError | undefined
+    err: ResultError | undefined
   ): Result {
     if (err) {
       this.err = err;
