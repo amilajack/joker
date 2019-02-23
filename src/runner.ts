@@ -80,6 +80,23 @@ export default class Runner {
 
   private standardInput: null | string = null;
 
+  /**
+   * Joker has primitive support for plugins. You can register any expectation or/and
+   * any middleware by calling `joker.register`.
+   * 
+   *  ```js
+   *  const fn = () => {};
+   *  new Joker().register('foo', fn);
+   *  ```
+   * 
+   *  Or you may want to register many functions at once.
+   * 
+   *  ```js
+   *  const fn = () => {};
+   *  const fn1 = () => {};
+   *  joker.register({ baz: fn, bar: fn1 });
+   *  ```
+   */
   public register = register;
 
   constructor(rawOptions: OptionalArgs = DEFAULT_OPTIONS) {
@@ -105,7 +122,7 @@ export default class Runner {
    *
    * @param {Function} fn
    * @returns for chaining
-   * @see Batch#addBefore
+   * @see `Batch#addBefore`
    */
 
   public before(fn: BatchFunction): Runner {
@@ -126,7 +143,7 @@ export default class Runner {
    *
    * @param {Function} fn
    * @returns for chaining
-   * @see Batch#addAfter
+   * @see `Batch#addAfter`
    */
 
   public after(fn: BatchFunction): Runner {
@@ -243,7 +260,7 @@ export default class Runner {
    *
    * @param {String} command
    * @returns for chaining
-   * @see Batch#main
+   * @see `Batch#main`
    */
 
   public run(cmd: string, fn?: BatchFunction): Runner {

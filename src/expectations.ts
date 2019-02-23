@@ -11,7 +11,7 @@ export type AssertionFn = (res: Result) => AssertionError | void;
  * @private
  */
 
-export function code(code: number): AssertionFn | undefined {
+export function code(code: number): AssertionFn {
   return (result: Result) => {
     if (code !== result.code) {
       const message = `Expected exit code: "${code}", actual: "${result.code}"`;

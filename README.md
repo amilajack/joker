@@ -45,7 +45,7 @@ new Joker(options)
 
 ### Custom expectations
 
-While joker comes with built-in expectations, you can use your own too.
+While Joker comes with built-in expectations, you can use your own too.
 
 ```js
 new Joker()
@@ -95,7 +95,7 @@ new Joker()
 
 You may also want to reuse before and after middlewares as much as possible,
 especially when testing something that requires extensive setup and cleanup. You
-can accomplish this by cloning a joker instance.
+can accomplish this by cloning a Joker instance.
 
 ```js
 const base = new Joker()
@@ -109,7 +109,7 @@ base.clone().run....
 
 ### Plugins
 
-joker has primitive support for plugins. You can register any expectation or/and
+Joker has primitive support for plugins. You can register any expectation or/and
 any middleware by calling `joker.register`.
 
 ```js
@@ -127,7 +127,7 @@ joker.register({ baz: fn, bar: fn1 });
 
 ### Usage with a test runner
 
-joker plays nice with any test runner out there. Here is a minimal example how
+Joker plays nice with any test runner out there. Here is a minimal example how
 you could use it with Mocha.
 
 ```js
@@ -143,7 +143,7 @@ describe('todo add', () => {
 
 ### Usage without a test runner
 
-While using a test runner is recommended joker is completely 'nodeable'. Here is
+While using a test runner is recommended Joker is completely 'nodeable'. Here is
 a simple example how you could accomplish that:
 
 ```js
@@ -164,7 +164,7 @@ new Joker()
 
 ### Responding to interactive prompts
 
-joker can respond to apps that run interactively using the `on()` and
+Joker can respond to apps that run interactively using the `on()` and
 `respond()` functions.
 
 ```js

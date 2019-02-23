@@ -1008,6 +1008,9 @@ img { max-width: 100%; }
 		<li class=" tsd-kind-interface tsd-is-private">
 			<a href="../interfaces/processenv.html" class="tsd-kind-icon">Process<wbr>Env</a>
 		</li>
+		<li class=" tsd-kind-interface">
+			<a href="../interfaces/register.html" class="tsd-kind-icon">Register</a>
+		</li>
 		<li class=" tsd-kind-type-alias">
 			<a href="../index.html#assertionerroradditions" class="tsd-kind-icon">Assertion<wbr>Error<wbr>Additions</a>
 		</li>
@@ -1136,7 +1139,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/d210fea/src/runner.ts#L83">runner.ts:83</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/22aee3a/src/runner.ts#L100">runner.ts:100</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1158,9 +1161,21 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">register<span class="tsd-signature-symbol">:</span> <a href="../index.html#plugin" class="tsd-signature-type">Plugin</a><span class="tsd-signature-symbol"> =&nbsp;register</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/amilajack/joker/blob/d210fea/src/runner.ts#L83">runner.ts:83</a></li>
+						<li>Defined in <a href="https://github.com/amilajack/joker/blob/22aee3a/src/runner.ts#L100">runner.ts:100</a></li>
 					</ul>
 				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Joker has primitive support for plugins. You can register any expectation or/and
+						any middleware by calling <code>joker.register</code>.</p>
+					</div>
+					<pre><code class="language-js"> <span class="hljs-keyword">const</span> fn = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {};
+ <span class="hljs-keyword">new</span> Joker().register(<span class="hljs-string">'foo'</span>, fn);</code></pre>
+					<p> Or you may want to register many functions at once.</p>
+					<pre><code class="language-js"> <span class="hljs-keyword">const</span> fn = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {};
+ <span class="hljs-keyword">const</span> fn1 = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {};
+ joker.register({ <span class="hljs-attr">baz</span>: fn, <span class="hljs-attr">bar</span>: fn1 });</code></pre>
+				</div>
 			</section>
 		</section>
 		<section class="tsd-panel-group tsd-member-group ">
@@ -1175,7 +1190,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/d210fea/src/runner.ts#L132">runner.ts:132</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/22aee3a/src/runner.ts#L149">runner.ts:149</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1189,7 +1204,7 @@ img { max-width: 100%; }
   .end();</code></pre>
 							<dl class="tsd-comment-tags">
 								<dt>see</dt>
-								<dd><p>Batch#addAfter</p>
+								<dd><p><code>Batch#addAfter</code></p>
 								</dd>
 							</dl>
 						</div>
@@ -1214,7 +1229,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/d210fea/src/runner.ts#L179">runner.ts:179</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/22aee3a/src/runner.ts#L196">runner.ts:196</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1250,7 +1265,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/d210fea/src/runner.ts#L111">runner.ts:111</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/22aee3a/src/runner.ts#L128">runner.ts:128</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1264,7 +1279,7 @@ img { max-width: 100%; }
   .end();</code></pre>
 							<dl class="tsd-comment-tags">
 								<dt>see</dt>
-								<dd><p>Batch#addBefore</p>
+								<dd><p><code>Batch#addBefore</code></p>
 								</dd>
 							</dl>
 						</div>
@@ -1289,7 +1304,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/d210fea/src/runner.ts#L616">runner.ts:616</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/22aee3a/src/runner.ts#L633">runner.ts:633</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1318,7 +1333,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/d210fea/src/runner.ts#L348">runner.ts:348</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/22aee3a/src/runner.ts#L365">runner.ts:365</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1351,7 +1366,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/d210fea/src/runner.ts#L156">runner.ts:156</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/22aee3a/src/runner.ts#L173">runner.ts:173</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1388,7 +1403,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/d210fea/src/runner.ts#L594">runner.ts:594</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/22aee3a/src/runner.ts#L611">runner.ts:611</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1444,7 +1459,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/d210fea/src/runner.ts#L221">runner.ts:221</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/22aee3a/src/runner.ts#L238">runner.ts:238</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1482,7 +1497,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/d210fea/src/runner.ts#L451">runner.ts:451</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/22aee3a/src/runner.ts#L468">runner.ts:468</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1532,7 +1547,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/d210fea/src/runner.ts#L367">runner.ts:367</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/22aee3a/src/runner.ts#L384">runner.ts:384</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1565,7 +1580,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/d210fea/src/runner.ts#L637">runner.ts:637</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/22aee3a/src/runner.ts#L654">runner.ts:654</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1603,7 +1618,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/d210fea/src/runner.ts#L397">runner.ts:397</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/22aee3a/src/runner.ts#L414">runner.ts:414</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1647,7 +1662,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/d210fea/src/runner.ts#L416">runner.ts:416</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/22aee3a/src/runner.ts#L433">runner.ts:433</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1680,7 +1695,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/d210fea/src/runner.ts#L544">runner.ts:544</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/22aee3a/src/runner.ts#L561">runner.ts:561</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1716,7 +1731,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/d210fea/src/runner.ts#L566">runner.ts:566</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/22aee3a/src/runner.ts#L583">runner.ts:583</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1751,7 +1766,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/d210fea/src/runner.ts#L501">runner.ts:501</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/22aee3a/src/runner.ts#L518">runner.ts:518</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1785,7 +1800,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/d210fea/src/runner.ts#L249">runner.ts:249</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/22aee3a/src/runner.ts#L266">runner.ts:266</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1802,7 +1817,7 @@ img { max-width: 100%; }
   .run(<span class="hljs-string">'node --version'</span>, fn);</code></pre>
 							<dl class="tsd-comment-tags">
 								<dt>see</dt>
-								<dd><p>Batch#main</p>
+								<dd><p><code>Batch#main</code></p>
 								</dd>
 							</dl>
 						</div>
@@ -1830,7 +1845,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/d210fea/src/runner.ts#L329">runner.ts:329</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/22aee3a/src/runner.ts#L346">runner.ts:346</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1863,7 +1878,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/d210fea/src/runner.ts#L199">runner.ts:199</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/22aee3a/src/runner.ts#L216">runner.ts:216</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1897,7 +1912,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/d210fea/src/runner.ts#L310">runner.ts:310</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/22aee3a/src/runner.ts#L327">runner.ts:327</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1943,7 +1958,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/d210fea/src/runner.ts#L269">runner.ts:269</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/22aee3a/src/runner.ts#L286">runner.ts:286</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1976,7 +1991,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/d210fea/src/runner.ts#L521">runner.ts:521</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/22aee3a/src/runner.ts#L538">runner.ts:538</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2010,7 +2025,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/d210fea/src/runner.ts#L481">runner.ts:481</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/22aee3a/src/runner.ts#L498">runner.ts:498</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">

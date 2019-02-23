@@ -98,8 +98,8 @@ export default class Batch {
    * or in the "before after" list, depending if a "main"
    * function exists.
    *
-   * @see Batch#hasMain
-   * @see Batch#main
+   * @see `Batch#hasMain`
+   * @see `Batch#main`
    * @param {Function} fn
    */
 

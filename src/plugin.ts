@@ -41,7 +41,7 @@ import Runner from './runner';
  * @public
  */
 
-interface Register {
+export interface Register {
   [x: string]: Function;
 }
 
