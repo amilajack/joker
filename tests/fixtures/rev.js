@@ -1,5 +1,14 @@
 let data = '';
 
+function printReversed(line) {
+  console.log(
+    line
+      .split('')
+      .reverse()
+      .join('')
+  );
+}
+
 process.stdin.on('data', chunk => {
   const lines = (data + chunk).split('\n');
   data = lines.pop();
@@ -11,12 +20,3 @@ process.stdin.on('end', () => {
     printReversed(data);
   }
 });
-
-function printReversed(line) {
-  console.log(
-    line
-      .split('')
-      .reverse()
-      .join('')
-  );
-}

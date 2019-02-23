@@ -45,7 +45,7 @@ export interface Register {
   [x: string]: Function;
 }
 
-export default function Plugin(name: string | Register, fn?: Function) {
+export default function Plugin(name: string | Register, fn?: Function): void {
   let register: Register = {};
 
   if (typeof name === 'object' && !(name instanceof String)) {

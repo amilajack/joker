@@ -17,9 +17,9 @@
   "scripts": {
     "build": "cross-env NODE_ENV=production babel src --out-dir dist --extensions \".ts\" --source-maps inline",
     "docs": "rm -rf docs && typedoc ./src --out docs",
-    "lint": "eslint . --ext .ts",
+    "lint": "eslint --ignore-path .gitignore --ignore-pattern '/docs/' --ext .ts --ext .js .",
     "spec": "jest --runInBand",
-    "test": "yarn ts && yarn build && jest --runInBand && yarn docs",
+    "test": "yarn ts && yarn lint && yarn build && yarn spec && yarn docs",
     "ts": "tsc",
     "prepublish": "yarn test && yarn ts:dec",
     "ts:dec": "yarn ts --declaration"
@@ -42,8 +42,10 @@
     "@types/node": "^11.9.5",
     "@typescript-eslint/eslint-plugin": "^1.4.1",
     "@typescript-eslint/parser": "^1.4.1",
+    "babel-jest": "^24.1.0",
     "cross-env": "^5.2.0",
     "eslint": "^5.14.1",
+    "eslint-config-airbnb-base": "^13.1.0",
     "eslint-config-bliss": "^3.3.0",
     "eslint-import-resolver-typescript": "^1.1.1",
     "flow": "^0.2.3",
@@ -62,22 +64,36 @@
   "types": "./dist/index.d.ts",
   "eslintConfig": {
     "extends": [
-      "bliss",
       "plugin:@typescript-eslint/recommended",
       "prettier",
       "prettier/@typescript-eslint"
     ],
     "parser": "@typescript-eslint/parser",
     "plugins": [
-      "@typescript-eslint"
+      "@typescript-eslint",
+      "prettier"
     ],
     "rules": {
-      "no-useless-constructor": "off"
+      "@typescript-eslint/explicit-function-return-type": "off",
+      "no-useless-constructor": "off",
+      "prettier/prettier": [
+        "error",
+        {
+          "singleQuote": true
+        }
+      ]
     },
     "settings": {
       "import/resolver": {
         "typescript": {}
       }
+    },
+    "parserOptions": {
+      "sourceType": "module"
+    },
+    "env": {
+      "es6": true,
+      "node": true
     }
   },
   "jest": {

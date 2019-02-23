@@ -21,21 +21,21 @@ export interface JokerError {
 }
 
 export default class Result {
-  cmd: string;
+  public cmd: string;
 
-  code: number;
+  public code: number;
 
-  options: Options;
+  private options: Options;
 
-  stdout: string;
+  public stdout: string;
 
-  stderr: string;
+  public stderr: string;
 
-  killed: boolean;
+  public killed: boolean;
 
-  err: JokerError;
+  public err: JokerError;
 
-  constructor(
+  public constructor(
     cmd: string,
     code: number,
     options: Options = { colors: true, newLines: true }
@@ -50,10 +50,13 @@ export default class Result {
    *
    * @param {String} stdout
    * @param {String} stderr
-   * @private
    */
 
-  parse(stdout: string, stderr: string, err: JokerError | undefined): Result {
+  public parse(
+    stdout: string,
+    stderr: string,
+    err: JokerError | undefined
+  ): Result {
     if (err) {
       this.err = err;
       this.killed = err && err.killed;
@@ -79,7 +82,7 @@ export default class Result {
    * @private
    */
 
-  strip(str: string): string {
+  public strip(str: string): string {
     str = str.replace(/\r?\n$/, '');
 
     if (this.options.newLines === false) {

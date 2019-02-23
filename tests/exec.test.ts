@@ -21,7 +21,7 @@ describe('joker#exec', () => {
       .cwd(root)
       .exec('touch foo.tmp.js')
       .run('')
-      .end(err => {
+      .end(() => {
         expect(fs.existsSync(fixture)).toBe(true);
         fs.unlinkSync(fixture);
         done();

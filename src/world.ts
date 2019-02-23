@@ -12,13 +12,16 @@ export interface ProcessEnv {
 }
 
 export default class World {
-  env: ProcessEnv;
+  public env: ProcessEnv;
 
-  cwd: string;
+  public cwd: string;
 
-  timeout: null | number = null;
+  public timeout: null | number = null;
 
-  constructor(env: ProcessEnv = process.env, cwd: string = process.cwd()) {
+  public constructor(
+    env: ProcessEnv = process.env,
+    cwd: string = process.cwd()
+  ) {
     this.env = env || Object.assign({}, process.env);
     this.cwd = cwd;
   }
@@ -26,10 +29,10 @@ export default class World {
   /**
    * Get the properties of the `World` class
    */
-  public getOptions() {
+  public getOptions(): { env: ProcessEnv; cwd: string } {
     return {
       env: this.env,
       cwd: this.cwd
-    }
+    };
   }
 }

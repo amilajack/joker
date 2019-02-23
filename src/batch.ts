@@ -58,21 +58,23 @@ type MainFn = ((a: Result) => void) | ((fn: Function) => void);
 
 export type NodeError = (err: NodeJS.ErrnoException) => void;
 
+export type BatchFunctionArg = NextFn | Result | Error | NodeError;
+
 /**
  * The type of a function that runs in `Batch`
  */
-export type BatchFunction = (a?: NextFn | Result | Error | NodeError) => void;
+export type BatchFunction = (a?: BatchFunctionArg) => void;
 
 export default class Batch {
-  before: BatchFunction[] = [];
+  public before: BatchFunction[] = [];
 
-  beforeAfter: BatchFunction[] = [];
+  public beforeAfter: BatchFunction[] = [];
 
-  after: BatchFunction[] = [];
+  public after: BatchFunction[] = [];
 
-  afterBefore: BatchFunction[] = [];
+  public afterBefore: BatchFunction[] = [];
 
-  fn: Function;
+  private fn: Function;
 
   /**
    * Push `fn` into the before list.
@@ -80,7 +82,7 @@ export default class Batch {
    * @param {Function} fn
    */
 
-  public addBefore(fn: AssertionFn) {
+  public addBefore(fn: AssertionFn): void {
     this.before.push(fn);
   }
 
@@ -90,7 +92,7 @@ export default class Batch {
    * @param {Function} fn
    */
 
-  public addAfter(fn: AssertionFn) {
+  public addAfter(fn: AssertionFn): void {
     this.after.push(fn);
   }
 
@@ -104,7 +106,7 @@ export default class Batch {
    * @param {Function} fn
    */
 
-  public add(fn: BatchFunction) {
+  public add(fn: BatchFunction): void {
     (this.hasMain() ? this.beforeAfter : this.afterBefore).push(fn);
   }
 
@@ -114,7 +116,7 @@ export default class Batch {
    * @param {Function} fn
    */
 
-  public main(fn: MainFn) {
+  public main(fn: MainFn): void {
     this.fn = fn;
   }
 
@@ -135,7 +137,7 @@ export default class Batch {
    * @param {Function} last fn to execute
    */
 
-  public run(fn: BatchFunction) {
+  public run(fn: BatchFunction): void {
     let err: undefined | Result;
     const main = this.fn;
     let batch = this.before.slice(0).concat(this.afterBefore);
@@ -153,7 +155,7 @@ export default class Batch {
       fn(err);
     });
 
-    function next() {
+    function next(): void {
       const latestFn = batch.shift();
       if (!latestFn) return;
       if (latestFn.length) {

@@ -1,6 +1,6 @@
 import clone from 'clone';
 import { spawn } from 'child_process';
-import Batch, { BatchFunction } from './batch';
+import Batch, { BatchFunction, BatchFunctionArg } from './batch';
 import World from './world';
 import * as expect from './expectations';
 import * as middlewares from './middlewares';
@@ -83,14 +83,14 @@ export default class Runner {
   /**
    * Joker has primitive support for plugins. You can register any expectation or/and
    * any middleware by calling `joker.register`.
-   * 
+   *
    *  ```js
    *  const fn = () => {};
    *  new Joker().register('foo', fn);
    *  ```
-   * 
+   *
    *  Or you may want to register many functions at once.
-   * 
+   *
    *  ```js
    *  const fn = () => {};
    *  const fn1 = () => {};
@@ -99,19 +99,15 @@ export default class Runner {
    */
   public register = register;
 
-  constructor(rawOptions: OptionalArgs = DEFAULT_OPTIONS) {
-    const options: Options = Object.assign(
-      {},
-      this.options,
-      rawOptions
-    );
+  public constructor(rawOptions: OptionalArgs = DEFAULT_OPTIONS) {
+    const options: Options = Object.assign({}, this.options, rawOptions);
     if (!(this instanceof Runner)) return new Runner(options);
     this.options = options;
   }
 
   /**
    * Register a `before` filter.
-   * 
+   *
    * ```js
    * new Joker()
    *   .before(fn)
@@ -132,7 +128,7 @@ export default class Runner {
 
   /**
    * Register an `after` filter.
-   * 
+   *
    * ```js
    * new Joker()
    *   .run(cmd)
@@ -154,10 +150,10 @@ export default class Runner {
   /**
    * Set the current working directory for
    * the command that will be executed.
-   * 
+   *
    * Change the current working directory of the main command (specified with `run`).
    * Please note that this won't affect any other commands like `unlink` etc.
-   * 
+   *
    * ```js
    * new Joker()
    *   .cwd(__dirname)
@@ -180,7 +176,7 @@ export default class Runner {
    *
    * Very convenient when testing the same executable
    * again and again.
-   * 
+   *
    * ```js
    * new Joker()
    *   .base('node ')
@@ -200,7 +196,7 @@ export default class Runner {
 
   /**
    * Set data to pass to stdin
-   * 
+   *
    * ```js
    * new Joker()
    *   .stdin('foobar')
@@ -220,7 +216,7 @@ export default class Runner {
 
   /**
    * Set environment variable.
-   * 
+   *
    * ```js
    * new Joker()
    *   .env('foo', 'bar')
@@ -235,23 +231,23 @@ export default class Runner {
    * @returns for chaining
    */
 
-  public env(key: string, val: any): Runner {
+  public env(key: string, val: string | undefined): Runner {
     this.world.env[key] = val;
     return this;
   }
 
   /**
    * Specify a command to run.
-   * 
+   *
    * ```js
    * new Joker()
    *   .run('node --version')
    *   .stdout('0.10.16')
    *   .end(fn);
    * ```
-   * 
+   *
    * You could also run the test right after specifying the command to run:
-   * 
+   *
    * ```js
    * new Joker()
    *   .stdout('0.10.16')
@@ -272,7 +268,7 @@ export default class Runner {
 
   /**
    * Set a timeout for the main command that you are about to test
-   * 
+   *
    * ```js
    * new Joker()
    *   .timeout(1) // ms
@@ -292,25 +288,25 @@ export default class Runner {
 
   /**
    * Register a "stdout" expectation.
-   * 
+   *
    * ```js
    * new Joker()
    *   .stdout('LICENSE Makefile')
    *   .run('ls')
    *   .end(fn);
    * ```
-   * 
+   *
    * Works with regular expressions too.
-   * 
+   *
    * ```js
    * new Joker()
    *   .stdout(/system/)
    *   .run('time')
    *   .end(fn);
    * ```
-   * 
+   *
    * You can also combine regular expressions and string assertions
-   * 
+   *
    * ```ts
    * new Joker()
    *   .run('echo foo')
@@ -332,7 +328,7 @@ export default class Runner {
 
   /**
    * Register a "stderr" expectation.
-   * 
+   *
    * ```js
    * new Joker()
    *   .run('todo add')
@@ -351,7 +347,7 @@ export default class Runner {
 
   /**
    * Assert that a specific exit code is thrown.
-   * 
+   *
    * ```js
    * new Joker()
    *   .run('todo add')
@@ -370,7 +366,7 @@ export default class Runner {
 
   /**
    * Check if a file or a directory exists.
-   * 
+   *
    * ```js
    * new Joker()
    *   .run('mkdir /tmp/test')
@@ -389,7 +385,9 @@ export default class Runner {
 
   /**
    * Match the content of a file.
-   * 
+   *
+   * You can match the contexts against an exact string
+   *
    * ```js
    * new Joker()
    *   .writeFile(file, 'Hello')
@@ -398,7 +396,9 @@ export default class Runner {
    *   .unlink(file)
    *   .end(done);
    * ```
-   * 
+   *
+   * You can also match against a regular expression
+   *
    * ```js
    * new Joker()
    *   .writeFile(file, 'Hello')
@@ -419,7 +419,7 @@ export default class Runner {
 
   /**
    * Create a new directory.
-   * 
+   *
    * ```js
    * new Joker()
    *   .mkdir('xml-database')
@@ -438,7 +438,7 @@ export default class Runner {
 
   /**
    * Execute a command.
-   * 
+   *
    * ```js
    * new Joker()
    *   .writeFile('LICENSE', 'MIT License')
@@ -448,11 +448,11 @@ export default class Runner {
    *   .stdout(/LICENSE/)
    *   .end();
    * ```
-   * 
+   *
    * By default the commands will inherit the "world" for the main command which
    * includes environment variables, cwd, timeout. However, you can override this by
    * supplying a different "world":
-   * 
+   *
    * ```js
    * new Joker()
    *   .exec('git add LICENSE', { timeout: 4, cwd: '/tmp' })
@@ -474,17 +474,17 @@ export default class Runner {
 
   /**
    * Create a new file with the given `content`. This is a small wrapper over `fs.writeFile`.
-   * 
+   *
    * Without content:
-   * 
+   *
    * ```js
    * new Joker()
    *   .writeFile(pathToFile)
    *   .end();
    * ```
-   * 
+   *
    * With content:
-   * 
+   *
    * ```js
    * new Joker()
    *   .writeFile(pathToFile, data)
@@ -503,7 +503,7 @@ export default class Runner {
 
   /**
    * Remove a directory
-   * 
+   *
    * ```js
    * new Joker()
    *   .mkdir('xml-database')
@@ -523,7 +523,7 @@ export default class Runner {
 
   /**
    * Remove a file
-   * 
+   *
    * ```js
    * new Joker()
    *   .writeFile('my-file', data)
@@ -543,10 +543,10 @@ export default class Runner {
 
   /**
    * Register an interactive prompt
-   * 
+   *
    * Detect a prompt for user input. Accepts a String or RegExp that appears in
    * the the stdout stream. Must be paired with `.respond`.
-   * 
+   *
    * ```js
    * new Joker()
    *   .run(cmd)
@@ -566,9 +566,9 @@ export default class Runner {
 
   /**
    * Register an interactive prompt response
-   * 
+   *
    * In more detail, this method writes a response to the stdin stream when a prompt is detected
-   * 
+   *
    * ```js
    * new Joker()
    *   .run(cmd)
@@ -588,16 +588,16 @@ export default class Runner {
 
   /**
    * Run the given test
-   * 
+   *
    * ```js
    * new Joker()
    *   .run('echo a b c')
    *   .stdout('a b c')
    *   .end((err) => {});
    * ```
-   * 
+   *
    * The same might be accomplished with supplying a function to `run`:
-   * 
+   *
    * ```js
    * new Joker()
    *   .stdout('a b c')
@@ -605,15 +605,38 @@ export default class Runner {
    *   .end((err) => {});
    * ```
    *
+   * ```js
+   * const err = await new Joker()
+   *   .stdout('a b c')
+   *   .run('echo a b c', (err) => {})
+   *   .end();
+   *
+   * expect(err.message).toEqual(
+   *   'this err message is only shown after Joker is finished running'
+   * );
+   * ```
+   *
    * @param {Function} fn
    * @returns for chaining
    */
 
-  public end(fn: (err?: Error) => void) {
+  public end(
+    fn?: (err?: Error) => void
+  ): void | Promise<BatchFunctionArg | undefined> {
     if (!this.batch.hasMain()) {
-      throw new Error('Please provide a command to run. Hint: You may have forgotten to call `joker.run(myFunction)`');
+      throw new Error(
+        'Please provide a command to run. Hint: You may have forgotten to call `joker.run(myFunction)`'
+      );
     }
-    this.batch.run(fn);
+    // If a callback is passed, run it. Otherwise, return a Promise
+    if (fn) {
+      return this.batch.run(fn);
+    }
+    return new Promise(resolve => {
+      this.batch.run(err => {
+        resolve(err);
+      });
+    });
   }
 
   /**
@@ -627,7 +650,7 @@ export default class Runner {
    *   .end()
    *   .clone();
    * ```
-   * 
+   *
    * @returns clone of the current instance
    */
 
@@ -668,7 +691,7 @@ export default class Runner {
     const args = require('shell-quote').parse(cmd);
     const bin = args.shift(0);
 
-    return ((fn: Function) => {
+    return (fn: Function) => {
       // Allow .run('') without attempting
       if (cmd === '') {
         fn(undefined);
@@ -716,6 +739,6 @@ export default class Runner {
 
         fn(error);
       });
-    });
+    };
   }
 }
