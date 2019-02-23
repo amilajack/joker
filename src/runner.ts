@@ -8,7 +8,7 @@ import Result, { Options, JokerError } from './result';
 import * as respond from './respond';
 import { default as register } from './plugin';
 
-type OptionalArgs = {
+export type OptionalArgs = {
   newLines?: boolean;
   colors?: boolean;
 };
@@ -52,7 +52,7 @@ type OptionalArgs = {
  *  So repeating "todo clear" is simply ugly. You can avoid this by
  *  creating a "template".
  *  ```ts
- *  const todo = joker().before(clearTodos);
+ *  const todo = new Joker().before(clearTodos);
  *  ```
  *
  *  Later on:
@@ -109,7 +109,7 @@ export default class Runner {
    * ```
    *
    * @param {Function} fn
-   * @returns {Runner} for chaining
+   * @returns for chaining
    * @see Batch#addBefore
    */
 
@@ -130,7 +130,7 @@ export default class Runner {
    * ```
    *
    * @param {Function} fn
-   * @returns {Runner} for chaining
+   * @returns for chaining
    * @see Batch#addAfter
    */
 
@@ -155,7 +155,7 @@ export default class Runner {
    * ```
    *
    * @param {String} path
-   * @returns {Runner} for chaining
+   * @returns for chaining
    */
 
   public cwd(path: string): Runner {
@@ -178,7 +178,7 @@ export default class Runner {
    * ```
    *
    * @param {String} command
-   * @returns {Runner} for chaining
+   * @returns for chaining
    */
 
   public base(cmd: string): Runner {
@@ -198,7 +198,7 @@ export default class Runner {
    * ```
    *
    * @param {String} data
-   * @returns {Runner} for chaining
+   * @returns for chaining
    */
 
   public stdin(data: string): Runner {
@@ -220,7 +220,7 @@ export default class Runner {
    *
    * @param {String} key
    * @param {String} value
-   * @returns {Runner} for chaining
+   * @returns for chaining
    */
 
   public env(key: string, val: any): Runner {
@@ -247,7 +247,7 @@ export default class Runner {
    * ```
    *
    * @param {String} command
-   * @returns {Runner} for chaining
+   * @returns for chaining
    * @see Batch#main
    */
 
@@ -268,7 +268,7 @@ export default class Runner {
    * ```
    *
    * @param {Number} ms
-   * @returns {Runner} for chaining
+   * @returns for chaining
    */
 
   public timeout(ms: number): Runner {
@@ -309,7 +309,7 @@ export default class Runner {
    * ```
    *
    * @param {Regex|String} pattern
-   * @returns {Runner} for chaining
+   * @returns for chaining
    */
 
   public stdout(pattern: RegExp | string): Runner {
@@ -328,7 +328,7 @@ export default class Runner {
    * ```
    *
    * @param {Regex|String} pattern
-   * @returns {Runner} for chaining
+   * @returns for chaining
    */
 
   public stderr(pattern: RegExp | string): Runner {
@@ -347,7 +347,7 @@ export default class Runner {
    * ```
    *
    * @param {Number} code
-   * @returns {Runner} for chaining
+   * @returns for chaining
    */
 
   public code(code: number): Runner {
@@ -366,7 +366,7 @@ export default class Runner {
    * ```
    *
    * @param {String} path
-   * @returns {Runner} for chaining
+   * @returns for chaining
    */
 
   public exist(path: string): Runner {
@@ -396,7 +396,7 @@ export default class Runner {
    * ```
    *
    * @param {Regex|String} pattern
-   * @returns {Runner} for chaining
+   * @returns for chaining
    */
 
   public match(file: string, pattern: RegExp | string): Runner {
@@ -415,7 +415,7 @@ export default class Runner {
    * ```
    *
    * @param {String} path
-   * @returns {Runner} for chaining
+   * @returns for chaining
    */
 
   public mkdir(path: string): Runner {
@@ -450,7 +450,7 @@ export default class Runner {
    *
    * @param {String} command
    * @param {World} world - env vars, cwd
-   * @returns {Runner} for chaining
+   * @returns for chaining
    */
 
   public exec(cmd: string, world?: World): Runner {
@@ -480,7 +480,7 @@ export default class Runner {
    *
    * @param {String} path
    * @param {String} data [optional]
-   * @returns {Runner} for chaining
+   * @returns for chaining
    */
 
   public writeFile(path: string, data: string): Runner {
@@ -500,7 +500,7 @@ export default class Runner {
    * ```
    *
    * @param {String} path
-   * @returns {Runner} for chaining
+   * @returns for chaining
    */
 
   public rmdir(path: string): Runner {
@@ -520,7 +520,7 @@ export default class Runner {
    * ```
    *
    * @param {String} path
-   * @returns {Runner} for chaining
+   * @returns for chaining
    */
 
   public unlink(path: string): Runner {
@@ -543,7 +543,7 @@ export default class Runner {
    * ```
    *
    * @param {Regex|String} pattern
-   * @returns {Runner} for chaining
+   * @returns for chaining
    */
 
   public on(pattern: RegExp | string): Runner {
@@ -556,10 +556,16 @@ export default class Runner {
    * 
    * In more detail, this method writes a response to the stdin stream when a prompt is detected
    * 
-   * 
+   * ```js
+   * new Joker()
+   *   .run(cmd)
+   *   .on('Your name: ')
+   *   .respond('Joe User\n')
+   *   .end();
+   * ```
    *
    * @param {String} response
-   * @returns {Runner} for chaining
+   * @returns for chaining
    */
 
   public respond(response: string): Runner {
@@ -572,8 +578,8 @@ export default class Runner {
    * 
    * ```js
    * new Joker()
-   *   .run('ls')
-   *   .stdout('this-is-not-porn-i-promise')
+   *   .run('echo a b c')
+   *   .stdout('a b c')
    *   .end((err) => {});
    * ```
    * 
@@ -581,12 +587,13 @@ export default class Runner {
    * 
    * ```js
    * new Joker()
-   * .stdout('this-is-not-porn-i-promise')
-   * .run('ls', (err) => {});
+   *   .stdout('a b c')
+   *   .run('echo a b c', (err) => {})
+   *   .end((err) => {});
    * ```
    *
    * @param {Function} fn
-   * @returns {Runner} for chaining
+   * @returns for chaining
    */
 
   public end(fn: (err?: Error) => void) {
@@ -608,7 +615,7 @@ export default class Runner {
    *   .clone();
    * ```
    * 
-   * @returns {Runner} clone of the current instance
+   * @returns clone of the current instance
    */
 
   public clone(): Runner {
@@ -641,7 +648,7 @@ export default class Runner {
    * Return a function that will execute
    * the command.
    *
-   * @returns {Function}
+   * @returns
    */
 
   private execFn(cmd: string): (fn: Function) => void {

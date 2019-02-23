@@ -4,7 +4,7 @@
  *
  * @param {Object} env
  * @param {String} cwd
- * @constructor
+ * @private
  */
 
 export interface ProcessEnv {

@@ -11,8 +11,7 @@ export type ReturnFn = (next: NextFn) => void;
  * Callback generator for middlewares. Throw errors if any.
  *
  * @param {Function} next
- * @returns {Function}
- * @api private
+ * @private
  */
 
 function done(next: NextFn): (err: AssertionError) => void {
@@ -28,7 +27,7 @@ function done(next: NextFn): (err: AssertionError) => void {
  * @param {String} path
  * @returns {Function} middleware
  * @see fs#mkdir
- * @api public
+ * @private
  */
 export function mkdir(path: string): ReturnFn {
   return (next: NextFn) => {
@@ -44,7 +43,7 @@ export function mkdir(path: string): ReturnFn {
  * @param {Buffer|String} data
  * @returns {Function} middleware
  * @see fs#writeFile
- * @api public
+ * @private
  */
 
 export function writeFile(path: string, data: string): ReturnFn {
@@ -59,7 +58,7 @@ export function writeFile(path: string, data: string): ReturnFn {
  * @param {String} path
  * @returns {Function} middleware
  * @see fs#rmdir
- * @api public
+ * @private
  */
 
 export function rmdir(path: string): ReturnFn {
@@ -74,7 +73,7 @@ export function rmdir(path: string): ReturnFn {
  * @param {String} path
  * @returns {Function} middleware
  * @see fs#unlink
- * @api public
+ * @private
  */
 
 export function unlink(path: string): ReturnFn {
@@ -90,7 +89,7 @@ export function unlink(path: string): ReturnFn {
  * @param {String} cwd
  * @returns {Function} middleware
  * @see child_process#exec
- * @api public
+ * @private
  */
 
 export function exec(cmd: string, world: World): ReturnFn {

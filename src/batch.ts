@@ -13,7 +13,7 @@
  *   function has been registered or not.
  *
  * The following example will (hopefully) illustrate how this class works:
- *
+ * ```js
  *    const batch = new Batch;
  *    batch.addBefore(before1) --> execution order [before1]
  *    batch.addBefore(before2) --> execution order [before1, before2]
@@ -22,7 +22,7 @@
  *    batch.main(main)         --> execution order [before1, before2, fn1, main, after1]
  *    batch.add(fn2)           --> execution order [before1, before2, fn1, main, fn2, after1]
  *    batch.add(before3)       --> execution order [before1, before2, before3, fn1, main, fn2, after1]
- *
+ * ```
  *
  * So why is this even useful? It's useful when you want to implement some sort of a template.
  * Imagine the following case - you always want to perform "setup" and "teardown" for some
@@ -30,21 +30,24 @@
  * json file which happens to be its database. So if you were testing it you would want to start
  * with a clean state each and every time. Here is how you could accomplish that:
  *
- *    const todo = joker()
- *      .before(createBlankDatabase);
- *      .after(removeTheDatabase);
+ * ```js
+ * const todo = new Joker()
+ *   .before(createBlankDatabase);
+ *   .after(removeTheDatabase);
+ * ```
  *
  * Now you can put this in a helper function for your tests:
- *
- *    function todoApp() {
- *      return todo.clone();
- *    }
+ * ```js
+ * function todoApp() {
+ *   return todo.clone();
+ * }
+ * ```
  *
  * And now every time when you need to create a new instance you can do so by calling the simple
  * helper method that you have created. Of course there are many ways to accomplish the same, but
  * joker gives you the ability to keep everything simple.
  *
- * @constructor
+ * @private
  */
 import { AssertionFn } from './expectations';
 import { NextFn } from './middlewares';
@@ -52,7 +55,7 @@ import Result from './result';
 
 type MainFn = ((a: Result) => void) | ((fn: Function) => void);
 
-type NodeError = (err: NodeJS.ErrnoException) => void;
+export type NodeError = (err: NodeJS.ErrnoException) => void;
 
 /**
  * The type of a function that runs in `Batch`

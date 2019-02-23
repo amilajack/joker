@@ -8,7 +8,7 @@ export type AssertionFn = (res: Result) => AssertionError | void;
  * Return an exit code expectation.
  *
  * @param {Number} expected exit code.
- * @returns {Function}
+ * @private
  */
 
 export function code(code: number): AssertionFn {
@@ -24,7 +24,7 @@ export function code(code: number): AssertionFn {
 /**
  * Return no timeout expectation.
  *
- * @returns {Function}
+ * @private
  */
 
 export function time(): AssertionFn {
@@ -39,7 +39,7 @@ export function time(): AssertionFn {
  * Return a stderr expectation.
  *
  * @param {String|RegExp} expected string or regular express to match
- * @returns {Function}
+ * @private
  */
 
 export function stderr(expected: String | RegExp): AssertionFn {
@@ -50,7 +50,7 @@ export function stderr(expected: String | RegExp): AssertionFn {
  * Return a stdout expectation.
  *
  * @param {String|RegExp} expected string or regular express to match
- * @returns {Function}
+ * @private
  */
 
 export function stdout(expected: String | RegExp): AssertionFn {
@@ -61,7 +61,7 @@ export function stdout(expected: String | RegExp): AssertionFn {
  * Verify that a `path` exists.
  *
  * @param {String} path
- * @returns {Function}
+ * @private
  */
 
 export function exists(path: string): AssertionFn {
@@ -78,7 +78,7 @@ export function exists(path: string): AssertionFn {
  *
  * @param {String} path
  * @param {String|RegExp} data
- * @returns {Function}
+ * @private
  */
 
 export function match(path: string, data: string | RegExp): AssertionFn {
@@ -102,8 +102,7 @@ export function match(path: string, data: string | RegExp): AssertionFn {
  * @param {String} stdout/stderr
  * @param {Mixed} expected
  * @param {Result} result
- * @returns {AssertionError|null}
- * @api private
+ * @private
  */
 
 function assertOut(
@@ -139,8 +138,7 @@ export type AssertionErrorAdditions = AssertionError & {
  *
  * @param {Result} result
  * @param {String} error message
- * @returns {AssertionError}
- * @api private
+ * @private
  */
 
 function error(

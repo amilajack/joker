@@ -14,7 +14,7 @@ import Runner from './runner';
  *
  * Later on this can be used as you would expect:
  * ```ts
- *  joker()
+ *  new Joker()
  *    .run('ls /tmp')
  *    .stdoutNotEqual('xxx')
  *    .end()
@@ -38,7 +38,7 @@ import Runner from './runner';
  *
  * @param {String|Object} name
  * @param {Function} fn
- * @api public
+ * @public
  */
 
 interface Register {

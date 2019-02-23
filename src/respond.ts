@@ -11,7 +11,7 @@ import * as stream from 'stream';
  * @param {Stream} Writable Stream to write respones to.
  * @param {Array} An array of prompts {Regex|String}
  * @param {Array} An array of responses {String}
- * @api public
+ * @private
  */
 
 export function run(

@@ -50,8 +50,7 @@ export default class Result {
    *
    * @param {String} stdout
    * @param {String} stderr
-   * @returns {Result} self
-   * @api public
+   * @private
    */
 
   parse(stdout: string, stderr: string, err: JokerError | undefined): Result {
@@ -77,8 +76,7 @@ export default class Result {
    *  - StripColorCodes - MIT License
    *
    * @param {String} str
-   * @returns {String}
-   * @api private
+   * @private
    */
 
   strip(str: string): string {
