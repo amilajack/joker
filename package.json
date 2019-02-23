@@ -77,5 +77,27 @@
     "hooks": {
       "pre-commit": "yarn test"
     }
+  },
+  "renovate": {
+    "extends": ["bliss"]
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": 10
+          }
+        }
+      ],
+      [
+        "@babel/preset-typescript",
+        {
+          "allExtensions": true
+        }
+      ]
+    ],
+    "plugins": ["@babel/plugin-proposal-class-properties"]
   }
 }

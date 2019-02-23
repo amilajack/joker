@@ -40,7 +40,7 @@ const options = {
   newLines: true,
 };
 
-new Joker(options).stdout...
+new Joker(options)
 ```
 
 ### Custom expectations

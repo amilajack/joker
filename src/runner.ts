@@ -25,11 +25,6 @@ export type OptionalArgs = {
  *
  * Examples:
  *
- *  Instantiating the class:
- *  ```ts
- *  new Joker() // -> Runner
- *  ```
- *
  *  Simple stdout assertion:
  *  ```ts
  *  new Joker({ colors: false, newLines: false })
