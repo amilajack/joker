@@ -37,17 +37,17 @@ export interface ResultError {
 }
 
 export default class Result {
-  public cmd: string;
+  public cmd: string = '';
 
-  public code: number;
+  public code: number = 0;
 
-  private options: Options;
+  private options: Options = DEFAULT_OPTIONS;
 
-  public stdout: string;
+  public stdout: string = '';
 
-  public stderr: string;
+  public stderr: string = '';
 
-  public killed: boolean;
+  public killed: boolean = false;
 
   public err: ResultError;
 

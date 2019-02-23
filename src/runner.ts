@@ -22,21 +22,21 @@ import { default as register } from './plugin';
  *
  *  Simple stdout assertion:
  *  ```ts
- *  new Joker({ colors: false, newLines: false })
+ *  await new Joker({ colors: false, newLines: false })
  *    .exec('todo clear')
  *    .exec('todo Buy milk')
  *    .run('todo ls')
  *    .stdout('Buy milk')
- *    .end(fn);
+ *    .end();
  *  ```
  *
  *  Stdout assertion:
  *  ```ts
- *  new Joker({ colors: false, newLines: false })
+ *  await new Joker({ colors: false, newLines: false })
  *    .exec('todo clear')
  *    .run('todo')
  *    .stderr('Please enter a todo')
- *    .end(fn);
+ *    .end();
  *  ```
  *
  *  So repeating "todo clear" is simply ugly. You can avoid this by
@@ -108,7 +108,7 @@ export default class Runner {
    * Register a `before` filter.
    *
    * ```js
-   * new Joker()
+   * await new Joker()
    *   .before(fn)
    *   .before(fn2)
    *   .run(cmd)
@@ -129,7 +129,7 @@ export default class Runner {
    * Register an `after` filter.
    *
    * ```js
-   * new Joker()
+   * await new Joker()
    *   .run(cmd)
    *   .after(fn)
    *   .after(fn2)
@@ -154,7 +154,7 @@ export default class Runner {
    * Please note that this won't affect any other commands like `unlink` etc.
    *
    * ```js
-   * new Joker()
+   * await new Joker()
    *   .cwd(__dirname)
    *   .run('pwd')
    *   .stdout(/test$/)
@@ -177,7 +177,7 @@ export default class Runner {
    * again and again.
    *
    * ```js
-   * new Joker()
+   * await new Joker()
    *   .base('node ')
    *   .run('--version')
    *   .stdout('0.10.16')
@@ -197,11 +197,11 @@ export default class Runner {
    * Set data to pass to stdin
    *
    * ```js
-   * new Joker()
+   * await new Joker()
    *   .stdin('foobar')
    *   .run('rev')
    *   .stdout('raboof')
-   *   .end(fn);
+   *   .end();
    * ```
    *
    * @param {String} data
@@ -217,12 +217,12 @@ export default class Runner {
    * Set environment variable.
    *
    * ```js
-   * new Joker()
+   * await new Joker()
    *   .env('foo', 'bar')
    *   .env('baz', 'boo')
    *   .run('node --version')
    *   .stdout('0.10.16')
-   *   .end(fn);
+   *   .end();
    * ```
    *
    * @param {String} key
@@ -239,16 +239,16 @@ export default class Runner {
    * Specify a command to run.
    *
    * ```js
-   * new Joker()
+   * await new Joker()
    *   .run('node --version')
    *   .stdout('0.10.16')
-   *   .end(fn);
+   *   .end();
    * ```
    *
    * You could also run the test right after specifying the command to run:
    *
    * ```js
-   * new Joker()
+   * await new Joker()
    *   .stdout('0.10.16')
    *   .run('node --version', fn);
    * ```
@@ -269,10 +269,10 @@ export default class Runner {
    * Set a timeout for the main command that you are about to test
    *
    * ```js
-   * new Joker()
+   * await new Joker()
    *   .timeout(1) // ms
    *   .run('cat /dev/null')
-   *   .end(fn);
+   *   .end();
    * ```
    *
    * @param {Number} ms
@@ -289,25 +289,25 @@ export default class Runner {
    * Register a "stdout" expectation.
    *
    * ```js
-   * new Joker()
+   * await new Joker()
    *   .stdout('LICENSE Makefile')
    *   .run('ls')
-   *   .end(fn);
+   *   .end();
    * ```
    *
    * Works with regular expressions too.
    *
    * ```js
-   * new Joker()
+   * await new Joker()
    *   .stdout(/system/)
    *   .run('time')
-   *   .end(fn);
+   *   .end();
    * ```
    *
    * You can also combine regular expressions and string assertions
    *
    * ```ts
-   * new Joker()
+   * await new Joker()
    *   .run('echo foo')
    *   // Test for an exact string
    *   .stdout('foo')
@@ -329,10 +329,10 @@ export default class Runner {
    * Register a "stderr" expectation.
    *
    * ```js
-   * new Joker()
+   * await new Joker()
    *   .run('todo add')
    *   .stderr('Please specify a todo')
-   *   .end(fn);
+   *   .end();
    * ```
    *
    * @param {Regex|String} pattern
@@ -348,10 +348,10 @@ export default class Runner {
    * Assert that a specific exit code is thrown.
    *
    * ```js
-   * new Joker()
+   * await new Joker()
    *   .run('todo add')
    *   .code(1)
-   *   .end(fn);
+   *   .end();
    * ```
    *
    * @param {Number} code
@@ -367,10 +367,10 @@ export default class Runner {
    * Check if a file or a directory exists.
    *
    * ```js
-   * new Joker()
+   * await new Joker()
    *   .run('mkdir /tmp/test')
    *   .exist('/tmp/test')
-   *   .end(fn);
+   *   .end();
    * ```
    *
    * @param {String} path
@@ -388,7 +388,7 @@ export default class Runner {
    * You can match the contexts against an exact string
    *
    * ```js
-   * new Joker()
+   * await new Joker()
    *   .writeFile(file, 'Hello')
    *   .run('node void.js')
    *   .match(file, 'Hello')
@@ -399,7 +399,7 @@ export default class Runner {
    * You can also match against a regular expression
    *
    * ```js
-   * new Joker()
+   * await new Joker()
    *   .writeFile(file, 'Hello')
    *   .run('node void.js')
    *   .match(file, /ello/)
@@ -420,10 +420,10 @@ export default class Runner {
    * Create a new directory.
    *
    * ```js
-   * new Joker()
+   * await new Joker()
    *   .mkdir('xml-database')
    *   .run('this does stuff with the xml-database directory')
-   *   .end(fn);
+   *   .end();
    * ```
    *
    * @param {String} path
@@ -439,7 +439,7 @@ export default class Runner {
    * Execute a command.
    *
    * ```js
-   * new Joker()
+   * await new Joker()
    *   .writeFile('LICENSE', 'MIT License')
    *   .exec('git add -a')
    *   .exec('git commit -m "Add LICENSE"')
@@ -453,7 +453,7 @@ export default class Runner {
    * supplying a different "environment":
    *
    * ```js
-   * new Joker()
+   * await new Joker()
    *   .exec('git add LICENSE', { timeout: 4, cwd: '/tmp' })
    *   .run('git log')
    *   .stdout(/LICENSE/)
@@ -477,7 +477,7 @@ export default class Runner {
    * Without content:
    *
    * ```js
-   * new Joker()
+   * await new Joker()
    *   .writeFile(pathToFile)
    *   .end();
    * ```
@@ -485,7 +485,7 @@ export default class Runner {
    * With content:
    *
    * ```js
-   * new Joker()
+   * await new Joker()
    *   .writeFile(pathToFile, data)
    *   .end();
    * ```
@@ -504,11 +504,11 @@ export default class Runner {
    * Remove a directory
    *
    * ```js
-   * new Joker()
+   * await new Joker()
    *   .mkdir('xml-database')
    *   .run('this does stuff with the xml-database directory')
    *   .rmdir('xml-database')
-   *   .end(fn);
+   *   .end();
    * ```
    *
    * @param {String} path
@@ -524,11 +524,11 @@ export default class Runner {
    * Remove a file
    *
    * ```js
-   * new Joker()
+   * await new Joker()
    *   .writeFile('my-file', data)
    *   .run('this does stuff with my file')
    *   .unlink('my-file')
-   *   .end(fn);
+   *   .end();
    * ```
    *
    * @param {String} path
@@ -547,7 +547,7 @@ export default class Runner {
    * the the stdout stream. Must be paired with `.respond`.
    *
    * ```js
-   * new Joker()
+   * await new Joker()
    *   .run(cmd)
    *   .on('Your name: ')
    *   .respond('Joe User\n')
@@ -569,7 +569,7 @@ export default class Runner {
    * In more detail, this method writes a response to the stdin stream when a prompt is detected
    *
    * ```js
-   * new Joker()
+   * await new Joker()
    *   .run(cmd)
    *   .on('Your name: ')
    *   .respond('Joe User\n')
@@ -604,7 +604,7 @@ export default class Runner {
    * You can also pass callback functions if you would like. This will not return a Promise.
    *
    * ```js
-   * new Joker()
+   * await new Joker()
    *   .run('echo a b c')
    *   .stdout('a b c')
    *   .end((err) => {});
@@ -613,7 +613,7 @@ export default class Runner {
    * The same might be accomplished with supplying a function to `run`:
    *
    * ```js
-   * new Joker()
+   * await new Joker()
    *   .stdout('a b c')
    *   .run('echo a b c', (err) => {})
    *   .end((err) => {});
@@ -665,14 +665,20 @@ export default class Runner {
    * Register an expectation.
    *
    * ```js
-   * new Joker()
-   *   .expect((result) => {
+   * import expect from 'expect';
+   *
+   * await new Joker()
+   *   .run('ls')
+   *   .expect((result: Result) => {
    *     if (result.stdout !== 'Unicorns') {
    *       return new Error('OMG');
    *     }
+   *     expect(res.stderr).toEqual('');
+   *     expect(res.stdout).toEqual('Unicorns');
+   *     expect(result.code).toEqual(0);
+   *     expect(result.killed).toEqual(false);
    *   })
-   *   .run('ls')
-   *   .end(fn);
+   *   .end();
    * ```
    *
    * @param {Function} fn

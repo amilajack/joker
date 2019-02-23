@@ -16,10 +16,13 @@ $ npm install --save @amilajack/joker
 ```js
 import Joker from '@amilajack/joker';
 
-new Joker()
-  .exec('touch /tmp/test')
+await new Joker()
+  .cwd(path.join(__dirname, 'fixtures'))
+  .env('NODE_ENV', 'production')
+  .before('touch /tmp/test')
   .run('ls /tmp/')
   .stdout(/test/)
+  .code(0)
   .end();
 ```
 
@@ -48,14 +51,14 @@ new Joker(options)
 While Joker comes with built-in expectations, you can use your own too.
 
 ```js
-new Joker()
+await new Joker()
   .expect((result) => {
     if (result.stdout !== 'unicorns') {
       return new Error('NO!');
     }
   })
   .run('unicorns')
-  .end(fn);
+  .end();
 ```
 
 ### Custom middlewares
@@ -63,7 +66,7 @@ new Joker()
 You can register as many before and after middlewares as you wish.
 
 ```js
-new Joker()
+await new Joker()
   .before(setupDatabase)
   .before(runMigrations)
   .run(cmd)
@@ -79,7 +82,7 @@ before everything else, "after" middlewares always run after everything else.
 The other middlewares will match the order that you have specified.
 
 ```js
-new Joker()
+await new Joker()
   .before(before1)
   .before(before2)
   .after(after1)
@@ -87,7 +90,7 @@ new Joker()
   .writeFile(file, '')
   .run(cmd)
   .unlink(file)
-  .end(fn);
+  .end();
 
 // Execution order:
 // before1, before2, writeFile, cmd, unlink, after1, after2
@@ -168,7 +171,7 @@ Joker can respond to apps that run interactively using the `on()` and
 `respond()` functions.
 
 ```js
-new Joker()
+await new Joker()
   .run(cmd)
   .on('Your name: ')
   .respond('Joe User\n')
