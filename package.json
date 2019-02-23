@@ -38,7 +38,7 @@
     "@types/assertion-error": "^1.1.0",
     "@types/clone": "^0.1.30",
     "@types/jest": "^23.3.13",
-    "@types/node": "^10.12.18",
+    "@types/node": "^10.12.27",
     "cross-env": "^5.2.0",
     "eslint": "^5.12.1",
     "eslint-config-bliss": "^3.2.0",
