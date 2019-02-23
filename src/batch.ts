@@ -63,13 +63,13 @@ export type NodeError = (err: NodeJS.ErrnoException) => void;
 export type BatchFunction = (a?: NextFn | Result | Error | NodeError) => void;
 
 export default class Batch {
-  before: Array<BatchFunction> = [];
+  before: BatchFunction[] = [];
 
-  beforeAfter: Array<BatchFunction> = [];
+  beforeAfter: BatchFunction[] = [];
 
-  after: Array<BatchFunction> = [];
+  after: BatchFunction[] = [];
 
-  afterBefore: Array<BatchFunction> = [];
+  afterBefore: BatchFunction[] = [];
 
   fn: Function;
 

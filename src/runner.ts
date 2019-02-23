@@ -8,10 +8,10 @@ import Result, { Options, JokerError } from './result';
 import * as respond from './respond';
 import { default as register } from './plugin';
 
-export type OptionalArgs = {
+export interface OptionalArgs {
   newLines?: boolean;
   colors?: boolean;
-};
+}
 
 /**
  * The primary entry point for every joker test. It provides public
@@ -70,11 +70,11 @@ export default class Runner {
 
   private world: World = new World(process.env, process.cwd());
 
-  private expectations: Array<(expect.AssertionFn)> = [];
+  private expectations: (expect.AssertionFn)[] = [];
 
-  private prompts: Array<RegExp | string> = [];
+  private prompts: (RegExp | string)[] = [];
 
-  private responses: Array<string> = [];
+  private responses: string[] = [];
 
   private baseCmd: string = '';
 

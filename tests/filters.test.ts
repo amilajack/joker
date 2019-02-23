@@ -12,16 +12,16 @@ describe('joker filters', () => {
 
     jokerFixture()
       .before(() => {
-        before++;
+        before += 1;
         fs.writeFileSync(file1, '');
       })
       .before(next => {
-        before++;
+        before += 1;
         expect(fs.existsSync(file1)).toEqual(true);
         fs.writeFile(file2, '', next);
       })
       .after(() => {
-        after++;
+        after += 1;
         fs.unlinkSync(file1);
         fs.unlinkSync(file2);
       })

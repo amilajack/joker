@@ -42,23 +42,21 @@ import Runner from './runner';
  */
 
 interface Register {
-  [x: string]: Function
+  [x: string]: Function;
 }
 
 export default function Plugin(name: string | Register, fn?: Function) {
   let register: Register = {};
 
   if (typeof name === 'object' && !(name instanceof String)) {
-    register = name
-  } else {
-    if (typeof name === 'string') {
-      register = {
-        [name]: fn || (() => {})
-      }
-    }
+    register = name;
+  } else if (typeof name === 'string') {
+    register = {
+      [name]: fn || (() => {})
+    };
   }
 
   Object.keys(register).forEach(key => {
     Runner.prototype[key] = register[key];
   });
-};
+}

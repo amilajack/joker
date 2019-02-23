@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
-import { jokerFixture } from '.';
 import rimraf from 'rimraf';
+import { jokerFixture } from '.';
 
 const dir = path.join(__dirname, 'tmp', 'mkdir-test');
 

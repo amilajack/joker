@@ -3,7 +3,7 @@
  * of command executions.
  */
 
-export type Options = {
+export interface Options {
   /**
    * Determine if new line characters should be stripped from output
    */
@@ -13,12 +13,12 @@ export type Options = {
    * Determine if colors should be stripped from output
    */
   colors: boolean;
-};
+}
 
-export type JokerError = {
+export interface JokerError {
   code: number;
   killed: boolean;
-};
+}
 
 export default class Result {
   cmd: string;

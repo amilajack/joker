@@ -17,8 +17,8 @@ import * as stream from 'stream';
 export function run(
   readable: stream.Readable,
   writable: stream.Writable,
-  expects: Array<RegExp | string>,
-  responses: Array<string>
+  expects: (RegExp | string)[],
+  responses: string[]
 ) {
   let needNew = true;
   let buffer = '';
@@ -35,7 +35,7 @@ export function run(
     }
 
     if (typeof expect === 'string') {
-      match = buffer.lastIndexOf(expect) == buffer.length - expect.length;
+      match = buffer.lastIndexOf(expect) === buffer.length - expect.length;
     } else if (typeof expect === 'object') {
       match = buffer.match(expect) != null;
     }

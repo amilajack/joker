@@ -1,5 +1,5 @@
+import { join } from 'path';
 import { Joker } from '.';
-const join = require('path').join;
 
 describe('joker', () => {
   it('can strip \\n from stdout and stderr', done => {

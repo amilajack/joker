@@ -11,13 +11,13 @@ export type AssertionFn = (res: Result) => AssertionError | void;
  * @private
  */
 
-export function code(code: number): AssertionFn {
+export function code(code: number): AssertionFn | undefined {
   return (result: Result) => {
     if (code !== result.code) {
       const message = `Expected exit code: "${code}", actual: "${result.code}"`;
       return error(result, message, code, result.code);
     }
-    return;
+    return undefined;
   };
 }
 
@@ -28,10 +28,10 @@ export function code(code: number): AssertionFn {
  */
 
 export function time(): AssertionFn {
-  return (result: Result): (AssertionErrorAdditions | undefined) => {
-      return result.killed
-        ? error(result, 'Command execution terminated (timeout)')
-        : undefined
+  return (result: Result): AssertionErrorAdditions | undefined => {
+    return result.killed
+      ? error(result, 'Command execution terminated (timeout)')
+      : undefined;
   };
 }
 
@@ -42,7 +42,7 @@ export function time(): AssertionFn {
  * @private
  */
 
-export function stderr(expected: String | RegExp): AssertionFn {
+export function stderr(expected: string | RegExp): AssertionFn {
   return (result: Result) => assertOut('stderr', expected, result);
 }
 
@@ -53,7 +53,7 @@ export function stderr(expected: String | RegExp): AssertionFn {
  * @private
  */
 
-export function stdout(expected: String | RegExp): AssertionFn {
+export function stdout(expected: string | RegExp): AssertionFn {
   return (result: Result) => assertOut('stdout', expected, result);
 }
 
@@ -65,7 +65,7 @@ export function stdout(expected: String | RegExp): AssertionFn {
  */
 
 export function exists(path: string): AssertionFn {
-  return (result: Result):  AssertionErrorAdditions | undefined => {
+  return (result: Result): AssertionErrorAdditions | undefined => {
     if (fs.existsSync(path) !== true) {
       return error(result, `Expected "${path}" to exist.`);
     }
@@ -121,9 +121,9 @@ function assertOut(
 }
 
 export type AssertionErrorAdditions = AssertionError & {
-  expected?: string | number | RegExp;
-  actual?: string | number;
-  result: Result;
+  expected?: string | number | RegExp,
+  actual?: string | number,
+  result: Result
 };
 
 /**
