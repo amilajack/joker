@@ -3,7 +3,7 @@
 
 [![Build Status](https://dev.azure.com/amilajack/amilajack/_apis/build/status/amilajack.joker?branchName=master)](https://dev.azure.com/amilajack/amilajack/_build/latest?definitionId=1&branchName=master)
 
-An modern and intuitive testing for command-line apps.
+A modern and intuitive testing library for command-line apps
 
 ## Installation
 
