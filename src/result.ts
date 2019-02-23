@@ -4,7 +4,14 @@
  */
 
 export type Options = {
+  /**
+   * Determine if new line characters should be stripped from output
+   */
   newLines: boolean;
+
+  /**
+   * Determine if colors should be stripped from output
+   */
   colors: boolean;
 };
 

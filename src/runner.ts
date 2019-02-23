@@ -8,7 +8,7 @@ import Result, { Options, JokerError } from './result';
 import * as respond from './respond';
 import { default as register } from './plugin';
 
-export type OptionalArgs = {
+type OptionalArgs = {
   newLines?: boolean;
   colors?: boolean;
 };
@@ -63,29 +63,31 @@ export type OptionalArgs = {
  * For more examples check the "README" file.
  */
 
+const DEFAULT_OPTIONS = {
+  newLines: true,
+  colors: true
+};
+
 export default class Runner {
-  batch: Batch = new Batch();
+  private batch: Batch = new Batch();
 
-  options: Options = {
-    newLines: true,
-    colors: true
-  };
+  private options: Options = DEFAULT_OPTIONS;
 
-  world: World = new World(process.env, process.cwd());
+  private world: World = new World(process.env, process.cwd());
 
-  expectations: Array<(expect.AssertionFn)> = [];
+  private expectations: Array<(expect.AssertionFn)> = [];
 
-  prompts: Array<RegExp | string> = [];
+  private prompts: Array<RegExp | string> = [];
 
-  responses: Array<string> = [];
+  private responses: Array<string> = [];
 
-  baseCmd: string = '';
+  private baseCmd: string = '';
 
-  standardInput: null | string = null;
+  private standardInput: null | string = null;
 
-  register = register;
+  public register = register;
 
-  constructor(rawOptions: OptionalArgs = {}) {
+  constructor(rawOptions: OptionalArgs = DEFAULT_OPTIONS) {
     const options: Options = Object.assign(
       {},
       this.options,
@@ -96,7 +98,15 @@ export default class Runner {
   }
 
   /**
-   * Register a before filter.
+   * Register a `before` filter.
+   * 
+   * ```js
+   * new Joker()
+   *   .before(fn)
+   *   .before(fn2)
+   *   .run(cmd)
+   *   .end();
+   * ```
    *
    * @param {Function} fn
    * @returns {Runner} for chaining
@@ -109,7 +119,15 @@ export default class Runner {
   }
 
   /**
-   * Register an after filter.
+   * Register an `after` filter.
+   * 
+   * ```js
+   * new Joker()
+   *   .run(cmd)
+   *   .after(fn)
+   *   .after(fn2)
+   *   .end();
+   * ```
    *
    * @param {Function} fn
    * @returns {Runner} for chaining
@@ -124,6 +142,17 @@ export default class Runner {
   /**
    * Set the current working directory for
    * the command that will be executed.
+   * 
+   * Change the current working directory of the main command (specified with `run`).
+   * Please note that this won't affect any other commands like `unlink` etc.
+   * 
+   * ```js
+   * new Joker()
+   *   .cwd(__dirname)
+   *   .run('pwd')
+   *   .stdout(/test$/)
+   *   .end();
+   * ```
    *
    * @param {String} path
    * @returns {Runner} for chaining
@@ -139,6 +168,14 @@ export default class Runner {
    *
    * Very convenient when testing the same executable
    * again and again.
+   * 
+   * ```js
+   * new Joker()
+   *   .base('node ')
+   *   .run('--version')
+   *   .stdout('0.10.16')
+   *   .end();
+   * ```
    *
    * @param {String} command
    * @returns {Runner} for chaining
@@ -150,7 +187,15 @@ export default class Runner {
   }
 
   /**
-   * Set data to pass to stdin.
+   * Set data to pass to stdin
+   * 
+   * ```js
+   * new Joker()
+   *   .stdin('foobar')
+   *   .run('rev')
+   *   .stdout('raboof')
+   *   .end(fn);
+   * ```
    *
    * @param {String} data
    * @returns {Runner} for chaining
@@ -163,6 +208,15 @@ export default class Runner {
 
   /**
    * Set environment variable.
+   * 
+   * ```js
+   * new Joker()
+   *   .env('foo', 'bar')
+   *   .env('baz', 'boo')
+   *   .run('node --version')
+   *   .stdout('0.10.16')
+   *   .end(fn);
+   * ```
    *
    * @param {String} key
    * @param {String} value
@@ -176,6 +230,21 @@ export default class Runner {
 
   /**
    * Specify a command to run.
+   * 
+   * ```js
+   * new Joker()
+   *   .run('node --version')
+   *   .stdout('0.10.16')
+   *   .end(fn);
+   * ```
+   * 
+   * You could also run the test right after specifying the command to run:
+   * 
+   * ```js
+   * new Joker()
+   *   .stdout('0.10.16')
+   *   .run('node --version', fn);
+   * ```
    *
    * @param {String} command
    * @returns {Runner} for chaining
@@ -189,7 +258,14 @@ export default class Runner {
   }
 
   /**
-   * Force an execution timeout.
+   * Set a timeout for the main command that you are about to test
+   * 
+   * ```js
+   * new Joker()
+   *   .timeout(1) // ms
+   *   .run('cat /dev/null')
+   *   .end(fn);
+   * ```
    *
    * @param {Number} ms
    * @returns {Runner} for chaining
@@ -203,6 +279,34 @@ export default class Runner {
 
   /**
    * Register a "stdout" expectation.
+   * 
+   * ```js
+   * new Joker()
+   *   .stdout('LICENSE Makefile')
+   *   .run('ls')
+   *   .end(fn);
+   * ```
+   * 
+   * Works with regular expressions too.
+   * 
+   * ```js
+   * new Joker()
+   *   .stdout(/system/)
+   *   .run('time')
+   *   .end(fn);
+   * ```
+   * 
+   * You can also combine regular expressions and string assertions
+   * 
+   * ```ts
+   * new Joker()
+   *   .run('echo foo')
+   *   // Test for an exact string
+   *   .stdout('foo')
+   *   // Test using a regular expression
+   *   .stdout(/foo/)
+   *   .done();
+   * ```
    *
    * @param {Regex|String} pattern
    * @returns {Runner} for chaining
@@ -215,6 +319,13 @@ export default class Runner {
 
   /**
    * Register a "stderr" expectation.
+   * 
+   * ```js
+   * new Joker()
+   *   .run('todo add')
+   *   .stderr('Please speicfy a todo')
+   *   .end(fn);
+   * ```
    *
    * @param {Regex|String} pattern
    * @returns {Runner} for chaining
@@ -226,7 +337,14 @@ export default class Runner {
   }
 
   /**
-   * Register an exit code expectation.
+   * Assert that a specific exit code is thrown.
+   * 
+   * ```js
+   * new Joker()
+   *   .run('todo add')
+   *   .code(1)
+   *   .end(fn);
+   * ```
    *
    * @param {Number} code
    * @returns {Runner} for chaining
@@ -239,6 +357,13 @@ export default class Runner {
 
   /**
    * Check if a file or a directory exists.
+   * 
+   * ```js
+   * new Joker()
+   *   .run('mkdir /tmp/test')
+   *   .exist('/tmp/test')
+   *   .end(fn);
+   * ```
    *
    * @param {String} path
    * @returns {Runner} for chaining
@@ -251,6 +376,24 @@ export default class Runner {
 
   /**
    * Match the content of a file.
+   * 
+   * ```js
+   * new Joker()
+   *   .writeFile(file, 'Hello')
+   *   .run('node void.js')
+   *   .match(file, 'Hello')
+   *   .unlink(file)
+   *   .end(done);
+   * ```
+   * 
+   * ```js
+   * new Joker()
+   *   .writeFile(file, 'Hello')
+   *   .run('node void.js')
+   *   .match(file, /ello/)
+   *   .unlink(file)
+   *   .end(done);
+   * ```
    *
    * @param {Regex|String} pattern
    * @returns {Runner} for chaining
@@ -263,6 +406,13 @@ export default class Runner {
 
   /**
    * Create a new directory.
+   * 
+   * ```js
+   * new Joker()
+   *   .mkdir('xml-database')
+   *   .run('this does stuff with the xml-database directory')
+   *   .end(fn);
+   * ```
    *
    * @param {String} path
    * @returns {Runner} for chaining
@@ -275,6 +425,28 @@ export default class Runner {
 
   /**
    * Execute a command.
+   * 
+   * ```js
+   * new Joker()
+   *   .writeFile('LICENSE', 'MIT License')
+   *   .exec('git add -a')
+   *   .exec('git commit -m "Add LICENSE"')
+   *   .run('git log')
+   *   .stdout(/LICENSE/)
+   *   .end();
+   * ```
+   * 
+   * By default the commands will inherit the "world" for the main command which
+   * includes environment variables, cwd, timeout. However, you can override this by
+   * supplying a different "world":
+   * 
+   * ```js
+   * new Joker()
+   *   .exec('git add LICENSE', { timeout: 4, cwd: '/tmp' })
+   *   .run('git log')
+   *   .stdout(/LICENSE/)
+   *   .end();
+   * ```
    *
    * @param {String} command
    * @param {World} world - env vars, cwd
@@ -288,7 +460,23 @@ export default class Runner {
   }
 
   /**
-   * Create a new file with the given `content`.
+   * Create a new file with the given `content`. This is a small wrapper over `fs.writeFile`.
+   * 
+   * Without content:
+   * 
+   * ```js
+   * new Joker()
+   *   .writeFile(pathToFile)
+   *   .end();
+   * ```
+   * 
+   * With content:
+   * 
+   * ```js
+   * new Joker()
+   *   .writeFile(pathToFile, data)
+   *   .end();
+   * ```
    *
    * @param {String} path
    * @param {String} data [optional]
@@ -301,7 +489,15 @@ export default class Runner {
   }
 
   /**
-   * Remove a directory.
+   * Remove a directory
+   * 
+   * ```js
+   * new Joker()
+   *   .mkdir('xml-database')
+   *   .run('this does stuff with the xml-database directory')
+   *   .rmdir('xml-database')
+   *   .end(fn);
+   * ```
    *
    * @param {String} path
    * @returns {Runner} for chaining
@@ -313,7 +509,15 @@ export default class Runner {
   }
 
   /**
-   * Remove a file.
+   * Remove a file
+   * 
+   * ```js
+   * new Joker()
+   *   .writeFile('my-file', data)
+   *   .run('this does stuff with my file')
+   *   .unlink('my-file')
+   *   .end(fn);
+   * ```
    *
    * @param {String} path
    * @returns {Runner} for chaining
@@ -326,6 +530,17 @@ export default class Runner {
 
   /**
    * Register an interactive prompt
+   * 
+   * Detect a prompt for user input. Accepts a String or RegExp that appears in
+   * the the stdout stream. Must be paired with `.respond`.
+   * 
+   * ```js
+   * new Joker()
+   *   .run(cmd)
+   *   .on('Your name: ')
+   *   .respond('Joe User\n')
+   *   .end();
+   * ```
    *
    * @param {Regex|String} pattern
    * @returns {Runner} for chaining
@@ -338,6 +553,10 @@ export default class Runner {
 
   /**
    * Register an interactive prompt response
+   * 
+   * In more detail, this method writes a response to the stdin stream when a prompt is detected
+   * 
+   * 
    *
    * @param {String} response
    * @returns {Runner} for chaining
@@ -349,7 +568,22 @@ export default class Runner {
   }
 
   /**
-   * Run the test.
+   * Run the given test
+   * 
+   * ```js
+   * new Joker()
+   *   .run('ls')
+   *   .stdout('this-is-not-porn-i-promise')
+   *   .end((err) => {});
+   * ```
+   * 
+   * The same might be accomplished with supplying a function to `run`:
+   * 
+   * ```js
+   * new Joker()
+   * .stdout('this-is-not-porn-i-promise')
+   * .run('ls', (err) => {});
+   * ```
    *
    * @param {Function} fn
    * @returns {Runner} for chaining
@@ -357,14 +591,23 @@ export default class Runner {
 
   public end(fn: (err?: Error) => void) {
     if (!this.batch.hasMain()) {
-      throw new Error('Please provide a command to run. Hint: `joker#run`');
+      throw new Error('Please provide a command to run. Hint: You may have forgotten to call `joker.run(myFunction)`');
     }
     this.batch.run(fn);
   }
 
   /**
-   * Clone the runner. Give basic support for templates.
+   * Deep clone the `Runner` instance. Give basic support for templates.
    *
+   * ```js
+   * const clone = new Joker()
+   *   .before(fn)
+   *   .after(fn)
+   *   .run('my awesome command')
+   *   .end()
+   *   .clone();
+   * ```
+   * 
    * @returns {Runner} clone of the current instance
    */
 
@@ -374,6 +617,17 @@ export default class Runner {
 
   /**
    * Register an expectation.
+   *
+   * ```js
+   * new Joker()
+   *   .expect((result) => {
+   *     if (result.stdout !== 'Unicorns') {
+   *       return new Error('OMG');
+   *     }
+   *   })
+   *   .run('ls')
+   *   .end(fn);
+   * ```
    *
    * @param {Function} fn
    */
