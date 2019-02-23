@@ -1,14 +1,14 @@
 > ## 🛠 Status: In Development
 > Joker is currently in development. It's on the fast track to a 1.0 release, so we encourage you to use it and give us your feedback, but there are things that haven't been finalized yet and you can expect some changes.
 
-[![Build Status](https://travis-ci.com/amilajack/joker.svg)](http://travis-ci.com/amilajack/joker)
+[![Build Status](https://travis-ci.com/amilajack/joker.svg?branch=master)](https://travis-ci.com/amilajack/joker)
 
 An modern and intuitive testing for command-line apps.
 
 ## Installation
 
 ```bash
-$ npm install @amilajack/joker
+$ npm install --save @amilajack/joker
 ```
 
 ## How it looks
@@ -25,7 +25,7 @@ new Joker()
 
 ## API
 
-See [full API docs](https://amilajack.github.io/joker/)
+See [full API docs](https://amilajack.github.io/joker/classes/runner)
 
 ## Features
 
@@ -175,7 +175,7 @@ new Joker()
   .end();
 ```
 
-See `test/prompt.test.js` for more examples.
+See [`test/prompt.test.ts`](https://github.com/amilajack/joker/blob/master/tests/prompt.test.ts) for more examples.
 
 ## Credits
 
