@@ -122,7 +122,7 @@ export default class Runner {
    *
    * @param {Function} fn
    * @returns for chaining
-   * @see `Batch#addBefore`
+   * @see [[Batch#addBefore]]
    */
 
   public before(fn: BatchFunction): Runner {
@@ -143,7 +143,7 @@ export default class Runner {
    *
    * @param {Function} fn
    * @returns for chaining
-   * @see `Batch#addAfter`
+   * @see [[Batch#addAfter]]
    */
 
   public after(fn: BatchFunction): Runner {
@@ -260,10 +260,11 @@ export default class Runner {
    *
    * @param {String} command
    * @returns for chaining
-   * @see `Batch#main`
+   * @see [[Batch#main]]
    */
 
   public run(cmd: string, fn?: BatchFunction): Runner {
+    this.expectations = [];
     this.batch.main(this.execFn(this.baseCmd + cmd));
     if (fn) this.end(fn);
     return this;
@@ -335,7 +336,7 @@ export default class Runner {
    * ```js
    * new Joker()
    *   .run('todo add')
-   *   .stderr('Please speicfy a todo')
+   *   .stderr('Please specify a todo')
    *   .end(fn);
    * ```
    *
@@ -679,7 +680,7 @@ export default class Runner {
       let stderr = '';
       let timeoutError: JokerError | undefined;
 
-      if (this.standardInput != null) {
+      if (this.standardInput !== null) {
         child.stdin.end(this.standardInput);
       }
 

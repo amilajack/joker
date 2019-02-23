@@ -18,6 +18,7 @@
     "build": "cross-env NODE_ENV=production babel src --out-dir dist --extensions \".ts\" --source-maps inline",
     "docs": "rm -rf docs && typedoc ./src --out docs",
     "lint": "eslint . --ext .ts",
+    "spec": "jest --runInBand",
     "test": "yarn ts && yarn build && jest --runInBand && yarn docs",
     "ts": "tsc",
     "prepublish": "yarn test && yarn ts:dec",

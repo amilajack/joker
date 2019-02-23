@@ -48,6 +48,7 @@
  * joker gives you the ability to keep everything simple.
  *
  * @private
+ * @hidden
  */
 import { AssertionFn } from './expectations';
 import { NextFn } from './middlewares';
@@ -98,8 +99,8 @@ export default class Batch {
    * or in the "before after" list, depending if a "main"
    * function exists.
    *
-   * @see `Batch#hasMain`
-   * @see `Batch#main`
+   * @see [[Batch#hasMain]]
+   * @see [[Batch#main]]
    * @param {Function} fn
    */
 
