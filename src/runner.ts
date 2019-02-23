@@ -4,14 +4,9 @@ import Batch, { BatchFunction, JokerError } from './batch';
 import Environment from './environment';
 import * as expect from './expectations';
 import * as middlewares from './middlewares';
-import Result, { Options, ResultError } from './result';
+import Result, { Options, OptionalOptions, ResultError } from './result';
 import * as respond from './respond';
 import { default as register } from './plugin';
-
-export interface OptionalArgs {
-  newLines?: boolean;
-  colors?: boolean;
-}
 
 /**
  * The primary entry point for every joker test. It provides public
@@ -58,9 +53,10 @@ export interface OptionalArgs {
  * For more examples check the "README" file.
  */
 
-const DEFAULT_OPTIONS = {
+export const DEFAULT_OPTIONS = {
   newLines: true,
-  colors: true
+  colors: true,
+  showDiffs: true
 };
 
 export default class Runner {
@@ -102,7 +98,7 @@ export default class Runner {
    */
   public register = register;
 
-  public constructor(rawOptions: OptionalArgs = DEFAULT_OPTIONS) {
+  public constructor(rawOptions: OptionalOptions = DEFAULT_OPTIONS) {
     const options: Options = Object.assign({}, this.options, rawOptions);
     if (!(this instanceof Runner)) return new Runner(options);
     this.options = options;

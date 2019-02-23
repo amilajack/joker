@@ -1,5 +1,6 @@
 import fs from 'fs';
 import AssertionError from 'assertion-error';
+import expect from 'expect';
 import Result from './result';
 
 export type AssertionFn = (res: Result) => AssertionError | void;
@@ -37,6 +38,13 @@ function error(
   err.result = result;
   if (expected) err.expected = expected;
   if (actual) err.actual = actual;
+
+  // Use expect to show diffs between actual and expected values
+  try {
+    expect(actual).toEqual(expected);
+  } catch (e) {
+    console.log(e.message);
+  }
 
   // Show the stdout if the command errored
   if (result.stderr) console.log(result.stderr);

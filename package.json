@@ -38,10 +38,12 @@
     "@babel/preset-typescript": "^7.3.3",
     "@types/assertion-error": "^1.1.0",
     "@types/clone": "^0.1.30",
+    "@types/expect": "^1.20.4",
     "@types/jest": "^24.0.6",
     "@types/node": "^11.9.5",
     "@typescript-eslint/eslint-plugin": "^1.4.1",
     "@typescript-eslint/parser": "^1.4.1",
+    "assertion-error": "^1.1.0",
     "babel-jest": "^24.1.0",
     "cross-env": "^5.2.0",
     "eslint": "^5.14.1",
@@ -57,8 +59,8 @@
     "typescript": "^3.3.3333"
   },
   "dependencies": {
-    "assertion-error": "~1.1.0",
     "clone": "^2.1.2",
+    "expect": "^24.1.0",
     "shell-quote": "^1.6.1"
   },
   "types": "./dist/index.d.ts",

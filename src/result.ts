@@ -1,3 +1,5 @@
+import { DEFAULT_OPTIONS } from './runner';
+
 /**
  * Simple object that contains the result
  * of command executions.
@@ -13,6 +15,20 @@ export interface Options {
    * Determine if colors should be stripped from output
    */
   colors: boolean;
+
+  /**
+   * Determine if diffs should be shown with the [[Runner.stdout]] and [[Runner.stdout]] methods
+   */
+  showDiffs: boolean;
+}
+
+/**
+ * @see [[Options]] for more details
+ */
+export interface OptionalOptions {
+  newLines?: boolean;
+  colors?: boolean;
+  showDiffs?: boolean;
 }
 
 export interface ResultError {
@@ -38,7 +54,7 @@ export default class Result {
   public constructor(
     cmd: string,
     code: number,
-    options: Options = { colors: true, newLines: true }
+    options: Options = DEFAULT_OPTIONS
   ) {
     this.options = options;
     this.code = code;
