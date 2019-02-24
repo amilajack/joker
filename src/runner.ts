@@ -19,44 +19,92 @@ export const DEFAULT_OPTIONS: Options = {
 };
 
 /**
- * The primary entry point for every Joker test
+ * ## Hello World!
  *
- * Examples:
+ * ```ts
+ * import Joker from '@amilajack/joker';
  *
- *  Simple stdout assertion:
- *  ```ts
- *  await new Joker({ colors: false, newLines: false })
- *    .exec('todo clear')
- *    .exec('todo Buy milk')
- *    .run('todo ls')
- *    .stdout('Buy milk')
- *    .end();
- *  ```
+ * await new Joker()
+ *   .run('node --version')
+ *   .stdout('v11.10.0')
+ *   .end();
+ * ```
  *
- *  Stdout assertion:
- *  ```ts
- *  await new Joker({ colors: false, newLines: false })
- *    .exec('todo clear')
- *    .run('todo')
- *    .stderr('Please enter a todo')
- *    .end();
- *  ```
+ * ### Preparing a test
  *
- *  So repeating "todo clear" is simply ugly. You can avoid this by
- *  creating a "template".
- *  ```ts
- *  const todo = new Joker().before(clearTodos);
- *  ```
+ * ```ts
+ * import Joker from '@amilajack/joker';
  *
- *  Later on:
- *  ```ts
- *  todo
- *    .clone()
- *    // ...
- *    .end()
- *  ```
+ * await new Joker()
+ *   // Create the file before the test is run
+ *   .exec(`echo "console.log('hello world')" > hello.js`)
+ *   .run('node hello.js')
+ *   .stdout('hello world')
+ *   .end();
+ * ```
  *
- * For more examples check the "README" file.
+ * ### Setting up the environment
+ *
+ * ```ts
+ * await new Joker()
+ *   .cwd(path.join(__dirname, 'fixtures'))
+ *   .env('NODE_ENV', 'production')
+ *   .before('touch /tmp/test')
+ *   .run('ls /tmp/')
+ *   .stdout(/test/)
+ *   .code(0)
+ *   .end();
+ * ```
+ *
+ * ### Custom expectations
+ *
+ * While Joker comes with built-in expectations, you can use your own too.
+ *
+ * ```js
+ * await new Joker()
+ *   .run('unicorns')
+ *   .expect((result) => {
+ *     if (result.stdout !== 'unicorns') {
+ *       return new Error('NO!');
+ *     }
+ *   })
+ *   .end();
+ * ```
+ *
+ *
+ * ### Usage with a test runner
+ *
+ * Joker plays nice with any test runner out there.
+ *
+ * #### Jest
+ *
+ * Here is a minimal example how you could use it with [Jest](http://jestjs.io) using async/await:
+ *
+ * ```js
+ * describe('todo add', () => {
+ *   it('adds a new todo item', async () => {
+ *      const result = await new Joker()
+ *        .run('todo add')
+ *        .stdout('A new todo has been added')
+ *        .end();
+ *      expect(result.stdout).toMatchSnapshot();
+ *    });
+ * });
+ * ```
+ *
+ * ### Options
+ *
+ * Joker can strip newlines and colors. You can tell it to do so by passing an
+ * object that looks like this. Joker defaults to showing colors and new lines.
+ *
+ * ```js
+ * const options = {
+ *   colors: false,
+ *   newLines: false
+ * };
+ *
+ * new Joker(options)
+ * ```
  */
 
 export default class Runner {
@@ -64,10 +112,7 @@ export default class Runner {
 
   private options: Options = DEFAULT_OPTIONS;
 
-  private environment: Environment = new Environment(
-    process.env,
-    process.cwd()
-  );
+  private environment: Environment = new Environment();
 
   private expectations: (expect.AssertionFn)[] = [];
 
@@ -236,7 +281,10 @@ export default class Runner {
   }
 
   /**
-   * Specify a command to run.
+   * Specify a command to run. Assertions will tests the `stderr` and `stdout` from
+   * the command registered with `run`.
+   *
+   * ## Basic example
    *
    * ```js
    * await new Joker()
@@ -245,12 +293,25 @@ export default class Runner {
    *   .end();
    * ```
    *
-   * You could also run the test right after specifying the command to run:
+   * ## Running multiple `run` commands
    *
    * ```js
    * await new Joker()
+   *   .run('node --version')
    *   .stdout('0.10.16')
-   *   .run('node --version', fn);
+   *   .run(`node -e "console.log('Hello World!')"`)
+   *   .stdout('Hello World!')
+   *   .end();
+   * ```
+   *
+   * ```js
+   *
+   * await new Joker()
+   *   .run('node --version')
+   *   .stdout('0.10.16')
+   *   .run('echo testing123')
+   *   .stdout('testign123')
+   *   .end();
    * ```
    *
    * @param command - The command to be executed and tested against
@@ -258,10 +319,9 @@ export default class Runner {
    * @see [[Batch#main]]
    */
 
-  public run(cmd: string, fn?: BatchFunction): Runner {
+  public run(cmd: string): Runner {
     this.expectations = [];
     this.batch.main(this.execFn(this.baseCmd + cmd));
-    if (fn) this.end(fn);
     return this;
   }
 
@@ -436,7 +496,8 @@ export default class Runner {
   }
 
   /**
-   * Execute a command.
+   * Execute a command that won't be tested. It is useful for running commands
+   * that prepare the command that is tested with the `run` method.
    *
    * ```js
    * await new Joker()
@@ -645,15 +706,22 @@ export default class Runner {
   }
 
   /**
-   * Deep clone the `Runner` instance. Give basic support for templates.
+   * Every `Joker` instance can be cloned, which allows you to build "templates" for tests. Here's some examples:
    *
    * ```js
-   * const clone = new Joker()
-   *   .before(fn)
-   *   .after(fn)
-   *   .run('my awesome command')
+   * const template = new Joker()
+   *   .cwd(path.join(__dirname, 'fixtures'))
+   *   .run('echo test');
+   *
+   * const test1 = await template
+   *   .clone()
+   *   .stdout(/test/)
    *   .end()
-   *   .clone();
+   *
+   * const test2 = await template
+   *   .clone()
+   *   .stdout('test')
+   *   .end();
    * ```
    *
    * @returns clone of the current instance
@@ -664,14 +732,14 @@ export default class Runner {
   }
 
   /**
-   * Register an expectation.
+   * Register an expectation
    *
    * ```js
    * import expect from 'expect';
    *
    * await new Joker()
    *   .run('ls')
-   *   .expect((result: Result) => {
+   *   .expect((result) => {
    *     if (result.stdout !== 'Unicorns') {
    *       return new Error('OMG');
    *     }
@@ -683,7 +751,8 @@ export default class Runner {
    *   .end();
    * ```
    *
-   * @param fn - The custom assertion you want to register
+   * @param fn - The custom assertion you want to register, takes [[Result]] as an argument
+   * @returns instance for chaining
    */
 
   public expect(fn: expect.AssertionFn): Runner {
@@ -696,7 +765,7 @@ export default class Runner {
    * the command.
    *
    * @param cmd - The name of the command the returned function will be called by
-   * @returns
+   * @returns The a function that will execute the command
    */
 
   private execFn(cmd: string): (fn: Function) => void {

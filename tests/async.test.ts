@@ -18,4 +18,22 @@ describe('async joker', () => {
         .end()
     ).rejects.toThrowErrorMatchingSnapshot();
   });
+
+  it('should reject if assertion fails', async () => {
+    await expect(
+      jokerFixture()
+        .run(`node -e "require('foo')"`)
+        .stderr('baz')
+        .end()
+    ).rejects.toThrowErrorMatchingSnapshot();
+  });
+
+  it('should show stack traces for failing js code', async () => {
+    await expect(
+      jokerFixture()
+        .run(`node -e "require('foo')"`)
+        .code(1)
+        .end()
+    ).resolves.toMatchSnapshot();
+  });
 });

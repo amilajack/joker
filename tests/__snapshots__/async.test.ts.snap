@@ -2,4 +2,24 @@
 
 exports[`async joker should reject if assertion fails 1`] = `"\`echo foo\`: Expected stdout to match \\"baz\\". Actual: \\"foo\\""`;
 
+exports[`async joker should reject if assertion fails 2`] = `
+"\`node -e \\"require('foo')\\"\`: Expected stderr to match \\"baz\\". Actual: \\"internal/modules/cjs/loader.js:615
+    throw err;
+    ^
+
+Error: Cannot find module 'foo'
+    at Function.Module._resolveFilename (internal/modules/cjs/loader.js:613:15)
+    at Function.Module._load (internal/modules/cjs/loader.js:539:25)
+    at Module.require (internal/modules/cjs/loader.js:667:17)
+    at require (internal/modules/cjs/helpers.js:20:18)
+    at [eval]:1:1
+    at Script.runInThisContext (vm.js:124:20)
+    at Object.runInThisContext (vm.js:314:38)
+    at Object.<anonymous> ([eval]-wrapper:9:26)
+    at Module._compile (internal/modules/cjs/loader.js:738:30)
+    at evalScript (internal/process/execution.js:60:25)\\""
+`;
+
 exports[`async joker should reject if main function is forcefully aborted 1`] = `"\`node timeout.js\`: Command execution terminated (timeout)"`;
+
+exports[`async joker should show stack traces for failing js code 1`] = `undefined`;
