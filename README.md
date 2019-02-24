@@ -2,6 +2,8 @@
 > Joker is currently in development. It's on the fast track to a 1.0 release, so we encourage you to use it and give us your feedback, but there are things that haven't been finalized yet and you can expect some changes.
 
 [![Build Status](https://dev.azure.com/amilajack/amilajack/_apis/build/status/amilajack.joker?branchName=master)](https://dev.azure.com/amilajack/amilajack/_build/latest?definitionId=1&branchName=master)
+[![NPM version](https://img.shields.io/npm/v/@amilajack/joker.svg)](https://www.npmjs.com/package/@amilajack/joker)
+[![npm](https://img.shields.io/npm/dm/@amilajack/joker.svg)](https://npm-stat.com/charts.html?package=@amilajack/joker)
 
 A modern and intuitive testing library for command-line apps
 
