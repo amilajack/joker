@@ -17,7 +17,7 @@
   "scripts": {
     "build": "cross-env NODE_ENV=production babel src --out-dir dist --extensions \".ts\" --source-maps inline",
     "docs": "rm -rf docs && typedoc ./src --out docs",
-    "lint": "eslint --ignore-path .gitignore --ignore-pattern '/docs/' --ext .ts --ext .js .",
+    "lint": "eslint --ext .ts --ext .js .",
     "spec": "jest --runInBand",
     "test": "yarn ts && yarn lint && yarn build && yarn spec",
     "ts": "tsc",
