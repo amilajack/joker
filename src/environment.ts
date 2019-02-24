@@ -11,24 +11,42 @@ export interface ProcessEnv {
   [key: string]: string | undefined;
 }
 
+export interface OptionalEnvironmentProperties {
+  env?: ProcessEnv;
+  cwd?: string;
+  timeout?: number;
+}
+
 export interface EnvironmentProperties {
   env: ProcessEnv;
   cwd: string;
+  timeout: number | undefined;
 }
 
 export default class Environment {
-  public env: ProcessEnv;
+  /**
+   * The environmental varibles that are defined in the environment which
+   * commands are tested in. By default, `process.env` is used. However,
+   * if [[Environment]] is constructed with a custom env, that will be used
+   * instead and `process.env` will not be used.
+   */
+  public env: ProcessEnv = process.env;
 
-  public cwd: string;
+  /**
+   * The current working directory that a command is tested in. Defaults to
+   * `process.cwd()`
+   */
+  public cwd: string = process.cwd();
 
-  public timeout: null | number = null;
+  /**
+   * The timeout between the execution of `run` commands
+   */
+  public timeout: undefined | number = undefined;
 
-  public constructor(
-    env: ProcessEnv = process.env,
-    cwd: string = process.cwd()
-  ) {
-    this.env = env || Object.assign({}, process.env);
-    this.cwd = cwd;
+  public constructor(options: OptionalEnvironmentProperties = {}) {
+    this.env = Object.assign({}, options.env || process.env);
+    this.cwd = options.cwd || process.cwd();
+    this.timeout = options.timeout;
   }
 
   /**
@@ -38,7 +56,8 @@ export default class Environment {
   public get(): EnvironmentProperties {
     return {
       env: this.env,
-      cwd: this.cwd
+      cwd: this.cwd,
+      timeout: this.timeout
     };
   }
 }

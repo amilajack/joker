@@ -143,7 +143,7 @@ describe('todo add', () => {
       .run('todo add')
       .stdout('A new todo has been added')
       .end();
-    expcet(result.stdout).toMatchSnapshot();
+    expect(result.stdout).toMatchSnapshot();
   });
 });
 ```
@@ -206,14 +206,15 @@ Every `Joker` instance can be cloned, which allows you to build "templates" for 
 ```js
 const template = new Joker()
   .cwd(path.join(__dirname, 'fixtures'))
-  .run('echo test')
-  .clone();
+  .run('echo test');
 
 const test1 = await template
+  .clone()
   .stdout(/test/)
   .end()
 
 const test2 = await template
+  .clone()
   .stdout('test')
   .end();
 ```

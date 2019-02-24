@@ -16,6 +16,25 @@ describe('async joker', () => {
         .run('echo foo')
         .stdout('baz')
         .end()
-    ).rejects.toThrowErrorMatchingSnapshot();
+    ).rejects.toThrow();
+  });
+
+  it('should reject if assertion fails', async () => {
+    await expect(
+      jokerFixture()
+        .run(`node -e "require('foo')"`)
+        .stderr('baz')
+        .end()
+    ).rejects.toThrow();
+  });
+
+  it('should fail when stderr does not match stderr assertion', async () => {
+    await expect(
+      jokerFixture()
+        .run(`node -e "require('foo')"`)
+        .code(1)
+        .stderr('foo')
+        .end()
+    ).rejects.toBeTruthy();
   });
 });

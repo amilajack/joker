@@ -1005,6 +1005,9 @@ img { max-width: 100%; }
 			<a href="../interfaces/jokererror.html" class="tsd-kind-icon">Joker<wbr>Error</a>
 		</li>
 		<li class=" tsd-kind-interface">
+			<a href="../interfaces/optionalenvironmentproperties.html" class="tsd-kind-icon">Optional<wbr>Environment<wbr>Properties</a>
+		</li>
+		<li class=" tsd-kind-interface">
 			<a href="../interfaces/optionaloptions.html" class="tsd-kind-icon">Optional<wbr>Options</a>
 		</li>
 		<li class=" tsd-kind-interface">
@@ -1101,31 +1104,64 @@ img { max-width: 100%; }
 		<section class="tsd-panel tsd-comment">
 			<div class="tsd-comment tsd-typography">
 				<div class="lead">
-					<p>The primary entry point for every Joker test</p>
+					<h2 id="hello-world-">Hello World!</h2>
 				</div>
-				<p>Examples:</p>
-				<p> Simple stdout assertion:</p>
-				<pre><code class="language-ts"> <span class="hljs-keyword">await</span> <span class="hljs-keyword">new</span> Joker({ colors: <span class="hljs-literal">false</span>, newLines: <span class="hljs-literal">false</span> })
-   .exec(<span class="hljs-string">'todo clear'</span>)
-   .exec(<span class="hljs-string">'todo Buy milk'</span>)
-   .run(<span class="hljs-string">'todo ls'</span>)
-   .stdout(<span class="hljs-string">'Buy milk'</span>)
-   .end();</code></pre>
-				<p> Stdout assertion:</p>
-				<pre><code class="language-ts"> <span class="hljs-keyword">await</span> <span class="hljs-keyword">new</span> Joker({ colors: <span class="hljs-literal">false</span>, newLines: <span class="hljs-literal">false</span> })
-   .exec(<span class="hljs-string">'todo clear'</span>)
-   .run(<span class="hljs-string">'todo'</span>)
-   .stderr(<span class="hljs-string">'Please enter a todo'</span>)
-   .end();</code></pre>
-				<p> So repeating &quot;todo clear&quot; is simply ugly. You can avoid this by
-				creating a &quot;template&quot;.</p>
-				<pre><code class="language-ts"> <span class="hljs-keyword">const</span> todo = <span class="hljs-keyword">new</span> Joker().before(clearTodos);</code></pre>
-				<p> Later on:</p>
-				<pre><code class="language-ts"> todo
-   .clone()
-   <span class="hljs-comment">// ...</span>
-   .end()</code></pre>
-				<p>For more examples check the &quot;README&quot; file.</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> Joker <span class="hljs-keyword">from</span> <span class="hljs-string">'@amilajack/joker'</span>;
+
+<span class="hljs-keyword">await</span> <span class="hljs-keyword">new</span> Joker()
+  .run(<span class="hljs-string">'node --version'</span>)
+  .stdout(<span class="hljs-string">'v11.10.0'</span>)
+  .end();</code></pre>
+				<h3 id="preparing-a-test">Preparing a test</h3>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> Joker <span class="hljs-keyword">from</span> <span class="hljs-string">'@amilajack/joker'</span>;
+
+<span class="hljs-keyword">await</span> <span class="hljs-keyword">new</span> Joker()
+  <span class="hljs-comment">// Create the file before the test is run</span>
+  .exec(<span class="hljs-string">`echo "console.log('hello world')" &gt; hello.js`</span>)
+  .run(<span class="hljs-string">'node hello.js'</span>)
+  .stdout(<span class="hljs-string">'hello world'</span>)
+  .end();</code></pre>
+				<h3 id="setting-up-the-environment">Setting up the environment</h3>
+				<pre><code class="language-ts"><span class="hljs-keyword">await</span> <span class="hljs-keyword">new</span> Joker()
+  .cwd(path.join(__dirname, <span class="hljs-string">'fixtures'</span>))
+  .env(<span class="hljs-string">'NODE_ENV'</span>, <span class="hljs-string">'production'</span>)
+  .before(<span class="hljs-string">'touch /tmp/test'</span>)
+  .run(<span class="hljs-string">'ls /tmp/'</span>)
+  .stdout(<span class="hljs-regexp">/test/</span>)
+  .code(<span class="hljs-number">0</span>)
+  .end();</code></pre>
+				<h3 id="custom-expectations">Custom expectations</h3>
+				<p>While Joker comes with built-in expectations, you can use your own too.</p>
+				<pre><code class="language-js"><span class="hljs-keyword">await</span> <span class="hljs-keyword">new</span> Joker()
+  .run(<span class="hljs-string">'unicorns'</span>)
+  .expect(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+    <span class="hljs-keyword">if</span> (result.stdout !== <span class="hljs-string">'unicorns'</span>) {
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'NO!'</span>);
+    }
+  })
+  .end();</code></pre>
+				<h3 id="usage-with-a-test-runner">Usage with a test runner</h3>
+				<p>Joker plays nice with any test runner out there.</p>
+				<h4 id="jest">Jest</h4>
+				<p>Here is a minimal example how you could use it with <a href="http://jestjs.io">Jest</a> using async/await:</p>
+				<pre><code class="language-js">describe(<span class="hljs-string">'todo add'</span>, () =&gt; {
+  it(<span class="hljs-string">'adds a new todo item'</span>, <span class="hljs-keyword">async</span> () =&gt; {
+     <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> <span class="hljs-keyword">new</span> Joker()
+       .run(<span class="hljs-string">'todo add'</span>)
+       .stdout(<span class="hljs-string">'A new todo has been added'</span>)
+       .end();
+     expect(result.stdout).toMatchSnapshot();
+   });
+});</code></pre>
+				<h3 id="options">Options</h3>
+				<p>Joker can strip newlines and colors. You can tell it to do so by passing an
+				object that looks like this. Joker defaults to showing colors and new lines.</p>
+				<pre><code class="language-js"><span class="hljs-keyword">const</span> options = {
+  <span class="hljs-attr">colors</span>: <span class="hljs-literal">false</span>,
+  <span class="hljs-attr">newLines</span>: <span class="hljs-literal">false</span>
+};
+
+<span class="hljs-keyword">new</span> Joker(options)</code></pre>
 			</div>
 		</section>
 		<section class="tsd-panel tsd-hierarchy">
@@ -1195,7 +1231,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/runner.ts#L99">src/runner.ts:99</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/a12b5bb/src/runner.ts#L144">src/runner.ts:144</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1217,7 +1253,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">register<span class="tsd-signature-symbol">:</span> <a href="../index.html#plugin" class="tsd-signature-type">Plugin</a><span class="tsd-signature-symbol"> =&nbsp;register</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/runner.ts#L99">src/runner.ts:99</a></li>
+						<li>Defined in <a href="https://github.com/amilajack/joker/blob/a12b5bb/src/runner.ts#L144">src/runner.ts:144</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1246,7 +1282,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/runner.ts#L144">src/runner.ts:144</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/a12b5bb/src/runner.ts#L189">src/runner.ts:189</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1288,7 +1324,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/runner.ts#L191">src/runner.ts:191</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/a12b5bb/src/runner.ts#L236">src/runner.ts:236</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1324,7 +1360,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/runner.ts#L123">src/runner.ts:123</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/a12b5bb/src/runner.ts#L168">src/runner.ts:168</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1366,19 +1402,26 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/runner.ts#L662">src/runner.ts:662</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/a12b5bb/src/runner.ts#L730">src/runner.ts:730</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
-								<p>Deep clone the <code>Runner</code> instance. Give basic support for templates.</p>
+								<p>Every <code>Joker</code> instance can be cloned, which allows you to build &quot;templates&quot; for tests. Here&#39;s some examples:</p>
 							</div>
-							<pre><code class="language-js"><span class="hljs-keyword">const</span> clone = <span class="hljs-keyword">new</span> Joker()
-  .before(fn)
-  .after(fn)
-  .run(<span class="hljs-string">'my awesome command'</span>)
+							<pre><code class="language-js"><span class="hljs-keyword">const</span> template = <span class="hljs-keyword">new</span> Joker()
+  .cwd(path.join(__dirname, <span class="hljs-string">'fixtures'</span>))
+  .run(<span class="hljs-string">'echo test'</span>);
+
+<span class="hljs-keyword">const</span> test1 = <span class="hljs-keyword">await</span> template
+  .clone()
+  .stdout(<span class="hljs-regexp">/test/</span>)
   .end()
-  .clone();</code></pre>
+
+<span class="hljs-keyword">const</span> test2 = <span class="hljs-keyword">await</span> template
+  .clone()
+  .stdout(<span class="hljs-string">'test'</span>)
+  .end();</code></pre>
 						</div>
 						<h4 class="tsd-returns-title">Returns <a href="runner.html" class="tsd-signature-type">Runner</a></h4>
 						<p>clone of the current instance</p>
@@ -1395,7 +1438,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/runner.ts#L361">src/runner.ts:361</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/a12b5bb/src/runner.ts#L421">src/runner.ts:421</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1431,7 +1474,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/runner.ts#L168">src/runner.ts:168</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/a12b5bb/src/runner.ts#L213">src/runner.ts:213</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1471,7 +1514,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/runner.ts#L626">src/runner.ts:626</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/a12b5bb/src/runner.ts#L687">src/runner.ts:687</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1525,7 +1568,7 @@ expect(result.message).toEqual(
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/runner.ts#L233">src/runner.ts:233</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/a12b5bb/src/runner.ts#L278">src/runner.ts:278</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1566,12 +1609,13 @@ expect(result.message).toEqual(
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/runner.ts#L468">src/runner.ts:468</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/a12b5bb/src/runner.ts#L529">src/runner.ts:529</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
-								<p>Execute a command.</p>
+								<p>Execute a command that won&#39;t be tested. It is useful for running commands
+								that prepare the command that is tested with the <code>run</code> method.</p>
 							</div>
 							<pre><code class="language-js"><span class="hljs-keyword">await</span> <span class="hljs-keyword">new</span> Joker()
   .writeFile(<span class="hljs-string">'LICENSE'</span>, <span class="hljs-string">'MIT License'</span>)
@@ -1619,7 +1663,7 @@ expect(result.message).toEqual(
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/runner.ts#L380">src/runner.ts:380</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/a12b5bb/src/runner.ts#L440">src/runner.ts:440</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1655,18 +1699,18 @@ expect(result.message).toEqual(
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/runner.ts#L689">src/runner.ts:689</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/a12b5bb/src/runner.ts#L758">src/runner.ts:758</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
-								<p>Register an expectation.</p>
+								<p>Register an expectation</p>
 							</div>
 							<pre><code class="language-js"><span class="hljs-keyword">import</span> expect <span class="hljs-keyword">from</span> <span class="hljs-string">'expect'</span>;
 
 <span class="hljs-keyword">await</span> <span class="hljs-keyword">new</span> Joker()
   .run(<span class="hljs-string">'ls'</span>)
-  .expect(<span class="hljs-function">(<span class="hljs-params">result: Result</span>) =&gt;</span> {
+  .expect(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
     <span class="hljs-keyword">if</span> (result.stdout !== <span class="hljs-string">'Unicorns'</span>) {
       <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'OMG'</span>);
     }
@@ -1682,11 +1726,12 @@ expect(result.message).toEqual(
 							<li>
 								<h5>fn: <span class="tsd-signature-type">expect.AssertionFn</span></h5>
 								<div class="tsd-comment tsd-typography">
-									<p>The custom assertion you want to register</p>
+									<p>The custom assertion you want to register, takes <a href="result.html">Result</a> as an argument</p>
 								</div>
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <a href="runner.html" class="tsd-signature-type">Runner</a></h4>
+						<p>instance for chaining</p>
 					</li>
 				</ul>
 			</section>
@@ -1700,7 +1745,7 @@ expect(result.message).toEqual(
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/runner.ts#L414">src/runner.ts:414</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/a12b5bb/src/runner.ts#L474">src/runner.ts:474</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1752,7 +1797,7 @@ expect(result.message).toEqual(
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/runner.ts#L433">src/runner.ts:433</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/a12b5bb/src/runner.ts#L493">src/runner.ts:493</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1788,7 +1833,7 @@ expect(result.message).toEqual(
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/runner.ts#L561">src/runner.ts:561</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/a12b5bb/src/runner.ts#L622">src/runner.ts:622</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1827,7 +1872,7 @@ expect(result.message).toEqual(
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/runner.ts#L583">src/runner.ts:583</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/a12b5bb/src/runner.ts#L644">src/runner.ts:644</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1865,7 +1910,7 @@ expect(result.message).toEqual(
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/runner.ts#L518">src/runner.ts:518</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/a12b5bb/src/runner.ts#L579">src/runner.ts:579</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1896,27 +1941,39 @@ expect(result.message).toEqual(
 				<a name="run" class="tsd-anchor"></a>
 				<h3>run</h3>
 				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-					<li class="tsd-signature tsd-kind-icon">run<span class="tsd-signature-symbol">(</span>cmd<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, fn<span class="tsd-signature-symbol">?: </span><a href="../index.html#batchfunction" class="tsd-signature-type">BatchFunction</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="runner.html" class="tsd-signature-type">Runner</a></li>
+					<li class="tsd-signature tsd-kind-icon">run<span class="tsd-signature-symbol">(</span>cmd<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="runner.html" class="tsd-signature-type">Runner</a></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/runner.ts#L261">src/runner.ts:261</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/a12b5bb/src/runner.ts#L322">src/runner.ts:322</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
-								<p>Specify a command to run.</p>
+								<p>Specify a command to run. Assertions will tests the <code>stderr</code> and <code>stdout</code> from
+								the command registered with <code>run</code>.</p>
 							</div>
+							<h2 id="basic-example">Basic example</h2>
 							<pre><code class="language-js"><span class="hljs-keyword">await</span> <span class="hljs-keyword">new</span> Joker()
   .run(<span class="hljs-string">'node --version'</span>)
   .stdout(<span class="hljs-string">'0.10.16'</span>)
   .end();</code></pre>
-							<p>You could also run the test right after specifying the command to run:</p>
+							<h2 id="running-multiple-run-commands">Running multiple <code>run</code> commands</h2>
 							<pre><code class="language-js"><span class="hljs-keyword">await</span> <span class="hljs-keyword">new</span> Joker()
+  .run(<span class="hljs-string">'node --version'</span>)
   .stdout(<span class="hljs-string">'0.10.16'</span>)
-  .run(<span class="hljs-string">'node --version'</span>, fn);</code></pre>
+  .run(<span class="hljs-string">`node -e "console.log('Hello World!')"`</span>)
+  .stdout(<span class="hljs-string">'Hello World!'</span>)
+  .end();</code></pre>
+							<pre><code class="language-js">
+<span class="hljs-keyword">await</span> <span class="hljs-keyword">new</span> Joker()
+  .run(<span class="hljs-string">'node --version'</span>)
+  .stdout(<span class="hljs-string">'0.10.16'</span>)
+  .run(<span class="hljs-string">'echo testing123'</span>)
+  .stdout(<span class="hljs-string">'testign123'</span>)
+  .end();</code></pre>
 							<dl class="tsd-comment-tags">
 								<dt>see</dt>
 								<dd><p>[[Batch#main]]</p>
@@ -1927,9 +1984,6 @@ expect(result.message).toEqual(
 						<ul class="tsd-parameters">
 							<li>
 								<h5>cmd: <span class="tsd-signature-type">string</span></h5>
-							</li>
-							<li>
-								<h5><span class="tsd-flag ts-flagOptional">Optional</span> fn: <a href="../index.html#batchfunction" class="tsd-signature-type">BatchFunction</a></h5>
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <a href="runner.html" class="tsd-signature-type">Runner</a></h4>
@@ -1947,7 +2001,7 @@ expect(result.message).toEqual(
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/runner.ts#L342">src/runner.ts:342</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/a12b5bb/src/runner.ts#L402">src/runner.ts:402</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1983,7 +2037,7 @@ expect(result.message).toEqual(
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/runner.ts#L211">src/runner.ts:211</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/a12b5bb/src/runner.ts#L256">src/runner.ts:256</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2020,7 +2074,7 @@ expect(result.message).toEqual(
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/runner.ts#L323">src/runner.ts:323</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/a12b5bb/src/runner.ts#L383">src/runner.ts:383</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2069,7 +2123,7 @@ expect(result.message).toEqual(
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/runner.ts#L282">src/runner.ts:282</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/a12b5bb/src/runner.ts#L342">src/runner.ts:342</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2105,7 +2159,7 @@ expect(result.message).toEqual(
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/runner.ts#L538">src/runner.ts:538</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/a12b5bb/src/runner.ts#L599">src/runner.ts:599</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -2142,7 +2196,7 @@ expect(result.message).toEqual(
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/runner.ts#L498">src/runner.ts:498</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/a12b5bb/src/runner.ts#L559">src/runner.ts:559</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">

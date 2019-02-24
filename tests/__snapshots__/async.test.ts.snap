@@ -1,5 +1,3 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`async joker should reject if assertion fails 1`] = `"\`echo foo\`: Expected stdout to match \\"baz\\". Actual: \\"foo\\""`;
-
 exports[`async joker should reject if main function is forcefully aborted 1`] = `"\`node timeout.js\`: Command execution terminated (timeout)"`;
