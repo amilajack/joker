@@ -10,14 +10,16 @@ import * as respond from './respond';
 import { default as register } from './plugin';
 
 /**
- * The primary entry point for every joker test. It provides public
- * interface that the users will interact with. Every `Runner` instance can
- * be cloned and this way one can build the so called "templates".
- *
- * Options:
- *
- *  - colors: default - true,       Strip colors from stdout and stderr when `false`
- *  - newLines: default - true,     Strip new lines from stdout and stderr when `false`
+ * The default options for [[Runner]]
+ */
+export const DEFAULT_OPTIONS: Options = {
+  newLines: true,
+  colors: true,
+  showDiffs: true
+};
+
+/**
+ * The primary entry point for every Joker test
  *
  * Examples:
  *
@@ -48,17 +50,14 @@ import { default as register } from './plugin';
  *
  *  Later on:
  *  ```ts
- *  todo.clone().exec...
+ *  todo
+ *    .clone()
+ *    // ...
+ *    .end()
  *  ```
  *
  * For more examples check the "README" file.
  */
-
-export const DEFAULT_OPTIONS = {
-  newLines: true,
-  colors: true,
-  showDiffs: true
-};
 
 export default class Runner {
   private batch: Batch = new Batch();
@@ -116,8 +115,8 @@ export default class Runner {
    *   .end();
    * ```
    *
-   * @param {Function} fn
-   * @returns for chaining
+   * @param fn - The function to be called
+   * @returns instance for chaining
    * @see [[Batch#addBefore]]
    */
 
@@ -137,8 +136,8 @@ export default class Runner {
    *   .end();
    * ```
    *
-   * @param {Function} fn
-   * @returns for chaining
+   * @param fn - The function to be called
+   * @returns instance for chaining
    * @see [[Batch#addAfter]]
    */
 
@@ -162,8 +161,8 @@ export default class Runner {
    *   .end();
    * ```
    *
-   * @param {String} path
-   * @returns for chaining
+   * @param path - The directory that the current working directory will be changed to
+   * @returns instance for chaining
    */
 
   public cwd(path: string): Runner {
@@ -185,8 +184,8 @@ export default class Runner {
    *   .end();
    * ```
    *
-   * @param {String} command
-   * @returns for chaining
+   * @param command - The base command that will prefix all subsequent commands
+   * @returns instance for chaining
    */
 
   public base(cmd: string): Runner {
@@ -205,8 +204,8 @@ export default class Runner {
    *   .end();
    * ```
    *
-   * @param {String} data
-   * @returns for chaining
+   * @param data - The standard input that will be passed as to the `run` commands
+   * @returns instance for chaining
    */
 
   public stdin(data: string): Runner {
@@ -226,9 +225,9 @@ export default class Runner {
    *   .end();
    * ```
    *
-   * @param {String} key
-   * @param {String} value
-   * @returns for chaining
+   * @param key - The name of the environmental variable
+   * @param value - The value of the environmental variable
+   * @returns instance for chaining
    */
 
   public env(key: string, val: string | undefined): Runner {
@@ -254,8 +253,8 @@ export default class Runner {
    *   .run('node --version', fn);
    * ```
    *
-   * @param {String} command
-   * @returns for chaining
+   * @param command - The command to be executed and tested against
+   * @returns instance for chaining
    * @see [[Batch#main]]
    */
 
@@ -276,8 +275,8 @@ export default class Runner {
    *   .end();
    * ```
    *
-   * @param {Number} ms
-   * @returns for chaining
+   * @param ms - The timeout in milliseconds
+   * @returns instance for chaining
    */
 
   public timeout(ms: number): Runner {
@@ -317,8 +316,8 @@ export default class Runner {
    *   .done();
    * ```
    *
-   * @param {Regex|String} pattern
-   * @returns for chaining
+   * @param pattern - The regular expression or string to test against
+   * @returns instance for chaining
    */
 
   public stdout(pattern: RegExp | string): Runner {
@@ -336,8 +335,8 @@ export default class Runner {
    *   .end();
    * ```
    *
-   * @param {Regex|String} pattern
-   * @returns for chaining
+   * @param pattern - The regular expression or string to test against
+   * @returns instance for chaining
    */
 
   public stderr(pattern: RegExp | string): Runner {
@@ -355,8 +354,8 @@ export default class Runner {
    *   .end();
    * ```
    *
-   * @param {Number} code
-   * @returns for chaining
+   * @param code - The expected exit code
+   * @returns instance for chaining
    */
 
   public code(code: number): Runner {
@@ -374,8 +373,8 @@ export default class Runner {
    *   .end();
    * ```
    *
-   * @param {String} path
-   * @returns for chaining
+   * @param path - The path to check for existance
+   * @returns instance for chaining
    */
 
   public exist(path: string): Runner {
@@ -407,9 +406,9 @@ export default class Runner {
    *   .unlink(file)
    *   .end(done);
    * ```
-   *
-   * @param {Regex|String} pattern
-   * @returns for chaining
+   * @param file - The path of the file who's contents we want to match against
+   * @param pattern - The string or regular expression to match against
+   * @returns instance for chaining
    */
 
   public match(file: string, pattern: RegExp | string): Runner {
@@ -427,8 +426,8 @@ export default class Runner {
    *   .end();
    * ```
    *
-   * @param {String} path
-   * @returns for chaining
+   * @param path - The name of the folder we want to create
+   * @returns instance for chaining
    */
 
   public mkdir(path: string): Runner {
@@ -461,9 +460,9 @@ export default class Runner {
    *   .end();
    * ```
    *
-   * @param {String} command
-   * @param {Environment} env - env vars, cwd
-   * @returns for chaining
+   * @param cmd - The command you want to run
+   * @param env - The configuration of the environment the test will be run in
+   * @returns instance for chaining
    */
 
   public exec(cmd: string, env?: Environment): Runner {
@@ -491,9 +490,9 @@ export default class Runner {
    *   .end();
    * ```
    *
-   * @param {String} path
-   * @param {String} data [optional]
-   * @returns for chaining
+   * @param path - The path you want to write to
+   * @param data - The content to be written to the file
+   * @returns instance for chaining
    */
 
   public writeFile(path: string, data: string): Runner {
@@ -512,8 +511,8 @@ export default class Runner {
    *   .end();
    * ```
    *
-   * @param {String} path
-   * @returns for chaining
+   * @param path - The path of the folder you want to remove
+   * @returns instance for chaining
    */
 
   public rmdir(path: string): Runner {
@@ -532,8 +531,8 @@ export default class Runner {
    *   .end();
    * ```
    *
-   * @param {String} path
-   * @returns for chaining
+   * @param path - The path you want to write to unlink
+   * @returns instance for chaining
    */
 
   public unlink(path: string): Runner {
@@ -555,8 +554,8 @@ export default class Runner {
    *   .end();
    * ```
    *
-   * @param {Regex|String} pattern
-   * @returns for chaining
+   * @param pattern - The pattern to listen for
+   * @returns instance for chaining
    */
 
   public on(pattern: RegExp | string): Runner {
@@ -577,8 +576,8 @@ export default class Runner {
    *   .end();
    * ```
    *
-   * @param {String} response
-   * @returns for chaining
+   * @param response - The response to send after an event has occured
+   * @returns instance for chaining
    */
 
   public respond(response: string): Runner {
@@ -620,8 +619,8 @@ export default class Runner {
    *   .end((err) => {});
    * ```
    *
-   * @param {Function} fn
-   * @returns for chaining
+   * @param fn - The callback to fire after all Joker jobs are finished
+   * @returns instance for chaining
    */
 
   public end(fn?: (err?: JokerError) => void): void | Promise<JokerError> {
@@ -684,7 +683,7 @@ export default class Runner {
    *   .end();
    * ```
    *
-   * @param {Function} fn
+   * @param fn - The custom assertion you want to register
    */
 
   public expect(fn: expect.AssertionFn): Runner {
@@ -696,6 +695,7 @@ export default class Runner {
    * Return a function that will execute
    * the command.
    *
+   * @param cmd - The name of the command the returned function will be called by
    * @returns
    */
 
@@ -710,7 +710,7 @@ export default class Runner {
         return;
       }
 
-      const child = spawn(bin, args, this.environment.getOptions());
+      const child = spawn(bin, args, this.environment.get());
       let stdout = '';
       let stderr = '';
       let timeoutError: ResultError | undefined;

@@ -895,6 +895,8 @@ img { max-width: 100%; }
 							</div>
 							<input type="checkbox" id="tsd-filter-inherited" checked />
 							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
 							<input type="checkbox" id="tsd-filter-only-exported" />
 							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
 						</div>
@@ -952,6 +954,9 @@ img { max-width: 100%; }
 			<a href="runner.html" class="tsd-kind-icon">Runner</a>
 		</li>
 		<li class=" tsd-kind-interface">
+			<a href="../interfaces/environmentproperties.html" class="tsd-kind-icon">Environment<wbr>Properties</a>
+		</li>
+		<li class=" tsd-kind-interface">
 			<a href="../interfaces/jokererror.html" class="tsd-kind-icon">Joker<wbr>Error</a>
 		</li>
 		<li class=" tsd-kind-interface">
@@ -981,6 +986,9 @@ img { max-width: 100%; }
 		<li class=" tsd-kind-type-alias">
 			<a href="../index.html#batchfunctionarg" class="tsd-kind-icon">Batch<wbr>Function<wbr>Arg</a>
 		</li>
+		<li class=" tsd-kind-type-alias tsd-is-not-exported">
+			<a href="../index.html#mainfn" class="tsd-kind-icon">Main<wbr>Fn</a>
+		</li>
 		<li class=" tsd-kind-type-alias">
 			<a href="../index.html#nextfn" class="tsd-kind-icon">Next<wbr>Fn</a>
 		</li>
@@ -993,8 +1001,17 @@ img { max-width: 100%; }
 		<li class=" tsd-kind-function">
 			<a href="../index.html#plugin" class="tsd-kind-icon">Plugin</a>
 		</li>
+		<li class=" tsd-kind-function tsd-is-private tsd-is-not-exported">
+			<a href="../index.html#assertout" class="tsd-kind-icon">assert<wbr>Out</a>
+		</li>
 		<li class=" tsd-kind-function tsd-is-private">
 			<a href="../index.html#code" class="tsd-kind-icon">code</a>
+		</li>
+		<li class=" tsd-kind-function tsd-is-private tsd-is-not-exported">
+			<a href="../index.html#done" class="tsd-kind-icon">done</a>
+		</li>
+		<li class=" tsd-kind-function tsd-is-private tsd-is-not-exported">
+			<a href="../index.html#error" class="tsd-kind-icon">error</a>
 		</li>
 		<li class=" tsd-kind-function tsd-is-private">
 			<a href="../index.html#exec" class="tsd-kind-icon">exec</a>
@@ -1079,7 +1096,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">after<span class="tsd-signature-symbol">:</span> <a href="../index.html#batchfunction" class="tsd-signature-type">BatchFunction</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/amilajack/joker/blob/26b9912/src/batch.ts#L79">batch.ts:79</a></li>
+						<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/batch.ts#L79">src/batch.ts:79</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -1089,7 +1106,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">after<wbr>Before<span class="tsd-signature-symbol">:</span> <a href="../index.html#batchfunction" class="tsd-signature-type">BatchFunction</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/amilajack/joker/blob/26b9912/src/batch.ts#L81">batch.ts:81</a></li>
+						<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/batch.ts#L81">src/batch.ts:81</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -1099,7 +1116,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">before<span class="tsd-signature-symbol">:</span> <a href="../index.html#batchfunction" class="tsd-signature-type">BatchFunction</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/amilajack/joker/blob/26b9912/src/batch.ts#L75">batch.ts:75</a></li>
+						<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/batch.ts#L75">src/batch.ts:75</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -1109,7 +1126,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">before<wbr>After<span class="tsd-signature-symbol">:</span> <a href="../index.html#batchfunction" class="tsd-signature-type">BatchFunction</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/amilajack/joker/blob/26b9912/src/batch.ts#L77">batch.ts:77</a></li>
+						<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/batch.ts#L77">src/batch.ts:77</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -1126,7 +1143,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/26b9912/src/batch.ts#L115">batch.ts:115</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/batch.ts#L115">src/batch.ts:115</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1166,7 +1183,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/26b9912/src/batch.ts#L101">batch.ts:101</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/batch.ts#L101">src/batch.ts:101</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1196,7 +1213,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/26b9912/src/batch.ts#L91">batch.ts:91</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/batch.ts#L91">src/batch.ts:91</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1226,7 +1243,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/26b9912/src/batch.ts#L135">batch.ts:135</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/batch.ts#L135">src/batch.ts:135</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1242,13 +1259,13 @@ img { max-width: 100%; }
 				<a name="main" class="tsd-anchor"></a>
 				<h3>main</h3>
 				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-					<li class="tsd-signature tsd-kind-icon">main<span class="tsd-signature-symbol">(</span>fn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MainFn</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					<li class="tsd-signature tsd-kind-icon">main<span class="tsd-signature-symbol">(</span>fn<span class="tsd-signature-symbol">: </span><a href="../index.html#mainfn" class="tsd-signature-type">MainFn</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/26b9912/src/batch.ts#L125">batch.ts:125</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/batch.ts#L125">src/batch.ts:125</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1259,7 +1276,7 @@ img { max-width: 100%; }
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
-								<h5>fn: <span class="tsd-signature-type">MainFn</span></h5>
+								<h5>fn: <a href="../index.html#mainfn" class="tsd-signature-type">MainFn</a></h5>
 								<div class="tsd-comment tsd-typography">
 								</div>
 							</li>
@@ -1278,7 +1295,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/26b9912/src/batch.ts#L146">batch.ts:146</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/batch.ts#L146">src/batch.ts:146</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">

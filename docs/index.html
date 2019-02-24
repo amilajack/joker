@@ -895,6 +895,8 @@ img { max-width: 100%; }
 							</div>
 							<input type="checkbox" id="tsd-filter-inherited" checked />
 							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
 							<input type="checkbox" id="tsd-filter-only-exported" />
 							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
 						</div>
@@ -918,6 +920,9 @@ img { max-width: 100%; }
 		</li>
 		<li class=" tsd-kind-class">
 			<a href="classes/runner.html" class="tsd-kind-icon">Runner</a>
+		</li>
+		<li class=" tsd-kind-interface">
+			<a href="interfaces/environmentproperties.html" class="tsd-kind-icon">Environment<wbr>Properties</a>
 		</li>
 		<li class=" tsd-kind-interface">
 			<a href="interfaces/jokererror.html" class="tsd-kind-icon">Joker<wbr>Error</a>
@@ -949,6 +954,9 @@ img { max-width: 100%; }
 		<li class=" tsd-kind-type-alias">
 			<a href="index.html#batchfunctionarg" class="tsd-kind-icon">Batch<wbr>Function<wbr>Arg</a>
 		</li>
+		<li class=" tsd-kind-type-alias tsd-is-not-exported">
+			<a href="index.html#mainfn" class="tsd-kind-icon">Main<wbr>Fn</a>
+		</li>
 		<li class=" tsd-kind-type-alias">
 			<a href="index.html#nextfn" class="tsd-kind-icon">Next<wbr>Fn</a>
 		</li>
@@ -961,8 +969,17 @@ img { max-width: 100%; }
 		<li class=" tsd-kind-function">
 			<a href="index.html#plugin" class="tsd-kind-icon">Plugin</a>
 		</li>
+		<li class=" tsd-kind-function tsd-is-private tsd-is-not-exported">
+			<a href="index.html#assertout" class="tsd-kind-icon">assert<wbr>Out</a>
+		</li>
 		<li class=" tsd-kind-function tsd-is-private">
 			<a href="index.html#code" class="tsd-kind-icon">code</a>
+		</li>
+		<li class=" tsd-kind-function tsd-is-private tsd-is-not-exported">
+			<a href="index.html#done" class="tsd-kind-icon">done</a>
+		</li>
+		<li class=" tsd-kind-function tsd-is-private tsd-is-not-exported">
+			<a href="index.html#error" class="tsd-kind-icon">error</a>
 		</li>
 		<li class=" tsd-kind-function tsd-is-private">
 			<a href="index.html#exec" class="tsd-kind-icon">exec</a>
@@ -1020,6 +1037,7 @@ img { max-width: 100%; }
 					<section class="tsd-index-section ">
 						<h3>Interfaces</h3>
 						<ul class="tsd-index-list">
+							<li class="tsd-kind-interface"><a href="interfaces/environmentproperties.html" class="tsd-kind-icon">Environment<wbr>Properties</a></li>
 							<li class="tsd-kind-interface"><a href="interfaces/jokererror.html" class="tsd-kind-icon">Joker<wbr>Error</a></li>
 							<li class="tsd-kind-interface"><a href="interfaces/optionaloptions.html" class="tsd-kind-icon">Optional<wbr>Options</a></li>
 							<li class="tsd-kind-interface"><a href="interfaces/options.html" class="tsd-kind-icon">Options</a></li>
@@ -1035,6 +1053,7 @@ img { max-width: 100%; }
 							<li class="tsd-kind-type-alias"><a href="index.html#assertionfn" class="tsd-kind-icon">Assertion<wbr>Fn</a></li>
 							<li class="tsd-kind-type-alias"><a href="index.html#batchfunction" class="tsd-kind-icon">Batch<wbr>Function</a></li>
 							<li class="tsd-kind-type-alias"><a href="index.html#batchfunctionarg" class="tsd-kind-icon">Batch<wbr>Function<wbr>Arg</a></li>
+							<li class="tsd-kind-type-alias tsd-is-not-exported"><a href="index.html#mainfn" class="tsd-kind-icon">Main<wbr>Fn</a></li>
 							<li class="tsd-kind-type-alias"><a href="index.html#nextfn" class="tsd-kind-icon">Next<wbr>Fn</a></li>
 							<li class="tsd-kind-type-alias"><a href="index.html#nodeerror" class="tsd-kind-icon">Node<wbr>Error</a></li>
 							<li class="tsd-kind-type-alias"><a href="index.html#returnfn" class="tsd-kind-icon">Return<wbr>Fn</a></li>
@@ -1044,7 +1063,10 @@ img { max-width: 100%; }
 						<h3>Functions</h3>
 						<ul class="tsd-index-list">
 							<li class="tsd-kind-function"><a href="index.html#plugin" class="tsd-kind-icon">Plugin</a></li>
+							<li class="tsd-kind-function tsd-is-private tsd-is-not-exported"><a href="index.html#assertout" class="tsd-kind-icon">assert<wbr>Out</a></li>
 							<li class="tsd-kind-function tsd-is-private"><a href="index.html#code" class="tsd-kind-icon">code</a></li>
+							<li class="tsd-kind-function tsd-is-private tsd-is-not-exported"><a href="index.html#done" class="tsd-kind-icon">done</a></li>
+							<li class="tsd-kind-function tsd-is-private tsd-is-not-exported"><a href="index.html#error" class="tsd-kind-icon">error</a></li>
 							<li class="tsd-kind-function tsd-is-private"><a href="index.html#exec" class="tsd-kind-icon">exec</a></li>
 							<li class="tsd-kind-function tsd-is-private"><a href="index.html#exists" class="tsd-kind-icon">exists</a></li>
 							<li class="tsd-kind-function tsd-is-private"><a href="index.html#match" class="tsd-kind-icon">match</a></li>
@@ -1075,7 +1097,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">Assertion<wbr>Error<wbr>Additions<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">AssertionError</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">object</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/amilajack/joker/blob/26b9912/src/expectations.ts#L8">expectations.ts:8</a></li>
+						<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/expectations.ts#L8">src/expectations.ts:8</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -1085,7 +1107,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">Assertion<wbr>Fn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/amilajack/joker/blob/26b9912/src/expectations.ts#L6">expectations.ts:6</a></li>
+						<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/expectations.ts#L6">src/expectations.ts:6</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-type-declaration">
@@ -1119,7 +1141,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">Batch<wbr>Function<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/amilajack/joker/blob/26b9912/src/batch.ts#L72">batch.ts:72</a></li>
+						<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/batch.ts#L72">src/batch.ts:72</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1155,7 +1177,17 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">Batch<wbr>Function<wbr>Arg<span class="tsd-signature-symbol">:</span> <a href="index.html#nextfn" class="tsd-signature-type">NextFn</a><span class="tsd-signature-symbol"> | </span><a href="classes/result.html" class="tsd-signature-type">Result</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol"> | </span><a href="index.html#nodeerror" class="tsd-signature-type">NodeError</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/jokererror.html" class="tsd-signature-type">JokerError</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/amilajack/joker/blob/26b9912/src/batch.ts#L67">batch.ts:67</a></li>
+						<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/batch.ts#L67">src/batch.ts:67</a></li>
+					</ul>
+				</aside>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-is-not-exported">
+				<a name="mainfn" class="tsd-anchor"></a>
+				<h3>Main<wbr>Fn</h3>
+				<div class="tsd-signature tsd-kind-icon">Main<wbr>Fn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">function</span></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/batch.ts#L57">src/batch.ts:57</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -1165,7 +1197,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">Next<wbr>Fn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/amilajack/joker/blob/26b9912/src/middlewares.ts#L6">middlewares.ts:6</a></li>
+						<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/middlewares.ts#L6">src/middlewares.ts:6</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-type-declaration">
@@ -1190,7 +1222,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">Node<wbr>Error<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/amilajack/joker/blob/26b9912/src/batch.ts#L59">batch.ts:59</a></li>
+						<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/batch.ts#L59">src/batch.ts:59</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-type-declaration">
@@ -1221,7 +1253,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">Return<wbr>Fn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/amilajack/joker/blob/26b9912/src/middlewares.ts#L8">middlewares.ts:8</a></li>
+						<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/middlewares.ts#L8">src/middlewares.ts:8</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-type-declaration">
@@ -1259,7 +1291,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/26b9912/src/plugin.ts#L48">plugin.ts:48</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/plugin.ts#L48">src/plugin.ts:48</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1275,6 +1307,43 @@ img { max-width: 100%; }
 					</li>
 				</ul>
 			</section>
+			<section class="tsd-panel tsd-member tsd-kind-function tsd-is-private tsd-is-not-exported">
+				<a name="assertout" class="tsd-anchor"></a>
+				<h3><span class="tsd-flag ts-flagPrivate">Private</span> assert<wbr>Out</h3>
+				<ul class="tsd-signatures tsd-kind-function tsd-is-private tsd-is-not-exported">
+					<li class="tsd-signature tsd-kind-icon">assert<wbr>Out<span class="tsd-signature-symbol">(</span>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, expected<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, result<span class="tsd-signature-symbol">: </span><a href="classes/result.html" class="tsd-signature-type">Result</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="index.html#assertionerroradditions" class="tsd-signature-type">AssertionErrorAdditions</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">void</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/expectations.ts#L64">src/expectations.ts:64</a></li>
+							</ul>
+						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Assert stdout or stderr.</p>
+							</div>
+						</div>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5>key: <span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li>
+								<h5>expected: <span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+							</li>
+							<li>
+								<h5>result: <a href="classes/result.html" class="tsd-signature-type">Result</a></h5>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <a href="index.html#assertionerroradditions" class="tsd-signature-type">AssertionErrorAdditions</a>
+							<span class="tsd-signature-symbol"> | </span>
+							<span class="tsd-signature-type">void</span>
+						</h4>
+					</li>
+				</ul>
+			</section>
 			<section class="tsd-panel tsd-member tsd-kind-function tsd-is-private">
 				<a name="code" class="tsd-anchor"></a>
 				<h3><span class="tsd-flag ts-flagPrivate">Private</span> code</h3>
@@ -1285,7 +1354,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/26b9912/src/expectations.ts#L100">expectations.ts:100</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/expectations.ts#L100">src/expectations.ts:100</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1303,6 +1372,94 @@ img { max-width: 100%; }
 					</li>
 				</ul>
 			</section>
+			<section class="tsd-panel tsd-member tsd-kind-function tsd-is-private tsd-is-not-exported">
+				<a name="done" class="tsd-anchor"></a>
+				<h3><span class="tsd-flag ts-flagPrivate">Private</span> done</h3>
+				<ul class="tsd-signatures tsd-kind-function tsd-is-private tsd-is-not-exported">
+					<li class="tsd-signature tsd-kind-icon">done<span class="tsd-signature-symbol">(</span>next<span class="tsd-signature-symbol">: </span><a href="index.html#nextfn" class="tsd-signature-type">NextFn</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/middlewares.ts#L17">src/middlewares.ts:17</a></li>
+							</ul>
+						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Callback generator for middlewares. Throw errors if any.</p>
+							</div>
+						</div>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5>next: <a href="index.html#nextfn" class="tsd-signature-type">NextFn</a></h5>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">function</span></h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>err<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AssertionError</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>err: <span class="tsd-signature-type">AssertionError</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-function tsd-is-private tsd-is-not-exported">
+				<a name="error" class="tsd-anchor"></a>
+				<h3><span class="tsd-flag ts-flagPrivate">Private</span> error</h3>
+				<ul class="tsd-signatures tsd-kind-function tsd-is-private tsd-is-not-exported">
+					<li class="tsd-signature tsd-kind-icon">error<span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><a href="classes/result.html" class="tsd-signature-type">Result</a>, message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, expected<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">RegExp</span>, actual<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="index.html#assertionerroradditions" class="tsd-signature-type">AssertionErrorAdditions</a></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/expectations.ts#L29">src/expectations.ts:29</a></li>
+							</ul>
+						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Create and return a new <code>AssertionError</code>.
+									It will assign the given <code>result</code> to it, it will also prepend the executed command
+								to the error message.</p>
+							</div>
+							<p>Assertion error is a constructor for test and validation frameworks that implements
+							standardized Assertion Error specification.</p>
+							<p>For more info go visit <a href="https://github.com/chaijs/assertion-error">https://github.com/chaijs/assertion-error</a></p>
+						</div>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5>result: <a href="classes/result.html" class="tsd-signature-type">Result</a></h5>
+							</li>
+							<li>
+								<h5>message: <span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li>
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> expected: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">RegExp</span></h5>
+							</li>
+							<li>
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> actual: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <a href="index.html#assertionerroradditions" class="tsd-signature-type">AssertionErrorAdditions</a></h4>
+					</li>
+				</ul>
+			</section>
 			<section class="tsd-panel tsd-member tsd-kind-function tsd-is-private">
 				<a name="exec" class="tsd-anchor"></a>
 				<h3><span class="tsd-flag ts-flagPrivate">Private</span> exec</h3>
@@ -1313,7 +1470,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/26b9912/src/middlewares.ts#L95">middlewares.ts:95</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/middlewares.ts#L95">src/middlewares.ts:95</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1350,7 +1507,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/26b9912/src/expectations.ts#L139">expectations.ts:139</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/expectations.ts#L139">src/expectations.ts:139</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1378,7 +1535,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/26b9912/src/expectations.ts#L156">expectations.ts:156</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/expectations.ts#L156">src/expectations.ts:156</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1409,7 +1566,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/26b9912/src/middlewares.ts#L32">middlewares.ts:32</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/middlewares.ts#L32">src/middlewares.ts:32</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1443,7 +1600,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/26b9912/src/middlewares.ts#L64">middlewares.ts:64</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/middlewares.ts#L64">src/middlewares.ts:64</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1477,7 +1634,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/26b9912/src/respond.ts#L17">respond.ts:17</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/respond.ts#L17">src/respond.ts:17</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1517,7 +1674,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/26b9912/src/expectations.ts#L117">expectations.ts:117</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/expectations.ts#L117">src/expectations.ts:117</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1548,7 +1705,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/26b9912/src/expectations.ts#L128">expectations.ts:128</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/expectations.ts#L128">src/expectations.ts:128</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1579,7 +1736,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/26b9912/src/expectations.ts#L85">expectations.ts:85</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/expectations.ts#L85">src/expectations.ts:85</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1601,7 +1758,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/26b9912/src/middlewares.ts#L79">middlewares.ts:79</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/middlewares.ts#L79">src/middlewares.ts:79</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1635,7 +1792,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/26b9912/src/middlewares.ts#L49">middlewares.ts:49</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/middlewares.ts#L49">src/middlewares.ts:49</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1672,68 +1829,41 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">DEFAULT_<wbr>OPTIONS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/amilajack/joker/blob/26b9912/src/runner.ts#L57">runner.ts:57</a></li>
+						<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/runner.ts#L15">src/runner.ts:15</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>The primary entry point for every joker test. It provides public
-							interface that the users will interact with. Every <code>Runner</code> instance can
-						be cloned and this way one can build the so called &quot;templates&quot;.</p>
+						<p>The default options for <a href="classes/runner.html">Runner</a></p>
 					</div>
-					<p>Options:</p>
-					<ul>
-						<li>colors: default - true,       Strip colors from stdout and stderr when <code>false</code></li>
-						<li>newLines: default - true,     Strip new lines from stdout and stderr when <code>false</code></li>
-					</ul>
-					<p>Examples:</p>
-					<p> Simple stdout assertion:</p>
-					<pre><code class="language-ts"> <span class="hljs-keyword">await</span> <span class="hljs-keyword">new</span> Joker({ colors: <span class="hljs-literal">false</span>, newLines: <span class="hljs-literal">false</span> })
-   .exec(<span class="hljs-string">'todo clear'</span>)
-   .exec(<span class="hljs-string">'todo Buy milk'</span>)
-   .run(<span class="hljs-string">'todo ls'</span>)
-   .stdout(<span class="hljs-string">'Buy milk'</span>)
-   .end();</code></pre>
-					<p> Stdout assertion:</p>
-					<pre><code class="language-ts"> <span class="hljs-keyword">await</span> <span class="hljs-keyword">new</span> Joker({ colors: <span class="hljs-literal">false</span>, newLines: <span class="hljs-literal">false</span> })
-   .exec(<span class="hljs-string">'todo clear'</span>)
-   .run(<span class="hljs-string">'todo'</span>)
-   .stderr(<span class="hljs-string">'Please enter a todo'</span>)
-   .end();</code></pre>
-					<p> So repeating &quot;todo clear&quot; is simply ugly. You can avoid this by
-					creating a &quot;template&quot;.</p>
-					<pre><code class="language-ts"> <span class="hljs-keyword">const</span> todo = <span class="hljs-keyword">new</span> Joker().before(clearTodos);</code></pre>
-					<p> Later on:</p>
-					<pre><code class="language-ts"> todo.clone().exec...</code></pre>
-					<p>For more examples check the &quot;README&quot; file.</p>
 				</div>
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
 					<a name="default_options.colors" class="tsd-anchor"></a>
 					<h3>colors</h3>
-					<div class="tsd-signature tsd-kind-icon">colors<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;true</span></div>
+					<div class="tsd-signature tsd-kind-icon">colors<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> =&nbsp;true</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/amilajack/joker/blob/26b9912/src/runner.ts#L59">runner.ts:59</a></li>
+							<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/runner.ts#L17">src/runner.ts:17</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
 					<a name="default_options.newlines" class="tsd-anchor"></a>
 					<h3>new<wbr>Lines</h3>
-					<div class="tsd-signature tsd-kind-icon">new<wbr>Lines<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;true</span></div>
+					<div class="tsd-signature tsd-kind-icon">new<wbr>Lines<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> =&nbsp;true</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/amilajack/joker/blob/26b9912/src/runner.ts#L58">runner.ts:58</a></li>
+							<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/runner.ts#L16">src/runner.ts:16</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
 					<a name="default_options.showdiffs" class="tsd-anchor"></a>
 					<h3>show<wbr>Diffs</h3>
-					<div class="tsd-signature tsd-kind-icon">show<wbr>Diffs<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;true</span></div>
+					<div class="tsd-signature tsd-kind-icon">show<wbr>Diffs<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> =&nbsp;true</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/amilajack/joker/blob/26b9912/src/runner.ts#L60">runner.ts:60</a></li>
+							<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/runner.ts#L18">src/runner.ts:18</a></li>
 						</ul>
 					</aside>
 				</section>

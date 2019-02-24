@@ -7,12 +7,12 @@ import { DEFAULT_OPTIONS } from './runner';
 
 export interface Options {
   /**
-   * Determine if new line characters should be stripped from output
+   * Strip new lines from stdout and stderr when `false`
    */
   newLines: boolean;
 
   /**
-   * Determine if colors should be stripped from output
+   * Strip colors from stdout and stderr when `false`
    */
   colors: boolean;
 

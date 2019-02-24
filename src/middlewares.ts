@@ -94,6 +94,6 @@ export function unlink(path: string): ReturnFn {
 
 export function exec(cmd: string, env: Environment): ReturnFn {
   return (next: NextFn) => {
-    childProcess.exec(cmd, env.getOptions(), next);
+    childProcess.exec(cmd, env.get(), next);
   };
 }

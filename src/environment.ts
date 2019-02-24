@@ -11,6 +11,11 @@ export interface ProcessEnv {
   [key: string]: string | undefined;
 }
 
+export interface EnvironmentProperties {
+  env: ProcessEnv;
+  cwd: string;
+}
+
 export default class Environment {
   public env: ProcessEnv;
 
@@ -27,9 +32,10 @@ export default class Environment {
   }
 
   /**
-   * Get the properties of the `Environment` class
+   * Get the properties of the [[Environment]] class
+   * @returns The properties of the [[Environment]] class
    */
-  public getOptions(): { env: ProcessEnv; cwd: string } {
+  public get(): EnvironmentProperties {
     return {
       env: this.env,
       cwd: this.cwd

@@ -19,7 +19,7 @@
     "docs": "rm -rf docs && typedoc ./src --out docs",
     "lint": "eslint --ignore-path .gitignore --ignore-pattern '/docs/' --ext .ts --ext .js .",
     "spec": "jest --runInBand",
-    "test": "yarn ts && yarn lint && yarn build && yarn spec && yarn docs",
+    "test": "yarn ts && yarn lint && yarn build && yarn spec",
     "ts": "tsc",
     "prepublish": "yarn test && yarn ts:dec",
     "ts:dec": "yarn ts --declaration"

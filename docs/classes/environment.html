@@ -895,6 +895,8 @@ img { max-width: 100%; }
 							</div>
 							<input type="checkbox" id="tsd-filter-inherited" checked />
 							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
 							<input type="checkbox" id="tsd-filter-only-exported" />
 							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
 						</div>
@@ -926,7 +928,7 @@ img { max-width: 100%; }
 					<a href="environment.html#timeout" class="tsd-kind-icon">timeout</a>
 				</li>
 				<li class=" tsd-kind-method tsd-parent-kind-class">
-					<a href="environment.html#getoptions" class="tsd-kind-icon">get<wbr>Options</a>
+					<a href="environment.html#get" class="tsd-kind-icon">get</a>
 				</li>
 			</ul>
 		</li>
@@ -935,6 +937,9 @@ img { max-width: 100%; }
 		</li>
 		<li class=" tsd-kind-class">
 			<a href="runner.html" class="tsd-kind-icon">Runner</a>
+		</li>
+		<li class=" tsd-kind-interface">
+			<a href="../interfaces/environmentproperties.html" class="tsd-kind-icon">Environment<wbr>Properties</a>
 		</li>
 		<li class=" tsd-kind-interface">
 			<a href="../interfaces/jokererror.html" class="tsd-kind-icon">Joker<wbr>Error</a>
@@ -966,6 +971,9 @@ img { max-width: 100%; }
 		<li class=" tsd-kind-type-alias">
 			<a href="../index.html#batchfunctionarg" class="tsd-kind-icon">Batch<wbr>Function<wbr>Arg</a>
 		</li>
+		<li class=" tsd-kind-type-alias tsd-is-not-exported">
+			<a href="../index.html#mainfn" class="tsd-kind-icon">Main<wbr>Fn</a>
+		</li>
 		<li class=" tsd-kind-type-alias">
 			<a href="../index.html#nextfn" class="tsd-kind-icon">Next<wbr>Fn</a>
 		</li>
@@ -978,8 +986,17 @@ img { max-width: 100%; }
 		<li class=" tsd-kind-function">
 			<a href="../index.html#plugin" class="tsd-kind-icon">Plugin</a>
 		</li>
+		<li class=" tsd-kind-function tsd-is-private tsd-is-not-exported">
+			<a href="../index.html#assertout" class="tsd-kind-icon">assert<wbr>Out</a>
+		</li>
 		<li class=" tsd-kind-function tsd-is-private">
 			<a href="../index.html#code" class="tsd-kind-icon">code</a>
+		</li>
+		<li class=" tsd-kind-function tsd-is-private tsd-is-not-exported">
+			<a href="../index.html#done" class="tsd-kind-icon">done</a>
+		</li>
+		<li class=" tsd-kind-function tsd-is-private tsd-is-not-exported">
+			<a href="../index.html#error" class="tsd-kind-icon">error</a>
 		</li>
 		<li class=" tsd-kind-function tsd-is-private">
 			<a href="../index.html#exec" class="tsd-kind-icon">exec</a>
@@ -1050,7 +1067,7 @@ img { max-width: 100%; }
 					<section class="tsd-index-section ">
 						<h3>Methods</h3>
 						<ul class="tsd-index-list">
-							<li class="tsd-kind-method tsd-parent-kind-class"><a href="environment.html#getoptions" class="tsd-kind-icon">get<wbr>Options</a></li>
+							<li class="tsd-kind-method tsd-parent-kind-class"><a href="environment.html#get" class="tsd-kind-icon">get</a></li>
 						</ul>
 					</section>
 				</div>
@@ -1068,7 +1085,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/26b9912/src/environment.ts#L19">environment.ts:19</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/environment.ts#L24">src/environment.ts:24</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1093,7 +1110,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">cwd<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/amilajack/joker/blob/26b9912/src/environment.ts#L17">environment.ts:17</a></li>
+						<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/environment.ts#L22">src/environment.ts:22</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -1103,7 +1120,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">env<span class="tsd-signature-symbol">:</span> <a href="../interfaces/processenv.html" class="tsd-signature-type">ProcessEnv</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/amilajack/joker/blob/26b9912/src/environment.ts#L15">environment.ts:15</a></li>
+						<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/environment.ts#L20">src/environment.ts:20</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -1113,7 +1130,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">timeout<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;null</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/amilajack/joker/blob/26b9912/src/environment.ts#L19">environment.ts:19</a></li>
+						<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/environment.ts#L24">src/environment.ts:24</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -1121,26 +1138,25 @@ img { max-width: 100%; }
 		<section class="tsd-panel-group tsd-member-group ">
 			<h2>Methods</h2>
 			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-				<a name="getoptions" class="tsd-anchor"></a>
-				<h3>get<wbr>Options</h3>
+				<a name="get" class="tsd-anchor"></a>
+				<h3>get</h3>
 				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-					<li class="tsd-signature tsd-kind-icon">get<wbr>Options<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span></li>
+					<li class="tsd-signature tsd-kind-icon">get<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/environmentproperties.html" class="tsd-signature-type">EnvironmentProperties</a></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/26b9912/src/environment.ts#L32">environment.ts:32</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7d07707/src/environment.ts#L38">src/environment.ts:38</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
-								<p>Get the properties of the <code>Environment</code> class</p>
+								<p>Get the properties of the <a href="environment.html">Environment</a> class</p>
 							</div>
 						</div>
-						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
-						<ul class="tsd-parameters">
-						</ul>
+						<h4 class="tsd-returns-title">Returns <a href="../interfaces/environmentproperties.html" class="tsd-signature-type">EnvironmentProperties</a></h4>
+						<p>The properties of the <a href="environment.html">Environment</a> class</p>
 					</li>
 				</ul>
 			</section>

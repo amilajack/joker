@@ -5,13 +5,10 @@
   "theme": "minimal",
   "excludePrivate": true,
   "ignoreCompilerErrors": true,
-  "excludeNotExported": true,
-  "excludeExternals": true,
   "listInvalidSymbolLinks": true,
   "target": "ES6",
   "moduleResolution": "node",
   "preserveConstEnums": "true",
-  "stripInternal": "true",
   "module": "commonjs",
   "readme": "none"
 }

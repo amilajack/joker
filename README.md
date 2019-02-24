@@ -130,8 +130,27 @@ joker.register({ baz: fn, bar: fn1 });
 
 ### Usage with a test runner
 
-Joker plays nice with any test runner out there. Here is a minimal example how
-you could use it with Mocha.
+Joker plays nice with any test runner out there.
+
+#### Jest
+
+Here is a minimal example how you could use it with [Jest](http://jestjs.io) using async/await:
+
+```js
+describe('todo add', () => {
+  it('adds a new todo item', async () => {
+    const result = await new Joker()
+      .run('todo add')
+      .stdout('A new todo has been added')
+      .end();
+    expcet(result.stdout).toMatchSnapshot();
+  });
+});
+```
+
+#### Mocha
+
+Here is a minimal example how you could use it with [Mocha](http://mochajs.org) using callbacks:
 
 ```js
 describe('todo add', () => {
@@ -179,6 +198,25 @@ await new Joker()
 ```
 
 See [`test/prompt.test.ts`](https://github.com/amilajack/joker/blob/master/tests/prompt.test.ts) for more examples.
+
+### Templates
+
+Every `Joker` instance can be cloned, which allows you to build "templates" for tests. Here's some examples:
+
+```js
+const template = new Joker()
+  .cwd(path.join(__dirname, 'fixtures'))
+  .run('echo test')
+  .clone();
+
+const test1 = await template
+  .stdout(/test/)
+  .end()
+
+const test2 = await template
+  .stdout('test')
+  .end();
+```
 
 ## Credits
 
