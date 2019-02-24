@@ -1,5 +1,6 @@
 import clone from 'clone';
 import { spawn } from 'child_process';
+import AssertionError from 'assertion-error';
 import Batch, { BatchFunction, JokerError } from './batch';
 import Environment from './environment';
 import * as expect from './expectations';
@@ -623,9 +624,7 @@ export default class Runner {
    * @returns for chaining
    */
 
-  public end(
-    fn?: (err?: JokerError) => void
-  ): void | Promise<JokerError | void> {
+  public end(fn?: (err?: JokerError) => void): void | Promise<JokerError> {
     if (!this.batch.hasMain()) {
       throw new Error(
         'Please provide a command to run. Hint: You may have forgotten to call `joker.run(myFunction)`'
@@ -635,9 +634,13 @@ export default class Runner {
     if (fn) {
       return this.batch.run(fn);
     }
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
       this.batch.run(err => {
-        resolve(err as JokerError);
+        if (err instanceof AssertionError) {
+          reject(err as JokerError);
+        } else {
+          resolve(err as JokerError);
+        }
       });
     });
   }

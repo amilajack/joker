@@ -52,12 +52,12 @@ While Joker comes with built-in expectations, you can use your own too.
 
 ```js
 await new Joker()
+  .run('unicorns')
   .expect((result) => {
     if (result.stdout !== 'unicorns') {
       return new Error('NO!');
     }
   })
-  .run('unicorns')
   .end();
 ```
 

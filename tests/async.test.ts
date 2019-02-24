@@ -1,16 +1,21 @@
 import { jokerFixture } from '.';
-import { BatchFunctionArg } from '../src/batch';
 
 describe('async joker', () => {
-  it('force quits comamnds that take longer than specified', async () => {
-    const err = await jokerFixture()
-      .run('node timeout.js')
-      .timeout(100)
-      .end();
+  it('should reject if main function is forcefully aborted', async () => {
+    await expect(
+      jokerFixture()
+        .run('node timeout.js')
+        .timeout(100)
+        .end()
+    ).rejects.toThrowErrorMatchingSnapshot();
+  });
 
-    expect(err as BatchFunctionArg).toHaveProperty(
-      'message',
-      '`node timeout.js`: Command execution terminated (timeout)'
-    );
+  it('should reject if assertion fails', async () => {
+    await expect(
+      jokerFixture()
+        .run('echo foo')
+        .stdout('baz')
+        .end()
+    ).rejects.toThrowErrorMatchingSnapshot();
   });
 });

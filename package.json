@@ -63,7 +63,7 @@
     "expect": "^24.1.0",
     "shell-quote": "^1.6.1"
   },
-  "types": "./dist/index.d.ts",
+  "typings": "dist/index.d.ts",
   "eslintConfig": {
     "extends": [
       "plugin:@typescript-eslint/recommended",
