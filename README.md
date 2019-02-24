@@ -226,8 +226,16 @@ Special thanks to:
 - [Martin Lazarov](https://github.com/mlazarov)
 - [Radoslav Stankov](https://github.com/rstankov)
 
-## Support the author
+## Support
 
 Do you like this project? Star the repository, spread the word - it really helps. You may want to follow
 me on [Twitter](https://twitter.com/amilajack) and
 [GitHub](https://github.com/amilajack). Thanks!
+
+If this project is saving you (or your team) time, please consider supporting it on Patreon 👍 thank you!
+
+<p>
+  <a href="https://www.patreon.com/amilajack">
+    <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
+  </a>
+</p>
