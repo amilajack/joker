@@ -1,6 +1,6 @@
 {
   "name": "@amilajack/joker",
-  "version": "0.0.2",
+  "version": "0.0.3-0",
   "description": "Simple and powerful testing for command-line apps",
   "keywords": [
     "cli",
