@@ -164,7 +164,7 @@ export default class Batch {
     function next(): void {
       const latestFn = batch.shift();
       if (!latestFn) return;
-      if (latestFn.length) {
+      if (latestFn.length && typeof latestFn === 'function') {
         latestFn(next);
         return;
       }
