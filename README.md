@@ -16,16 +16,19 @@ $ npm install --save @amilajack/joker
 ## How it looks
 
 ```js
-import Joker from '@amilajack/joker';
+const path = require('path');
+const { default: Joker } = require('@amilajack/joker');
 
-await new Joker()
-  .cwd(path.join(__dirname, 'fixtures'))
-  .env('NODE_ENV', 'production')
-  .before('touch /tmp/test')
-  .run('ls /tmp/')
-  .stdout(/test/)
-  .code(0)
-  .end();
+(async () => {
+  await new Joker()
+    .cwd(path.join(__dirname, 'fixtures'))
+    .env('NODE_ENV', 'production')
+    .before('touch /tmp/test')
+    .run('ls /tmp/')
+    .stdout(/test/)
+    .code(0)
+    .end();
+})();
 ```
 
 ## API

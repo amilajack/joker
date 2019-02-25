@@ -168,7 +168,9 @@ export default class Batch {
         latestFn(next);
         return;
       }
-      latestFn();
+      if (typeof latestFn === 'function') {
+        latestFn();
+      }
       next();
     }
 
