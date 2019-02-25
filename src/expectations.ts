@@ -40,10 +40,12 @@ function error(
   if (actual) err.actual = actual;
 
   // Use expect to show diffs between actual and expected values
-  try {
-    expect(actual).toEqual(expected);
-  } catch (e) {
-    console.log(e.message);
+  if (typeof expected === 'string') {
+    try {
+      expect(actual).toEqual(expected);
+    } catch (e) {
+      console.log(e.message);
+    }
   }
 
   // Show the stdout if the command errored

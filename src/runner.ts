@@ -1,3 +1,4 @@
+import fs from 'fs';
 import clone from 'clone';
 import { spawn } from 'child_process';
 import AssertionError from 'assertion-error';
@@ -210,8 +211,13 @@ export default class Runner {
    * @returns instance for chaining
    */
 
-  public cwd(path: string): Runner {
-    this.environment.cwd = path;
+  public cwd(cwdPath: string): Runner {
+    this.batch.add(() => {
+      if (!fs.existsSync(cwdPath)) {
+        throw new Error(`The path "${cwdPath}" does not exist`);
+      }
+      this.environment.cwd = cwdPath;
+    });
     return this;
   }
 
