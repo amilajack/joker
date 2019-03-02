@@ -30,7 +30,10 @@ export default class Environment {
    * if [[Environment]] is constructed with a custom env, that will be used
    * instead and `process.env` will not be used.
    */
-  public env: ProcessEnv = process.env;
+  public env: ProcessEnv = {
+    ...process.env,
+    NODE_ENV: 'test'
+  };
 
   /**
    * The current working directory that a command is tested in. Defaults to
