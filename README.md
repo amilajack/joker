@@ -1,3 +1,5 @@
+![logo](./logo.jpg)
+
 > ## 🛠 Status: In Beta
 > Joker is currently in beta. It's on the fast track to a 1.0 release, so we encourage you to use it and give us your feedback, but there are things that haven't been finalized yet and you can expect some changes.
 
