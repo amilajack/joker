@@ -249,8 +249,8 @@ export default class Runner {
    *
    * ```js
    * await new Joker()
-   *   .stdin('foobar')
    *   .run('rev')
+   *   .stdin('foobar')
    *   .stdout('raboof')
    *   .end();
    * ```
@@ -356,8 +356,8 @@ export default class Runner {
    *
    * ```js
    * await new Joker()
-   *   .stdout('LICENSE Makefile')
    *   .run('ls')
+   *   .stdout('LICENSE Makefile')
    *   .end();
    * ```
    *
@@ -365,8 +365,8 @@ export default class Runner {
    *
    * ```js
    * await new Joker()
-   *   .stdout(/system/)
    *   .run('time')
+   *   .stdout(/system/)
    *   .end();
    * ```
    *
@@ -659,8 +659,8 @@ export default class Runner {
    *
    * ```js
    * const result = await new Joker()
-   *   .stdout('a b c')
    *   .run('echo a b c', (err) => {})
+   *   .stdout('a b c')
    *   .end();
    *
    * expect(result.message).toEqual(
@@ -681,8 +681,8 @@ export default class Runner {
    *
    * ```js
    * await new Joker()
-   *   .stdout('a b c')
    *   .run('echo a b c', (err) => {})
+   *   .stdout('a b c')
    *   .end((err) => {});
    * ```
    *
@@ -693,7 +693,7 @@ export default class Runner {
   public end(fn?: (err?: JokerError) => void): void | Promise<JokerError> {
     if (!this.batch.hasMain()) {
       throw new Error(
-        'Please provide a command to run. Hint: You may have forgotten to call `joker.run(myFunction)`'
+        'Please provide a command to run. You may have forgotten to call `joker.run(myFunction)`'
       );
     }
     // If a callback is passed, run it. Otherwise, return a Promise
