@@ -18,4 +18,10 @@ describe('Joker#run', () => {
       .stdout('bar')
       .end(done);
   });
+
+  it('should set NODE_ENV to "test" by default', () => {
+    const joker = new Joker().exec('echo foo');
+    // @ts-ignore
+    expect(joker.environment.env).toHaveProperty('NODE_ENV', 'test');
+  });
 });
