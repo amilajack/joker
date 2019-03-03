@@ -1,8 +1,5 @@
 ![logo](./logo.jpg)
 
-> ## 🛠 Status: In Beta
-> Joker is currently in beta. It's on the fast track to a 1.0 release, so we encourage you to use it and give us your feedback, but there are things that haven't been finalized yet and you can expect some changes.
-
 [![Build Status](https://dev.azure.com/amilajack/amilajack/_apis/build/status/amilajack.joker?branchName=master)](https://dev.azure.com/amilajack/amilajack/_build/latest?definitionId=1&branchName=master)
 [![NPM version](https://img.shields.io/npm/v/@amilajack/joker.svg)](https://www.npmjs.com/package/@amilajack/joker)
 [![npm](https://img.shields.io/npm/dm/@amilajack/joker.svg)](https://npm-stat.com/charts.html?package=@amilajack/joker)
@@ -47,11 +44,11 @@ object that looks like this:
 
 ```js
 const options = {
-  colors: true,
-  newLines: true,
+  colors: false,
+  newLines: false
 };
 
-new Joker(options)
+new Joker(options);
 ```
 
 ### Custom expectations
@@ -61,7 +58,7 @@ While Joker comes with built-in expectations, you can use your own too.
 ```js
 await new Joker()
   .run('unicorns')
-  .expect((result) => {
+  .expect(result => {
     if (result.stdout !== 'unicorns') {
       return new Error('NO!');
     }
@@ -162,7 +159,7 @@ Here is a minimal example how you could use it with [Mocha](http://mochajs.org) 
 
 ```js
 describe('todo add', () => {
-  it('adds a new todo item', (done) => {
+  it('adds a new todo item', done => {
     new Joker()
       .run('todo add')
       .stdout('A new todo has been added')
@@ -219,7 +216,7 @@ const template = new Joker()
 const test1 = await template
   .clone()
   .stdout(/test/)
-  .end()
+  .end();
 
 const test2 = await template
   .clone()
