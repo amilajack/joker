@@ -230,9 +230,11 @@ export default class Runner {
    *
    * ```js
    * await new Joker()
-   *   .base('node ')
+   *   .base('node')
    *   .run('--version')
-   *   .stdout('0.10.16')
+   *   .stdout('11.10.1')
+   *   .run(`-e "console.log('hello world')"`)
+   *   .stdout('hello world')
    *   .end();
    * ```
    *
@@ -273,7 +275,7 @@ export default class Runner {
    *   .env('foo', 'bar')
    *   .env('baz', 'boo')
    *   .run('node --version')
-   *   .stdout('0.10.16')
+   *   .stdout('11.10.1')
    *   .end();
    * ```
    *
@@ -296,7 +298,7 @@ export default class Runner {
    * ```js
    * await new Joker()
    *   .run('node --version')
-   *   .stdout('0.10.16')
+   *   .stdout('11.10.1')
    *   .end();
    * ```
    *
@@ -305,7 +307,7 @@ export default class Runner {
    * ```js
    * await new Joker()
    *   .run('node --version')
-   *   .stdout('0.10.16')
+   *   .stdout('11.10.1')
    *   .run(`node -e "console.log('Hello World!')"`)
    *   .stdout('Hello World!')
    *   .end();
@@ -315,7 +317,7 @@ export default class Runner {
    *
    * await new Joker()
    *   .run('node --version')
-   *   .stdout('0.10.16')
+   *   .stdout('11.10.1')
    *   .run('echo testing123')
    *   .stdout('testign123')
    *   .end();
@@ -328,7 +330,9 @@ export default class Runner {
 
   public run(cmd: string): Runner {
     this.expectations = [];
-    this.batch.main(this.execFn(this.baseCmd + cmd));
+    this.batch.main(
+      this.execFn(this.baseCmd === '' ? cmd : `${this.baseCmd} ${cmd}`)
+    );
     return this;
   }
 

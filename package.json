@@ -64,7 +64,6 @@
     "expect": "^24.1.0",
     "shell-quote": "^1.6.1"
   },
-  "typings": "dist/index.d.ts",
   "eslintConfig": {
     "extends": [
       "plugin:@typescript-eslint/recommended",
