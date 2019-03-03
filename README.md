@@ -6,6 +6,7 @@
 [![Build Status](https://dev.azure.com/amilajack/amilajack/_apis/build/status/amilajack.joker?branchName=master)](https://dev.azure.com/amilajack/amilajack/_build/latest?definitionId=1&branchName=master)
 [![NPM version](https://img.shields.io/npm/v/@amilajack/joker.svg)](https://www.npmjs.com/package/@amilajack/joker)
 [![npm](https://img.shields.io/npm/dm/@amilajack/joker.svg)](https://npm-stat.com/charts.html?package=@amilajack/joker)
+[![codecov](https://codecov.io/gh/amilajack/joker/branch/master/graph/badge.svg)](https://codecov.io/gh/amilajack/joker)
 
 A modern and intuitive testing library for command-line apps
 

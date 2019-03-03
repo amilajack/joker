@@ -15,5 +15,4 @@ steps:
   inputs:
     versionSpec: '10.x'
 
-- script: |
-    yarn && yarn test --coverage && yarn codecov
+- script: yarn && yarn test --coverage && yarn codecov -t a82b175e-6537-4248-9729-88cfb54b6924
