@@ -41,22 +41,35 @@ import Runner from './runner';
  * @public
  */
 
-export interface Register {
-  [x: string]: Function;
-}
+export type Register = Record<string, Function>;
 
-export default function Plugin(name: string | Register, fn?: Function): void {
+/**
+ * Register functions and add them to the prototype of [[Runner]]
+ * @param name
+ * @param fn
+ */
+export default function Plugin(
+  name: string | Register,
+  fn: Function = () => {}
+): Function {
   let register: Register = {};
 
   if (typeof name === 'object' && !(name instanceof String)) {
     register = name;
   } else if (typeof name === 'string') {
     register = {
-      [name]: fn || (() => {})
+      [name]: fn
     };
   }
 
+  // Add the registered functions to the prototype of Runner
   Object.keys(register).forEach(key => {
-    Runner.prototype[key] = register[key];
+    Runner.prototype[key] = function registerFunction(): Runner {
+      register[key].call(this, arguments);
+      return this;
+    };
   });
+
+  // @ts-ignore
+  return this;
 }

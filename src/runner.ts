@@ -8,7 +8,7 @@ import * as expect from './expectations';
 import * as middlewares from './middlewares';
 import Result, { Options, OptionalOptions, ResultError } from './result';
 import * as respond from './respond';
-import { default as register } from './plugin';
+import plugin, { Register } from './plugin';
 
 /**
  * The default options for [[Runner]]. See [[Options]] for more details
@@ -143,12 +143,13 @@ export default class Runner {
    *  joker.register({ baz: fn, bar: fn1 });
    *  ```
    */
-  public register = register;
+  public register: (name: string | Register, fn?: Function) => Runner;
 
   public constructor(rawOptions: OptionalOptions = DEFAULT_OPTIONS) {
     const options: Options = Object.assign({}, this.options, rawOptions);
     if (!(this instanceof Runner)) return new Runner(options);
     this.options = options;
+    this.register = plugin.bind(this);
   }
 
   /**
