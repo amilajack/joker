@@ -922,13 +922,13 @@ img { max-width: 100%; }
 					<a href="environment.html#cwd" class="tsd-kind-icon">cwd</a>
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-class">
-					<a href="environment.html#env" class="tsd-kind-icon">env</a>
-				</li>
-				<li class=" tsd-kind-property tsd-parent-kind-class">
 					<a href="environment.html#timeout" class="tsd-kind-icon">timeout</a>
 				</li>
 				<li class=" tsd-kind-method tsd-parent-kind-class">
 					<a href="environment.html#get" class="tsd-kind-icon">get</a>
+				</li>
+				<li class=" tsd-kind-object-literal tsd-parent-kind-class">
+					<a href="environment.html#env" class="tsd-kind-icon">env</a>
 				</li>
 			</ul>
 		</li>
@@ -1063,7 +1063,6 @@ img { max-width: 100%; }
 						<h3>Properties</h3>
 						<ul class="tsd-index-list">
 							<li class="tsd-kind-property tsd-parent-kind-class"><a href="environment.html#cwd" class="tsd-kind-icon">cwd</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-class"><a href="environment.html#env" class="tsd-kind-icon">env</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-class"><a href="environment.html#timeout" class="tsd-kind-icon">timeout</a></li>
 						</ul>
 					</section>
@@ -1071,6 +1070,12 @@ img { max-width: 100%; }
 						<h3>Methods</h3>
 						<ul class="tsd-index-list">
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="environment.html#get" class="tsd-kind-icon">get</a></li>
+						</ul>
+					</section>
+					<section class="tsd-index-section ">
+						<h3>Object literals</h3>
+						<ul class="tsd-index-list">
+							<li class="tsd-kind-object-literal tsd-parent-kind-class"><a href="environment.html#env" class="tsd-kind-icon">env</a></li>
 						</ul>
 					</section>
 				</div>
@@ -1088,7 +1093,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/a12b5bb/src/environment.ts#L44">src/environment.ts:44</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7b45ea1/src/environment.ts#L47">src/environment.ts:47</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1110,7 +1115,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">cwd<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;process.cwd()</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/amilajack/joker/blob/a12b5bb/src/environment.ts#L39">src/environment.ts:39</a></li>
+						<li>Defined in <a href="https://github.com/amilajack/joker/blob/7b45ea1/src/environment.ts#L42">src/environment.ts:42</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1121,30 +1126,12 @@ img { max-width: 100%; }
 				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-				<a name="env" class="tsd-anchor"></a>
-				<h3>env</h3>
-				<div class="tsd-signature tsd-kind-icon">env<span class="tsd-signature-symbol">:</span> <a href="../interfaces/processenv.html" class="tsd-signature-type">ProcessEnv</a><span class="tsd-signature-symbol"> =&nbsp;process.env</span></div>
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in <a href="https://github.com/amilajack/joker/blob/a12b5bb/src/environment.ts#L33">src/environment.ts:33</a></li>
-					</ul>
-				</aside>
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>The environmental varibles that are defined in the environment which
-							commands are tested in. By default, <code>process.env</code> is used. However,
-							if <a href="environment.html">Environment</a> is constructed with a custom env, that will be used
-						instead and <code>process.env</code> will not be used.</p>
-					</div>
-				</div>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 				<a name="timeout" class="tsd-anchor"></a>
 				<h3>timeout</h3>
 				<div class="tsd-signature tsd-kind-icon">timeout<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;undefined</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/amilajack/joker/blob/a12b5bb/src/environment.ts#L44">src/environment.ts:44</a></li>
+						<li>Defined in <a href="https://github.com/amilajack/joker/blob/7b45ea1/src/environment.ts#L47">src/environment.ts:47</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1166,7 +1153,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/amilajack/joker/blob/a12b5bb/src/environment.ts#L56">src/environment.ts:56</a></li>
+								<li>Defined in <a href="https://github.com/amilajack/joker/blob/7b45ea1/src/environment.ts#L59">src/environment.ts:59</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1178,6 +1165,37 @@ img { max-width: 100%; }
 						<p>The properties of the <a href="environment.html">Environment</a> class</p>
 					</li>
 				</ul>
+			</section>
+		</section>
+		<section class="tsd-panel-group tsd-member-group ">
+			<h2>Object literals</h2>
+			<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-class">
+				<a name="env" class="tsd-anchor"></a>
+				<h3>env</h3>
+				<div class="tsd-signature tsd-kind-icon">env<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in <a href="https://github.com/amilajack/joker/blob/7b45ea1/src/environment.ts#L33">src/environment.ts:33</a></li>
+					</ul>
+				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>The environmental varibles that are defined in the environment which
+							commands are tested in. By default, <code>process.env</code> is used. However,
+							if <a href="environment.html">Environment</a> is constructed with a custom env, that will be used
+						instead and <code>process.env</code> will not be used.</p>
+					</div>
+				</div>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+					<a name="env.node_env" class="tsd-anchor"></a>
+					<h3>NODE_<wbr>ENV</h3>
+					<div class="tsd-signature tsd-kind-icon">NODE_<wbr>ENV<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;test&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/amilajack/joker/blob/7b45ea1/src/environment.ts#L35">src/environment.ts:35</a></li>
+						</ul>
+					</aside>
+				</section>
 			</section>
 		</section>
 		<footer class="with-border-bottom">
