@@ -165,7 +165,7 @@ export default class Runner {
    *
    * @param fn - The function to be called
    * @returns instance for chaining
-   * @see [[Batch#addBefore]]
+   * @see [[addBefore]]
    */
 
   public before(fn: BatchFunction): Runner {
@@ -186,7 +186,7 @@ export default class Runner {
    *
    * @param fn - The function to be called
    * @returns instance for chaining
-   * @see [[Batch#addAfter]]
+   * @see [[addAfter]]
    */
 
   public after(fn: BatchFunction): Runner {
@@ -291,10 +291,10 @@ export default class Runner {
   }
 
   /**
-   * Specify a command to run. Assertions will tests the `stderr` and `stdout` from
+   * Specify a command to run. Assertions will test the `stderr` and `stdout` from
    * the command registered with `run`.
    *
-   * ## Basic example
+   * ### Basic example
    *
    * ```js
    * await new Joker()
@@ -303,7 +303,7 @@ export default class Runner {
    *   .end();
    * ```
    *
-   * ## Running multiple `run` commands
+   * ### Running multiple `run` commands
    *
    * ```js
    * await new Joker()
@@ -326,7 +326,7 @@ export default class Runner {
    *
    * @param command - The command to be executed and tested against
    * @returns instance for chaining
-   * @see [[Batch#main]]
+   * @see [[main]]
    */
 
   public run(cmd: string): Runner {

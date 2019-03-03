@@ -26,7 +26,6 @@ function done(next: NextFn): (err: AssertionError) => void {
  *
  * @param {String} path
  * @returns {Function} middleware
- * @see [[fs#mkdir]]
  * @private
  */
 export function mkdir(path: string): ReturnFn {
@@ -42,7 +41,6 @@ export function mkdir(path: string): ReturnFn {
  * @param {String} path
  * @param {Buffer|String} data
  * @returns {Function} middleware
- * @see [[fs#writeFile]]
  * @private
  */
 
@@ -57,7 +55,6 @@ export function writeFile(path: string, data: string): ReturnFn {
  *
  * @param {String} path
  * @returns {Function} middleware
- * @see [[fs#rmdir]]
  * @private
  */
 
@@ -72,7 +69,6 @@ export function rmdir(path: string): ReturnFn {
  *
  * @param {String} path
  * @returns {Function} middleware
- * @see [[fs#unlink]]
  * @private
  */
 
