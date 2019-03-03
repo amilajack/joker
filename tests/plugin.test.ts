@@ -5,9 +5,9 @@ describe.skip('joker.register', () => {
     const fn = res => {
       console.log(res);
     };
-    new Joker().register('fn', fn);
-    expect(new Joker()).toHaveProperty('fn');
-    await new Joker()
+    new Joker({ showDiffs: false }).register('fn', fn);
+    expect(new Joker({ showDiffs: false })).toHaveProperty('fn');
+    await new Joker({ showDiffs: false })
       // @ts-ignore
       .fn()
       .end();
@@ -21,12 +21,12 @@ describe.skip('joker.register', () => {
       console.log('fn2');
     };
 
-    new Joker().register({ fn1, fn2 });
+    new Joker({ showDiffs: false }).register({ fn1, fn2 });
 
-    expect(new Joker()).toHaveProperty('fn1');
-    expect(new Joker()).toHaveProperty('fn2');
+    expect(new Joker({ showDiffs: false })).toHaveProperty('fn1');
+    expect(new Joker({ showDiffs: false })).toHaveProperty('fn2');
 
-    await new Joker()
+    await new Joker({ showDiffs: false })
       // @ts-ignore
       .fn1()
       .fn2()

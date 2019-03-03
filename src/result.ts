@@ -20,6 +20,11 @@ export interface Options {
    * Determine if diffs should be shown with the [[Runner.stdout]] and [[Runner.stdout]] methods
    */
   showDiffs: boolean;
+
+  /**
+   * If there is a stderr, show it to the user
+   */
+  showStdErr: boolean;
 }
 
 /**

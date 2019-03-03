@@ -11,12 +11,13 @@ import * as respond from './respond';
 import { default as register } from './plugin';
 
 /**
- * The default options for [[Runner]]
+ * The default options for [[Runner]]. See [[Options]] for more details
  */
 export const DEFAULT_OPTIONS: Options = {
   newLines: true,
   colors: true,
-  showDiffs: true
+  showDiffs: true,
+  showStdErr: true
 };
 
 /**
@@ -347,7 +348,7 @@ export default class Runner {
 
   public timeout(ms: number): Runner {
     this.environment.timeout = ms;
-    this.expect(expect.time());
+    this.expect(expect.time(this.options));
     return this;
   }
 
@@ -387,7 +388,7 @@ export default class Runner {
    */
 
   public stdout(pattern: RegExp | string): Runner {
-    this.expect(expect.stdout(pattern));
+    this.expect(expect.stdout(pattern, this.options));
     return this;
   }
 
@@ -406,7 +407,7 @@ export default class Runner {
    */
 
   public stderr(pattern: RegExp | string): Runner {
-    this.expect(expect.stderr(pattern));
+    this.expect(expect.stderr(pattern, this.options));
     return this;
   }
 
@@ -425,7 +426,7 @@ export default class Runner {
    */
 
   public code(code: number): Runner {
-    this.expect(expect.code(code));
+    this.expect(expect.code(code, this.options));
     return this;
   }
 
@@ -444,7 +445,7 @@ export default class Runner {
    */
 
   public exist(path: string): Runner {
-    this.expect(expect.exists(path));
+    this.expect(expect.exists(path, this.options));
     return this;
   }
 
@@ -478,7 +479,7 @@ export default class Runner {
    */
 
   public match(file: string, pattern: RegExp | string): Runner {
-    this.expect(expect.match(file, pattern));
+    this.expect(expect.match(file, pattern, this.options));
     return this;
   }
 

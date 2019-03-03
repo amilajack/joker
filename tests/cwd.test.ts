@@ -17,7 +17,7 @@ function mkdirTmpDir() {
 describe('Joker#cwd', () => {
   it('should accept given path', async () => {
     const tmpDir = mkdirTmpDir();
-    await new Joker()
+    await new Joker({ showDiffs: false })
       .cwd(tmpDir)
       .run('echo foo')
       .end();
@@ -31,7 +31,7 @@ describe('Joker#cwd', () => {
     if (fs.existsSync(tmpDir)) {
       fs.rmdirSync(tmpDir);
     }
-    await new Joker()
+    await new Joker({ showDiffs: false })
       .mkdir(tmpDir)
       .cwd(tmpDir)
       .run('echo foo')
@@ -42,7 +42,7 @@ describe('Joker#cwd', () => {
 
   it('should fail if given path does not exist', async () => {
     await expect(
-      new Joker()
+      new Joker({ showDiffs: false })
         .cwd('non_existent_path')
         .run('echo foo')
         .end()

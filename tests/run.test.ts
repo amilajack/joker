@@ -2,7 +2,7 @@ import { Joker } from '.';
 
 describe('Joker#run', () => {
   it('should allow running multiple main functions', done => {
-    new Joker()
+    new Joker({ showDiffs: false })
       .run('echo foo')
       .expect(res => {
         expect(res.stdout).toEqual('foo');
@@ -11,7 +11,7 @@ describe('Joker#run', () => {
   });
 
   it('should allow running multiple main functions', done => {
-    new Joker()
+    new Joker({ showDiffs: false })
       .run('echo foo')
       .stdout('foo')
       .run('echo bar')
@@ -20,7 +20,7 @@ describe('Joker#run', () => {
   });
 
   it('should set NODE_ENV to "test" by default', () => {
-    const joker = new Joker().exec('echo foo');
+    const joker = new Joker({ showDiffs: false }).exec('echo foo');
     // @ts-ignore
     expect(joker.environment.env).toHaveProperty('NODE_ENV', 'test');
   });

@@ -1,7 +1,7 @@
 import fs from 'fs';
 import AssertionError from 'assertion-error';
 import expect from 'expect';
-import Result from './result';
+import Result, { Options } from './result';
 
 export type AssertionFn = (res: Result) => AssertionError | void;
 
@@ -29,6 +29,7 @@ export type AssertionErrorAdditions = AssertionError & {
 function error(
   result: Result,
   message: string,
+  options: Options,
   expected?: string | number | RegExp,
   actual?: string | number
 ): AssertionErrorAdditions {
@@ -40,16 +41,18 @@ function error(
   if (actual) err.actual = actual;
 
   // Use expect to show diffs between actual and expected values
-  if (typeof expected === 'string') {
-    try {
-      expect(actual).toEqual(expected);
-    } catch (e) {
-      console.log(e.message);
+  if (options.showDiffs) {
+    if (typeof expected === 'string' || typeof expected === 'number') {
+      try {
+        expect(actual).toEqual(expected);
+      } catch (e) {
+        console.log(e.message);
+      }
     }
   }
 
   // Show the stdout if the command errored
-  if (result.stderr) console.log(result.stderr);
+  if (result.stderr && options.showStdErr) console.log(result.stderr);
 
   return err;
 }
@@ -66,7 +69,8 @@ function error(
 function assertOut(
   key: string,
   expected: RegExp | string | number,
-  result: Result
+  result: Result,
+  options: Options
 ): AssertionErrorAdditions | void {
   const actual = result[key];
   const statement =
@@ -74,7 +78,7 @@ function assertOut(
 
   if (statement !== true) {
     const message = `Expected ${key} to match "${expected}". Actual: "${actual}"`;
-    return error(result, message, expected, actual);
+    return error(result, message, options, expected, actual);
   }
 }
 
@@ -84,10 +88,10 @@ function assertOut(
  * @private
  */
 
-export function time(): AssertionFn {
+export function time(options: Options): AssertionFn {
   return (result: Result): AssertionErrorAdditions | undefined => {
     return result.killed
-      ? error(result, 'Command execution terminated (timeout)')
+      ? error(result, 'Command execution terminated (timeout)', options)
       : undefined;
   };
 }
@@ -99,11 +103,11 @@ export function time(): AssertionFn {
  * @private
  */
 
-export function code(code: number): AssertionFn {
+export function code(code: number, options: Options): AssertionFn {
   return (result: Result) => {
     if (code !== result.code) {
       const message = `Expected exit code: "${code}", actual: "${result.code}"`;
-      return error(result, message, code, result.code);
+      return error(result, message, options, code, result.code);
     }
     return undefined;
   };
@@ -116,8 +120,11 @@ export function code(code: number): AssertionFn {
  * @private
  */
 
-export function stderr(expected: string | RegExp): AssertionFn {
-  return (result: Result) => assertOut('stderr', expected, result);
+export function stderr(
+  expected: string | RegExp,
+  options: Options
+): AssertionFn {
+  return (result: Result) => assertOut('stderr', expected, result, options);
 }
 
 /**
@@ -127,8 +134,11 @@ export function stderr(expected: string | RegExp): AssertionFn {
  * @private
  */
 
-export function stdout(expected: string | RegExp): AssertionFn {
-  return (result: Result) => assertOut('stdout', expected, result);
+export function stdout(
+  expected: string | RegExp,
+  options: Options
+): AssertionFn {
+  return (result: Result) => assertOut('stdout', expected, result, options);
 }
 
 /**
@@ -138,10 +148,10 @@ export function stdout(expected: string | RegExp): AssertionFn {
  * @private
  */
 
-export function exists(path: string): AssertionFn {
+export function exists(path: string, options: Options): AssertionFn {
   return (result: Result): AssertionErrorAdditions | undefined => {
     if (fs.existsSync(path) !== true) {
-      return error(result, `Expected "${path}" to exist.`);
+      return error(result, `Expected "${path}" to exist.`, options);
     }
     return undefined;
   };
@@ -155,7 +165,11 @@ export function exists(path: string): AssertionFn {
  * @private
  */
 
-export function match(path: string, data: string | RegExp): AssertionFn {
+export function match(
+  path: string,
+  data: string | RegExp,
+  options: Options
+): AssertionFn {
   return (result: Result): AssertionErrorAdditions | undefined => {
     const contents = fs.readFileSync(path, { encoding: 'utf8' });
     const statement =
@@ -163,7 +177,7 @@ export function match(path: string, data: string | RegExp): AssertionFn {
 
     if (statement !== true) {
       const message = `Expected "${path}" to match "${data}", but it was: "${contents}"`;
-      return error(result, message, data, contents);
+      return error(result, message, options, data, contents);
     }
 
     return undefined;
