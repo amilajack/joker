@@ -17,15 +17,15 @@ $ npm install --save @amilajack/joker
 
 ```js
 const path = require('path');
+const assert = require('assert');
 const { default: Joker } = require('@amilajack/joker');
 
 (async () => {
   await new Joker()
-    .cwd(path.join(__dirname, 'fixtures'))
-    .env('NODE_ENV', 'production')
-    .before('touch /tmp/test')
-    .run('ls /tmp/')
-    .stdout(/test/)
+    .run('echo hello')
+    .expect((result) => {
+      assert(result.stdout === 'hello');
+    })
     .code(0)
     .end();
 })();
@@ -39,7 +39,7 @@ See [full API docs](https://amilajack.github.io/joker/classes/runner)
 
 ### Formatting options
 
-Joker can strip newlines and colors. You can tell it to do so by passing an
+Joker can strip new line characters and colors. You can tell it to do so by passing an
 object that looks like this:
 
 ```js
@@ -99,20 +99,6 @@ await new Joker()
 
 // Execution order:
 // before1, before2, writeFile, cmd, unlink, after1, after2
-```
-
-You may also want to reuse before and after middlewares as much as possible,
-especially when testing something that requires extensive setup and cleanup. You
-can accomplish this by cloning a Joker instance.
-
-```js
-const base = new Joker()
-  .before(setupDatabase)
-  .after(removeDatabase);
-
-// Later on
-
-base.clone().run....
 ```
 
 ### Plugins
