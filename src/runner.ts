@@ -796,6 +796,10 @@ export default class Runner {
       let stderr = '';
       let timeoutError: ResultError | undefined;
 
+      if (!child.stdout || !child.stderr || !child.stdin) {
+        throw new Error('Child process not started');
+      }
+
       if (this.standardInput !== null) {
         child.stdin.end(this.standardInput);
       }
