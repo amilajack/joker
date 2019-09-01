@@ -63,7 +63,7 @@
     "assertion-error": "^1.1.0",
     "clone": "^2.1.2",
     "expect": "^24.5.0",
-    "shell-quote": "^1.6.1"
+    "shell-quote": "^1.7.1"
   },
   "eslintConfig": {
     "extends": [
