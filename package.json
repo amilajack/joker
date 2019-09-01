@@ -55,7 +55,7 @@
     "jest": "^24.5.0",
     "lint-staged": "^8.1.7",
     "prompt": "^1.0.0",
-    "rimraf": "^2.6.3",
+    "rimraf": "^2.7.1",
     "typedoc": "^0.15.0",
     "typescript": "^3.5.2"
   },
