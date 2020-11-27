@@ -47,7 +47,7 @@
     "codecov": "^3.6.5",
     "cross-env": "^5.2.1",
     "eslint": "^5.16.0",
-    "eslint-config-airbnb-base": "^13.2.0",
+    "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-bliss": "^3.4.0",
     "eslint-import-resolver-typescript": "^1.1.1",
     "flow": "^0.2.3",
