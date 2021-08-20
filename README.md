@@ -10,7 +10,7 @@ A modern and intuitive testing library for command-line apps
 ## Installation
 
 ```bash
-npm install --save @amilajack/joker
+npm install --save-dev @amilajack/joker
 ```
 
 ## How it looks
