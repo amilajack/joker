@@ -45,7 +45,7 @@
     "@typescript-eslint/parser": "^1.13.0",
     "babel-jest": "^24.9.0",
     "codecov": "^3.6.5",
-    "cross-env": "^5.2.1",
+    "cross-env": "^7.0.3",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.2.0",
     "eslint-config-bliss": "^3.4.0",
